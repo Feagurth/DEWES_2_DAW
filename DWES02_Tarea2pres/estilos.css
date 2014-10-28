@@ -1,0 +1,49 @@
+/*
+Copyright (C) 2014 Luis Cabrerizo Gómez
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+/* 
+    Created on : 27-oct-2014, 22:30:05
+    Author     : Luis Cabrerizo Gómez
+*/
+
+/* Estilos generales para tablas */
+table, th, td {
+    border: 1px solid black;
+}
+
+/* Alineado del texto de las tablas al centro de la celda */
+tr {
+    text-align: center;
+}
+
+/* Color de la fila impar en el ejercicio 3*/
+tr.pijama1
+{
+    background-color: #999999;                    
+}
+
+/* Color de la fila par en el ejercicio 3*/
+tr.pijama2
+{
+    background-color: #ffffff;                    
+}
+
+/* Tamaño de las imágenes en la tabla del ejercicio 5 */
+.resize {
+    width: 100px;
+    height: 100px;
+}
