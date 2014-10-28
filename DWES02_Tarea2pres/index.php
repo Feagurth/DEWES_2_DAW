@@ -341,8 +341,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         // Cerramos la tabla
         print "</table>";
         
-        
-        
         ?>
     </body>
 </html>

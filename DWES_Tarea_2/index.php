@@ -22,8 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <link type="text/css" rel="stylesheet" href="estilos.css" />
     </head>
     <body>
-        <?php $agenda; ?>
-        <table>
+        <?php
+        $agenda;
+        $agenda = array();
+        ?>
+        <table border="1">
             <tr>
                 <td>
                     <table class="borde">
@@ -34,11 +37,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </tr>
                         </thead>
                         <tbody>
+
                             <?php
+                            $error = "";
+
                             if (!empty($_POST['array'])) {
                                 $agenda = unserialize($_POST['array']);
                             }
-                            
+
                             if (!empty($_POST['nombre'])) {
                                 $dato_nombre = $_POST['nombre'];
                                 $dato_tlf = $_POST['tlf'];
@@ -49,35 +55,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         if ($dato_tlf != "") {
                                             $agenda[$dato_nombre] = $dato_tlf;
                                         }
-                                    }
-                                    else
-                                    {
-                                        if($dato_tlf == "")
-                                        {
-                                            unset($agenda[$dato_nombre]);                                        
-                                        }
-                                        else
-                                        {
-                                            $agenda[$dato_nombre] = $dato_tlf;                                            
+                                    } else {
+                                        if ($dato_tlf == "") {
+                                            unset($agenda[$dato_nombre]);
+                                        } else {
+                                            $agenda[$dato_nombre] = $dato_tlf;
                                         }
                                     }
                                 } else {
-                                    $agenda[$dato_nombre] = $dato_tlf;
-                                }
-
-                                foreach ($agenda as $nombre => $tlf) {
-                                    print "<tr>";
-                                    print "<td class='borde'>";
-                                    print $nombre;
-                                    print "</td>";
-                                    print "<td class='borde'>";
-                                    print $tlf;
-                                    print "</td>";
-                                    print "</tr>";
+                                    if ($dato_tlf != "") {
+                                        $agenda[$dato_nombre] = $dato_tlf;
+                                    } else {
+                                        //TODO: Meter mensaje de error
+                                        $error = "Introduzca un teléfono";
+                                    }
                                 }
                             } else {
+                                if (!empty($_POST['array'])) {
+                                    //TODO: Meter mensaje de error
+                                    $error = "Introduzca un nombre";
+                                }
+                            }
 
-                                $agenda = array();
+                            foreach ($agenda as $nombre => $tlf) {
+                                print "<tr>";
+                                print "<td class='borde'>";
+                                print $nombre;
+                                print "</td>";
+                                print "<td class='borde'>";
+                                print $tlf;
+                                print "</td>";
+                                print "</tr>";
                             }
                             ?>        
                         </tbody>            
@@ -106,9 +114,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td>
                                     <input type='hidden' name='array' value="<?php echo htmlentities(serialize($agenda)); ?>" />
                                     <input type="submit" value="Enviar" name="enviar"/>
+                                </td>
+                                <td>
+                                    <?php
+                                    if ($error != "") {
+                                        print $error;
+                                    }
+                                    ?>
+
                                 </td>
                             </tr>
 
