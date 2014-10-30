@@ -19,11 +19,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     Author     : Luis Cabrerizo Gómez
 */
 
-table.borde, th.borde, td.borde{
+table.agenda, th.agenda, td.agenda{
+    border: 1px solid black;
+    width: 100%;
+}
+
+table.contenedor, th.contenedor, td.contenedor
+{
     border: 1px solid black;
 }
 
-table.borde
+.error 
 {
-    width: 100%;
+    color: red;
+    text-align: left
 }
