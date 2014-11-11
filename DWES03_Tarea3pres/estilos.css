@@ -23,6 +23,12 @@ h1 {margin-bottom:0;}
 #encabezado {background-color:#ddf0a4;}
 #contenido {background-color:#EEEEEE;height:600px;}
 #pie {background-color:#ddf0a4;color:#ff0000;height:30px;}
-.producto {padding-bottom: 5px;}
+.producto {padding-bottom: 10px;}
+
+input#nombreCorto {width: 300px;}
+input#pvp {width: 50px; text-align: left;}
+textarea#nombre {width: 400px;}
+textarea#descripcion {width: 400px;}
+
 
 

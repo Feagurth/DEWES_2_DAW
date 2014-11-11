@@ -28,13 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <?php
             try {
-                //$dwes = new PDO('mysql:host=localhost;dbname=dwes', 'dwes', 'abc123.');
-                $dwes = new PDO('mysql:host=localhost;dbname=dwes', 'root', '');
+                $dwes = new PDO('mysql:host=localhost;dbname=dwes', 'dwes', 'abc123.');
                 $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 $error = $e->getCode();
                 $mensaje = $e->getMessage();
             }
+            
+            
+            
             if (!isset($error)) {
                 $familia = $dwes->query('Select * from familia');
             }
@@ -42,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (!empty($_POST['cmbFamilia'])) {
                 $codFamilia = $_POST['cmbFamilia'];
 
-                $elementos = $dwes->query("Select * from producto where familia = '" . $codFamilia . "'");
+                $elementos = $dwes->query("Select cod, nombre_corto, PVP from producto where familia = '" . $codFamilia . "'");
             }
             ?>
 
@@ -59,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         }
                         ?>
                     </select>
-                    <input type="submit" id="btnMostrarProductos" name="btnMostrarProductos" value="Mostrar Productos" />
+                    <input type="submit" id="btnMostrarProductos" name="btnMostrarProductos" value="Mostrar Productos">
                 </div>       
             </form>
 
@@ -69,8 +71,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 if (isset($elementos)) {
                     while ($registro = $elementos->fetch()) {
                         print '<div class="producto">';
-                        print "Producto ".$registro['nombre_corto']." ".$registro['PVP']." euros  " ;
+                        print '<form id="form_edicion" action="editar.php" method="post">';
+                        print "Producto " . $registro['nombre_corto'] . " " . $registro['PVP'] . " euros  ";                        
                         print '<input type="submit" id="editarProducto" name="editarProducto" value=" Editar " />';
+                        print '<input type="hidden" id="nombreCortoSel" name="nombreCortoSel" value="'.$registro['nombre_corto'].'">';
+                        print '<input type="hidden" id="codigo" name="codigo" value="'.$registro['cod'].'">';
+                        print "</form>";
                         print "</div>";
                     }
                 }
@@ -80,6 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <div id="pie">
             </div>
+        </div>
     </body>
 </html>
-</html>
+
