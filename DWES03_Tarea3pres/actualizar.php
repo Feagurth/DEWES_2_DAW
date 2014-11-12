@@ -19,47 +19,84 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <head>
         <meta charset="UTF-8">
         <title>DWES03_Tarea3pres</title>
+        <link type="text/css" rel="stylesheet" href="estilos.css" />
     </head>
     <body>
         <?php
-        if (!empty($_POST['codigo'])) {
-            $codigo = $_POST['codigo'];
-            $nombre = $_POST['nombre'];
-            $nombreCorto = $_POST['nombreCorto'];
-            $descripcion = $_POST['descripcion'];
-            $pvp = $_POST['pvp'];
+        // Comprobamos si en la información de GET tenemos un código de ser así
+        // es el código del artículo a editar. Usamos GET en lugar de POST porque
+        // hemos enviado los datos desde editar.php con header pasando los valores 
+        // como parámetros en la dirección
+        if (!empty($_GET['codigo'])) {
 
+            // Almacenamos los valores enviados por la página editar.php en 
+            // variables
+            $codigo = $_GET['codigo'];
+            $nombre = $_GET['nombre'];
+            $nombre_corto = $_GET['nombre_corto'];          
+            $descripcion = $_GET['descripcion'];
+            $pvp = $_GET['PVP'];
+
+            // Creamos un bloque try-catch para la inicialización de la base 
+            // de datos
             try {
+
+                // Creamos una conexión a la base de datos especificando el host, 
+                // la base de datos, el usuario y la contraseña
                 $dwes = new PDO('mysql:host=localhost;dbname=dwes', 'dwes', 'abc123.');
+
+                // Especificamos atributos para que en caso de error, salte una excepción
                 $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
+
+                // Si se produce una excepción almacenamos el error y el 
+                // mensaje asociado
                 $error = $e->getCode();
-                $mensaje = $e->getMessage();
+                $mensajeError = $e->getMessage();
             }
 
+            // Si no tenemos errores en la base de datos, procedemos a la 
+            // actualización de los datos del artículo
             if (!isset($error)) {
+
+                // Ejecutamos una actualización usando los valores enviados por 
+                // la página editar.php
                 $resultado = $dwes->exec("UPDATE producto set "
                         . "nombre = '" . $nombre . "', "
-                        . "nombre_corto='" . $nombreCorto . "', "
+                        . "nombre_corto='" . $nombre_corto . "', "
                         . "descripcion='" . $descripcion . "', "
                         . "PVP='" . $pvp . "' "
                         . "WHERE cod='" . $codigo . "'");
 
+                // Comprobamos si se ha realizado la operación correctamente
                 if (isset($resultado)) {
-                    if($resultado == 1)
-                    {
-                        print "<div>Se han actualizado los datos</div>";                        
+
+                    // Comprobamos si se ha actualizado el artículo
+                    if ($resultado == 1) {
+
+                        // De ser todo correcto, mostramos un mensaje al usuario
+                        print "<div>Se han actualizado los datos</div>";
+                    } else {
+                        // Si se ha producido un error, mostramos un mensaje al usuairo
+                        print "<div class='error'>Se ha producido un error</div>";
                     }
-                    else
-                    {
-                        print "<div>Se ha producido un error</div>";
-                    }
-                    
+                } else {
+                    // Si no tenemos valores en $resultado, se ha producido un 
+                    // error y mostramos un mensaje al usuario
+                    print "<div class='error'>Se ha producido un error</div>";
                 }
+            } else {
+                // Si no podemos conectar con la base de datos, mostramos 
+                // un mensaje de error al usuario
+                print "<div class='error'>Se ha producido un error: " . $error . ": " . $mensajeError . "</div>";
             }
+        } else {
+            // Si no tenemos ningún código de producto, mostramos un  mensaje 
+            // al usuario
+            print "<div class='error'>Se ha producido un error: No hay datos de código de producto</div>";
         }
         ?>
 
-        <input type="button" id="continuar" name="continuar" value="continuar" onclick="window.location.replace('listado.php')">
+        <input type="button" id="continuar" name="continuar" value="Continuar" onclick="window.location.replace('listado.php')">
     </body>
 </html>

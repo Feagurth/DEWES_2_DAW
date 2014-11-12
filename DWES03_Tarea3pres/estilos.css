@@ -30,5 +30,7 @@ input#pvp {width: 50px; text-align: left;}
 textarea#nombre {width: 400px;}
 textarea#descripcion {width: 400px;}
 
+.error { color: #ff0000;}
+
 
 

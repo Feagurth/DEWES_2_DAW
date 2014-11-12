@@ -27,66 +27,118 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <h1>Tarea: Listado de productos de una familia</h1>
 
             <?php
+            // Creamos un bloque try-catch para la inicialización de la base 
+            // de datos
             try {
+
+                // Creamos una conexión a la base de datos especificando el host, 
+                // la base de datos, el usuario y la contraseña
                 $dwes = new PDO('mysql:host=localhost;dbname=dwes', 'dwes', 'abc123.');
+
+                // Especificamos atributos para que en caso de error, salte una excepción
                 $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
+
+                // Si se produce una excepción almacenamos el error y el 
+                // mensaje asociado
                 $error = $e->getCode();
-                $mensaje = $e->getMessage();
+                $mensajeError = $e->getMessage();
             }
-            
-            
-            
+
+
+            // Comprobamos si se ha producido un error al conectar a la base 
+            // de datos
             if (!isset($error)) {
+
+                // Si no hay errores, realizamos una consulta a la base de 
+                // datos para recuperar todos los registros de las familias 
+                // de productos
                 $familia = $dwes->query('Select * from familia');
-            }
 
-            if (!empty($_POST['cmbFamilia'])) {
-                $codFamilia = $_POST['cmbFamilia'];
+                // Comprobamos si en la información de POST tenemos información del 
+                // objeto que contiene las familias
+                if (!empty($_POST['cmbFamilia'])) {
 
-                $elementos = $dwes->query("Select cod, nombre_corto, PVP from producto where familia = '" . $codFamilia . "'");
+                    // Si trae información es que hemos pulsado el botón de 
+                    // Mostrar Productos y por tanto hemos seleccionado una familia.
+                    // Recuperamos el código de la familia seleccionada y lo 
+                    // almacenamos
+                    $codFamilia = $_POST['cmbFamilia'];
+
+                    // Realizamos una consulta a la base de datos usando el código 
+                    // para recuperar todos los productos de esa familia
+                    $productos = $dwes->query("Select cod, nombre_corto, PVP from producto where familia = '" . $codFamilia . "'");
+                }
+            } else {
+                // Si tenemos algún mensaje de error, lo mostramos la usuario
+                print "<div class='error'> Se ha producido un error: " . $error . ": " . $mensajeError . "</div>";
             }
             ?>
 
-
-            <form id="form_seleccion" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <!-- Usamos htmlspecialchars en la codificación de la acción del 
+            formulario para evitar ataques por injección de código -->
+            <form id="form_seleccion" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div>
                     Familia: 
                     <select name="cmbFamilia" id="cmbFamilia">
+
                         <?php
+                        // Comprobamos si hemos recuperado correctamente los 
+                        // valores de las familias de productos
                         if (isset($familia)) {
-                            while ($registro = $familia->fetch()) {
-                                print '<option value="' . $registro['cod'] . '">' . $registro['nombre'] . '</option>';
+
+                            // De ser así iteramos por todas las filas de la 
+                            // consulta, volcando cada una en la variable $apoyo
+                            while ($apoyo = $familia->fetch()) {
+
+                                // Para cada linea de la consulta creamos una 
+                                // etiqueta option asígnandole el código de la 
+                                // familia como valor y el texto como descripción
+                                print '<option value="' . $apoyo['cod'] . '">' . $apoyo['nombre'] . '</option>';
                             }
                         }
                         ?>
                     </select>
-                    <input type="submit" id="btnMostrarProductos" name="btnMostrarProductos" value="Mostrar Productos">
+                    <input type="submit" id="btnMostrarProductos" name="btnMostrarProductos" value="Mostrar Productos">                    
                 </div>       
             </form>
-
-            <div id="contenido">
-                <h2>Productos de la familia:</h2>
-                <?php
-                if (isset($elementos)) {
-                    while ($registro = $elementos->fetch()) {
-                        print '<div class="producto">';
-                        print '<form id="form_edicion" action="editar.php" method="post">';
-                        print "Producto " . $registro['nombre_corto'] . " " . $registro['PVP'] . " euros  ";                        
-                        print '<input type="submit" id="editarProducto" name="editarProducto" value=" Editar " />';
-                        print '<input type="hidden" id="nombreCortoSel" name="nombreCortoSel" value="'.$registro['nombre_corto'].'">';
-                        print '<input type="hidden" id="codigo" name="codigo" value="'.$registro['cod'].'">';
-                        print "</form>";
-                        print "</div>";
-                    }
-                }
-                ?>
-
-            </div>
-
-            <div id="pie">
+            <div>
+                &nbsp;
             </div>
         </div>
+
+        <div id="contenido">
+            <h2>Productos de la familia:</h2>
+            <?php
+// Comprobamos si hemos recuperado correctamente los 
+// valores de los productos cuya familia hemos seleccionado
+            if (isset($productos)) {
+
+                // De ser así iteramos por todas las filas de la 
+                // consulta, volcando cada una en la variable $apoyo
+                while ($apoyo = $productos->fetch()) {
+
+                    // Creamos para cada fila de la consulta una etiqueta <div> 
+                    // que contendrá un formulario con el nombre corto de 
+                    // producto, el precio y un botón que nos permitirá editar
+                    // los datos del mismo desde la página editar.php
+                    print '<div class="producto">';
+                    print '<form id="form_edicion" action="editar.php" method="post">';
+                    print "Producto " . $apoyo['nombre_corto'] . " " . $apoyo['PVP'] . " euros  ";
+                    print '<input type="submit" id="editarProducto" name="editarProducto" value=" Editar " />';
+                    print '<input type="hidden" id="nombreCortoSel" name="nombreCortoSel" value="' . $apoyo['nombre_corto'] . '">';
+                    print '<input type="hidden" id="codigo" name="codigo" value="' . $apoyo['cod'] . '">';
+                    print "</form>";
+                    print "</div>";
+                }
+            }
+            ?>
+
+        </div>
+
+        <div id="pie">
+        </div>
+
     </body>
 </html>
 
