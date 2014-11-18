@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <head>
         <meta charset="UTF-8">
         <title>DWES03_Tarea3pres</title>
-        <link type="text/css" rel="stylesheet" href="estilos.css" />
+        <link type="text/css" rel="stylesheet" href="estilos.css">
     </head>
     <body>
         <?php
@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             // variables
             $codigo = $_GET['codigo'];
             $nombre = $_GET['nombre'];
-            $nombre_corto = $_GET['nombre_corto'];          
+            $nombre_corto = $_GET['nombre_corto'];
             $descripcion = $_GET['descripcion'];
             $pvp = $_GET['PVP'];
 

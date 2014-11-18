@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>DWES03_Tarea3pres</title>
         <link href="estilos.css" rel="stylesheet" type="text/css">
     </head>
@@ -81,7 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 }
             } else {
 
-                
+
                 // Creamos un array idéntico al que devolvería la base de datos 
                 // al recuperar los datos de la base de datos, pero lo rellenamos 
                 // con la información introducida por el usuario que nos llegará 
@@ -96,11 +96,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 // Comprobamos si el precio es numérico y si no es negativo
                 if (is_numeric($producto['PVP']) && $producto['PVP'] >= 0) {
-                    
+
                     // Si la validación es correcta creamos una url con la 
                     // página de actualización y la información almacenada en 
                     // el array pasada como parámetros
-                    $destino = "actualizar.php?".  http_build_query($producto);
+                    $destino = "actualizar.php?" . http_build_query($producto);
 
                     // Usamos la función header para enviar la información a la 
                     // página actualizar.php con la información introducida 
@@ -124,7 +124,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Enviamos la página a si misma para realizar el proceso de 
             validación de datos
         -->
-        <form id="form_seleccion" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method="post">
+        <form id="form_seleccion" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div id="contenido">
                 <h2>Producto: </h2>
                 <div class="producto">

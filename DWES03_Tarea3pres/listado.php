@@ -17,8 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-        <link type="text/css" rel="stylesheet" href="estilos.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link type="text/css" rel="stylesheet" href="estilos.css">
         <title>DWES03_Tarea3pres</title>
     </head>
     <body>
@@ -43,13 +43,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 // mensaje asociado
                 $error = $e->getCode();
                 $mensajeError = $e->getMessage();
-            }
 
+                // Comprobamos si el mensaje de error tiene el código de 1045 
+                // el cual corresponde al error de acceso denegado al usuario
+                if ($error == 1045) {
+
+                    // Creamos una conexión con la base de datos usando el 
+                    // usuario root
+                    $dwes = new PDO('mysql:host=localhost;dbname=', 'root', '');
+
+                    // Cargamos el contenido del fichero sql para crear un 
+                    // usuario en una variable
+                    $sql = file_get_contents('createuser.sql');
+
+                    // Finalmente ejecutamos los comandos sql
+                    $dwes->exec($sql);
+                }
+
+                // Comprobamos si el mensaje de error tiene el código de 1049 
+                // el cual corresponde con el error de base de datos desconocida
+                if ($error == 1049) {                    // Creamos una conexión con la base de datos usando el 
+                    // usuario root
+                    $dwes = new PDO('mysql:host=localhost;dbname=', 'root', '');
+
+                    // Cargamos el contenido del fichero sql para crear la base
+                    // de datos en una variable
+                    $sql = file_get_contents('createdb.sql');
+
+                    // Finalmente ejecutamos los comandos sql
+                    $dwes->exec($sql);
+                }
+            }
 
             // Comprobamos si se ha producido un error al conectar a la base 
             // de datos
             if (!isset($error)) {
-
                 // Si no hay errores, realizamos una consulta a la base de 
                 // datos para recuperar todos los registros de las familias 
                 // de productos
@@ -70,8 +98,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     $productos = $dwes->query("Select cod, nombre_corto, PVP from producto where familia = '" . $codFamilia . "'");
                 }
             } else {
-                // Si tenemos algún mensaje de error, lo mostramos la usuario
-                print "<div class='error'> Se ha producido un error: " . $error . ": " . $mensajeError . "</div>";
+
+                // Comprobamos si el mensaje de error que tenemos corresponde 
+                // con los códigos de error de usuario sin permisos o de base 
+                // de datos desconocida
+                if ($error != 1045 && $error != 1049) {
+
+                    // Si no es el caso, lo mostramos la usuario
+                    print "<div class='error'> Se ha producido un error: " . $error . ": " . $mensajeError . "</div>";
+                } else {
+                    // De ser uno de los dos errores arriba mencionados, 
+                    // volveremos a cargar la página para que inicie con las 
+                    // modificaciones generadas durante el control de errores
+                    header("Location:listado.php");
+                }
             }
             ?>
 
@@ -81,7 +121,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div>
                     Familia: 
                     <select name="cmbFamilia" id="cmbFamilia">
-
                         <?php
                         // Comprobamos si hemos recuperado correctamente los 
                         // valores de las familias de productos
@@ -110,8 +149,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div id="contenido">
             <h2>Productos de la familia:</h2>
             <?php
-// Comprobamos si hemos recuperado correctamente los 
-// valores de los productos cuya familia hemos seleccionado
+            // Comprobamos si hemos recuperado correctamente los 
+            // valores de los productos cuya familia hemos seleccionado
             if (isset($productos)) {
 
                 // De ser así iteramos por todas las filas de la 
