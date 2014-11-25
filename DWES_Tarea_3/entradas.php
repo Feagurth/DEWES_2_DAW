@@ -23,14 +23,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </head>
     <body>
         <?php
+
+        function calcularNreg($bd) {
+          
+            xdebug_break();
+            
+            $nreg = $bd->query('SELECT nreg from gestion.entradas order by entradas.fentrada desc limit 1;');
+
+            $nreg = $nreg->fetch();
+
+            $nreg = $nreg[0];
+
+            if (substr($nreg, 0, 4) == getdate()['year']) {
+                $nreg = ((int) substr($nreg, 4)) + 1;
+            } else {
+                $nreg = 1;
+            }
+            
+            $nreg = getdate()['year'] . $nreg;
+            
+            return $nreg;
+            
+        }
+
         // Creamos un bloque try-catch para la inicialización de la base 
         // de datos
         try {
             // Creamos una conexión a la base de datos especificando el host, 
             // la base de datos, el usuario y la contraseña
-            $dwes = new PDO('mysql:host=localhost;dbname=gestion', 'dwes', 'abc123.');
+            $gestion = new PDO('mysql:host=localhost;dbname=gestion', 'dwes', 'abc123.');
             // Especificamos atributos para que en caso de error, salte una excepción
-            $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $gestion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             // Si se produce una excepción almacenamos el error y el 
             // mensaje asociado
@@ -40,7 +63,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         if (!isset($error)) {
 
-            $entrada = $dwes->query('select * from entradas order by fentrada');
+            $entrada = $gestion->query('select * from entradas order by fentrada');
+
+            $nreg = calcularNreg($gestion);
         }
         ?>
 
@@ -48,17 +73,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <form id="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div>
                     <h3>Nuevo Registro</h3>
-                    Nº registro: <input type="text" id="nreg" name="nreg" />
-                    Tipo Doc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc" />
-                    Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fentrada" name="fentrada" />
+                    Nº registro: <input type="text" id="nreg" name="nreg" disabled="1" value="<?php echo $nreg ?>">
+                    Tipo Doc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc">
+                    Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fentrada" name="fentrada">
                 </div>
                 <div>
-                    Remitente:&nbsp;&nbsp;<input type="text" id="remit" name="remit" />
-                    Destinatario: <input type="text" id="dest" name="dest" />
-                    Escaneado: <input type="text" id="esc" name="esc" />
+                    Remitente:&nbsp;&nbsp;<input type="text" id="remit" name="remit">
+                    Destinatario: <input type="text" id="dest" name="dest">
+                    Escaneado: <input type="text" id="esc" name="esc">
                 </div>
                 <div>
-                    <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro" />
+                    <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">
                 </div>
 
             </form>
@@ -76,45 +101,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <th>esc</th>
                     </tr>
                 </thead>
-                <?php
-                if (isset($entrada)) {
+<?php
+if (isset($entrada)) {
 
-                    while ($apoyo = $entrada->fetch()) {
-                        print "<tr>";
+    while ($apoyo = $entrada->fetch()) {
+        print "<tr>";
 
-                        print "<td>";
-                        print $apoyo['id_entrada'];
-                        print "</td>";
+        print "<td>";
+        print $apoyo['id_entrada'];
+        print "</td>";
 
-                        print "<td>";
-                        print $apoyo['nreg'];
-                        print "</td>";
+        print "<td>";
+        print $apoyo['nreg'];
+        print "</td>";
 
-                        print "<td>";
-                        print $apoyo['tipodoc'];
-                        print "</td>";
+        print "<td>";
+        print $apoyo['tipodoc'];
+        print "</td>";
 
-                        print "<td>";
-                        print $apoyo['fentrada'];
-                        print "</td>";
+        print "<td>";
+        print $apoyo['fentrada'];
+        print "</td>";
 
-                        print "<td>";
-                        print $apoyo['remit'];
-                        print "</td>";
+        print "<td>";
+        print $apoyo['remit'];
+        print "</td>";
 
-                        print "<td>";
-                        print $apoyo['dest'];
-                        print "</td>";
+        print "<td>";
+        print $apoyo['dest'];
+        print "</td>";
 
-                        print "<td>";
-                        print $apoyo['esc'];
-                        print "</td>";
+        print "<td>";
+        print $apoyo['esc'];
+        print "</td>";
 
 
-                        print "</tr>";
-                    }
-                }
-                ?>
+        print "</tr>";
+    }
+}
+?>
             </table>
 
         </div>

@@ -28,12 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 try {
                     // Creamos una conexión con la base de datos usando el 
                     // usuario root
-                    $dwes = new PDO('mysql:host=localhost;dbname=', 'root', '');
+                    $gestion = new PDO('mysql:host=localhost;dbname=', 'root', '');
                     // Cargamos el contenido del fichero sql para crear un 
                     // usuario en una variable
                     $sql = file_get_contents('createdb.sql');
                     // Finalmente ejecutamos los comandos sql
-                    $dwes->exec($sql);
+                    $gestion->exec($sql);
                 } catch (PDOException $e) {
                     $error = $e->getCode();
                     $mensajeError = $e->getMessage();

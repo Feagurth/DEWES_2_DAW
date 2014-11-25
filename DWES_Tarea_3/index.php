@@ -29,10 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             // Creamos una conexión a la base de datos especificando el host, 
             // la base de datos, el usuario y la contraseña
-            $dwes = new PDO('mysql:host=localhost;dbname=gestion', 'root', '');
+            $gestion = new PDO('mysql:host=localhost;dbname=gestion', 'root', '');
 
             // Especificamos atributos para que en caso de error, salte una excepción
-            $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $gestion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
 
             // Si se produce una excepción almacenamos el error y el 
