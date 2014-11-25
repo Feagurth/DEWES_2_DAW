@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--
 Copyright (C) 2014 Luis Cabrerizo Gómez
 
@@ -22,13 +22,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <title>Página principal</title>
     </head>
     <body>
-        <div>
-            <a id="in" href="entradas.php">
-                <img src="images/in.png" alt="Acceso a la página de documentos entrantes">
-            </a>
-            <a id="out" href="salidas.php">
-                <img src="images/out.png" alt="Acceso a la página de documentos salientes">
-            </a>            
+        <?php
+        // Creamos un bloque try-catch para la inicialización de la base 
+        // de datos
+        try {
+
+            // Creamos una conexión a la base de datos especificando el host, 
+            // la base de datos, el usuario y la contraseña
+            $dwes = new PDO('mysql:host=localhost;dbname=gestion', 'root', '');
+
+            // Especificamos atributos para que en caso de error, salte una excepción
+            $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+
+            // Si se produce una excepción almacenamos el error y el 
+            // mensaje asociado
+            $error = $e->getCode();
+            $mensajeError = $e->getMessage();
+        }
+
+
+        // Comprobamos si se ha producido un error al conectar a la base 
+        // de datos
+        if (!isset($error)) {
+            $boton1 = "invisible";
+            $boton2 = "visible";
+        } else {
+            $boton1 = "visible";
+            $boton2 = "invisible";
+        }
+        ?>
+
+        <div id="<?php echo $boton1 ?>"
+             <p>No se ha detectado una base de datos.</p>
+            <input type="button" title="Pulsar para crear base de datos" alt="Pulsar para crear base de datos" value="Pulsar para crear base de datos" onclick="document.location.href = 'creadb.php'" />
+        </div>
+
+        <div id="contenedor">
+            <div id="<?php echo $boton2 ?>">
+
+                <a class="imagen" href="entradas.php">
+                    <img src="images/in.png" alt="Acceso a la página de documentos entrantes" title="Acceso a la página de documentos entrantes">
+                </a>   
+
+                <a class="imagen" href="salidas.php">
+                    <img src="images/out.png" alt="Acceso a la página de documentos salientes" title="Acceso a la página de documentos salientes">
+                </a>            
+
+            </div>
         </div>
     </body>
 </html>

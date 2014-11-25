@@ -1,17 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--
 Copyright (C) 2014 Luis Cabrerizo Gómez
-
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
-
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
@@ -33,45 +30,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         // Comprobamos si en la informaicón de POST tenemos información de un 
         // código de producto
         if (!empty($_POST['codigo'])) {
-
             // De ser así almacenamos el código en una variable
             $codigo = $_POST['codigo'];
-
             // Inicializamos una variable para controlar la validación del 
             // formulario
             $validacion = true;
-
             // Comprobamos si en el POST tenemos valor para pvp, de ser así 
             // estaríamos validando los datos, en caso contrario, sería la 
             // primera vez que se carga la página y por tanto hay que 
             // rellenarla con la información de la base de datos
             if (!isset($_POST['PVP'])) {
-
                 // Creamos un bloque try-catch para la inicialización de la base 
                 // de datos
                 try {
-
                     // Creamos una conexión a la base de datos especificando el host, 
                     // la base de datos, el usuario y la contraseña
                     $dwes = new PDO('mysql:host=localhost;dbname=dwes', 'dwes', 'abc123.');
-
                     // Especificamos atributos para que en caso de error, salte una excepción
                     $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (PDOException $e) {
-
                     // Si se produce una excepción almacenamos el error y el 
                     // mensaje asociado
                     $error = $e->getCode();
                     $mensajeError = $e->getMessage();
                 }
-
                 // Comprobamos si tenemos algún error de conexión con la base de datos
                 if (!isset($error)) {
-
                     // Si no lo tenemos, hacemos una consulta pare recuperar la 
                     // información del producto
                     $producto = $dwes->query("Select * from producto where cod = '" . $codigo . "'");
-
                     // Recogemos la información de la primera (y única) linea de la 
                     // consulta y lo volcamos a la misma variable
                     $producto = $producto->fetch();
@@ -80,8 +67,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     print "<div class='error'> Se ha producido un error: " . $error . ": " . $mensajeError . "</div>";
                 }
             } else {
-
-
                 // Creamos un array idéntico al que devolvería la base de datos 
                 // al recuperar los datos de la base de datos, pero lo rellenamos 
                 // con la información introducida por el usuario que nos llegará 
@@ -93,15 +78,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     'descripcion' => $_POST['descripcion'],
                     'PVP' => $_POST['PVP']
                 );
-
                 // Comprobamos si el precio es numérico y si no es negativo
                 if (is_numeric($producto['PVP']) && $producto['PVP'] >= 0) {
-
                     // Si la validación es correcta creamos una url con la 
                     // página de actualización y la información almacenada en 
                     // el array pasada como parámetros
                     $destino = "actualizar.php?" . http_build_query($producto);
-
                     // Usamos la función header para enviar la información a la 
                     // página actualizar.php con la información introducida 
                     // por el usuario

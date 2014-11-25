@@ -19,15 +19,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     Author     : Luis Cabrerizo Gómez
 */
 
-/**
 
-#centrar img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid black;
-    
-};
-*/
+#imagen{
+    max-width: 55%;
+    height: auto;
+    margin: 20px;
+    padding: 5px;
+    margin: auto;
+}
 
-div {margin-left: 5%};
+#contenedor {
+    text-align: center; 
+    margin-top: 15%;
+}
+
+
+#visible{
+    display: block;    
+}
+
+#invisible{
+    display: none;
+}
+
+#nuevo_registro
+{
+    border: 1px solid;
+    padding: 10px;
+}
+
+#nuevo_registro div
+{
+    margin: 5px;
+}
+
+#listado
+{
+    margin-top: 15px;
+}
+
+#listado table
+{
+    border: 1px solid blue;
+}
+
+#listado tr
+{
+    padding: 10px;
+}
