@@ -25,10 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <?php
 
         function calcularNreg($bd) {
-          
-            xdebug_break();
-            
-            $nreg = $bd->query('SELECT nreg from gestion.entradas order by entradas.fentrada desc limit 1;');
+
+            $nreg = $bd->query('Select max(nreg) from entradas');
 
             $nreg = $nreg->fetch();
 
@@ -39,11 +37,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             } else {
                 $nreg = 1;
             }
-            
-            $nreg = getdate()['year'] . $nreg;
-            
+
+            $nreg = getdate()['year'] . sprintf('%1$02d', $nreg);
+
             return $nreg;
-            
         }
 
         // Creamos un bloque try-catch para la inicialización de la base 
@@ -67,6 +64,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             $nreg = calcularNreg($gestion);
         }
+        
+        
         ?>
 
         <div id="nuevo_registro">
@@ -92,54 +91,62 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <table>
                 <thead>
                     <tr>
-                        <th>Id_Entrada</th>
-                        <th>NReg</th>
-                        <th>tipodoc</th>
-                        <th>fentrada</th>
-                        <th>remit</th>
-                        <th>dest</th>
-                        <th>esc</th>
+                        <th>Id</th>
+                        <th>Nº Registro</th>
+                        <th>Tipo de Documento</th>
+                        <th>Fecha Entrada</th>
+                        <th>Remitente</th>
+                        <th>Destinatario</th>
+                        <th>Escaneado</th>
                     </tr>
                 </thead>
-<?php
-if (isset($entrada)) {
+                <?php
+                $contador = 1;
 
-    while ($apoyo = $entrada->fetch()) {
-        print "<tr>";
+                if (isset($entrada)) {
 
-        print "<td>";
-        print $apoyo['id_entrada'];
-        print "</td>";
+                    while ($apoyo = $entrada->fetch()) {
+                        
+                        if ($contador % 2 == 1) {
+                            print "<tr class='pijama1'>";
+                        } else {
+                            print "<tr class='pijama2'>";
+                        }
 
-        print "<td>";
-        print $apoyo['nreg'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['id_entrada'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['tipodoc'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['nreg'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['fentrada'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['tipodoc'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['remit'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['fentrada'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['dest'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['remit'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['esc'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['dest'];
+                        print "</td>";
 
+                        print "<td>";
+                        print $apoyo['esc'];
+                        print "</td>";
 
-        print "</tr>";
-    }
-}
-?>
+                        print "</tr>";
+
+                        $contador++;
+                    }
+                }
+                ?>
             </table>
 
         </div>
