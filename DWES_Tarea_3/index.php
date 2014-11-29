@@ -17,12 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link type="text/css" rel="stylesheet" href="estilos.css">
         <title>Página principal</title>
     </head>
     <body>
-        <?php
+            <?php
         // Creamos un bloque try-catch para la inicialización de la base 
         // de datos
         try {
@@ -62,11 +62,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div id="<?php echo $boton2 ?>">
 
                 <a class="imagen" href="entradas.php">
-                    <img src="images/in.png" alt="Acceso a la página de documentos entrantes" title="Acceso a la página de documentos entrantes">
+                    <img src="images/in.png" alt="Acceso a la página de documentos entrantes" title="Acceso a la página de documentos entrantes" />
+                    
                 </a>   
 
                 <a class="imagen" href="salidas.php">
-                    <img src="images/out.png" alt="Acceso a la página de documentos salientes" title="Acceso a la página de documentos salientes">
+                    <img src="images/out.png" alt="Acceso a la página de documentos salientes" title="Acceso a la página de documentos salientes" />
                 </a>            
 
             </div>
