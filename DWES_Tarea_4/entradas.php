@@ -21,7 +21,7 @@ session_start();
 
 // Comprobamos si tenemos en sesión usuario y password
 if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
-    // De no ser así, volvemos a la página index.php para pedirselos al usuario
+    // De no ser así volvemos a la página index.php para pedirselos al usuario
     header("location:index.php");
 } else {
     // En caso contrario crearemos una conexión con la base de datos para 
@@ -74,127 +74,10 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
     </head>
     <body>
         <?php
-
-        /**
-         * Método para verificar los datos introducidos por el usuario
-         * @param type $tipodoc Tipo de documento
-         * @param type $fentrada Fecha de entrada
-         * @param type $remit Remitente
-         * @param type $dest Destinatario
-         * @return int Devuelve 
-         * 0 si la validación es correcta
-         * 1 si hay un error en el remitente
-         * 1 si hay un error en el destinatario
-         * 3 si hay un error en el tipo de documento
-         * 4 si hay un error en la fecha
-         * 5 si el remitente está vacío
-         * 6 si el destinatario está vacío
-         * 7 si el tipo de documento está vacío
-         */
-        function validarDatos($tipodoc, $fentrada, $remit, $dest) {
-            // Inicializamos la variable de salida al valor que tendría si 
-            // toda la validación fuese correcta
-            $validacion = 0;
-
-            // Verificamos con expresiones regulares que los caracteres 
-            // introducidos para el remitente son los permitidos
-            if (!preg_match("/^[0-9a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/", $remit)) {
-                // Si la validación no se cumple, asignamos el valor 
-                // correspondiente a la variable de salida
-                $validacion = 1;
-            }
-
-            // Verificamos con expresiones regulares que los caracteres 
-            // introducidos para el destinatario son los permitidos
-            if (!preg_match("/^[0-9a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/", $dest)) {
-                // Si la validación no se cumple, asignamos el valor 
-                // correspondiente a la variable de salida                
-                $validacion = 2;
-            }
-
-            // Verificamos con expresiones regulares que los caracteres 
-            // introducidos para el tipo de documento son los permitidos           
-            if (!preg_match("/^[0-9a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/", $tipodoc)) {
-                // Si la validación no se cumple, asignamos el valor 
-                // correspondiente a la variable de salida                
-                $validacion = 3;
-            }
-
-            // Verificamos que la fecha de entrada no sea superior a la fecha 
-            // actual puesto que no deberían permitirse la entrada de documentos 
-            // con dias posteriores al actual. No se puede registrar documentos 
-            // que aún no han llegado a la oficina
-            if ($fentrada > date('Y-m-d')) {
-                // Si la validación no se cumple, asignamos el valor 
-                // correspondiente a la variable de salida                
-                $validacion = 4;
-            }
-
-            // Verificamos que el remitente no esté vacío
-            if ($remit == "") {
-                // Si la validación no se cumple, asignamos el valor 
-                // correspondiente a la variable de salida                                
-                $validacion = 5;
-            }
-
-            // Verificamos que el destinatario no esté vacío
-            if ($dest == "") {
-                // Si la validación no se cumple, asignamos el valor 
-                // correspondiente a la variable de salida                                
-                $validacion = 6;
-            }
-
-            // Verificamos que el tipo de documento no esté vacío
-            if ($tipodoc == "") {
-                // Si la validación no se cumple, asignamos el valor 
-                // correspondiente a la variable de salida                                
-                $validacion = 7;
-            }
-
-            // Devolvemos la variable con el resultado de la validación
-            return $validacion;
-        }
-
-        /**
-         * Función que nos permite generar un número de registro
-         * @param type $bd Instancia de la base de datos donde están los 
-         * registros de entrada
-         * @return string El Número de registro generado
-         */
-        function calcularNreg($bd) {
-
-            // Realizamos una consulta para recuperar el número de registro más alto 
-            // que haya en la tabla de entradas de la base de datos
-            $nreg = $bd->query('Select max(nreg) from entradas');
-
-            // Reali<amos la consulta
-            $nreg = $nreg->fetch();
-
-            // Asignamos el número de registros a una variable
-            $nreg = $nreg[0];
-
-            // Quitamos los 4 primeros caracteres del número recuperado, que 
-            // corresponden con el año y las comparamos con el año actual del 
-            // sistema
-            if (substr($nreg, 0, 4) == getdate()['year']) {
-                // Si son iguales, quitamos los caracteres del año, convertimos 
-                // la cadena resultante a entero y le sumamos 1.
-                $nreg = ((int) substr($nreg, 4)) + 1;
-            } else {
-                // Si son distintos, asignamos 1 a la variable
-                $nreg = 1;
-            }
-
-            // Finalmente cogemos el año actual del sistema y le concatenamos 
-            // el número calculado formateado a 2 cifras con ceros en caso de 
-            // tener un sólo dígito, consiguiendo de este modo el número de 
-            // registro siguiente al más alto de la base de datos
-            $nreg = getdate()['year'] . sprintf('%1$02d', $nreg);
-
-            // Finalmente devolvemos el valor generado
-            return $nreg;
-        }
-
+        
+        // Usamos include para poder usar las funciones definidas en el archivo funciones.php
+        include './funciones.php';
+        
         // Creamos un bloque try-catch para la inicialización de la base 
         // de datos
         try {
@@ -227,11 +110,11 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
                 // Realizamos una consulta con la base de datos para traer los 
                 // datos de la tabla entradas ordenador por fecha de entrada e 
                 // id_entrada descendiente
-                $entrada = $gestion->query('select * from entradas order by fentrada, id_entrada desc');
+                $entrada = $gestion->query('select * from entradas order by fentrada desc, id_entrada desc');
 
                 // Calculamos el siguiente número de registro a usar y lo 
                 // almacenamos en una variable
-                $nreg = calcularNreg($gestion);
+                $nreg = calcularNreg($gestion, "E");
             } else {
 
                 // Si es una insercción, volcamos los valores a insertar en 
@@ -318,7 +201,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
                             // el id del registro insertado en la tabla documetnos
                             $stmt = $gestion->prepare("INSERT INTO ENTRADAS VALUES("
                                     . "0, "
-                                    . "$nreg, "
+                                    . "'$nreg', "
                                     . "'$tipodoc' ,"
                                     . "'$fentrada' ,"
                                     . "'$remit' ,"
@@ -339,7 +222,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
                             // id_documentos
                             $stmt = $gestion->prepare("INSERT INTO ENTRADAS VALUES("
                                     . "0, "
-                                    . "$nreg, "
+                                    . "'$nreg', "
                                     . "'$tipodoc' ,"
                                     . "'$fentrada' ,"
                                     . "'$remit' ,"
@@ -400,10 +283,10 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
 
                 // Realizamos una consulta con la base de datos para poder 
                 // rellenar la tabla de registros
-                $entrada = $gestion->query('select * from entradas order by fentrada desc');
+                $entrada = $gestion->query('select * from entradas order by fentrada desc, id_entrada desc');
 
                 // Calculamos un número de registro nuevo
-                $nreg = calcularNreg($gestion);
+                $nreg = calcularNreg($gestion, "E");
             }
         }
         ?>

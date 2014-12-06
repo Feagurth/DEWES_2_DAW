@@ -25,7 +25,7 @@ CREATE TABLE documentos(
 -- Creamos la tabla de entradas con una referencia a la tabla documentos
 CREATE TABLE entradas(
     id_entrada INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nreg VARCHAR(10) NOT NULL, 
+    nreg VARCHAR(15) NOT NULL, 
     tipodoc VARCHAR(15) NOT NULL,
     fentrada DATE NOT NULL,
     remit VARCHAR(150) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE entradas(
 -- Creamos la tabla de salidas con una referencia a la tabla documentos
 CREATE TABLE salidas(
     id_salida INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nreg VARCHAR(10) NOT NULL, 
+    nreg VARCHAR(15) NOT NULL, 
     tipodoc VARCHAR(15) NOT NULL,
     fsalida DATE NOT NULL,
     remit VARCHAR(150) NOT NULL,

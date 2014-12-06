@@ -1,4 +1,5 @@
 <?php
+
 // Inicializamos la sesión
 session_start();
 
@@ -66,25 +67,32 @@ try {
 // datos. De no ser así, seguimos con la carga de datos de la página
 if (!isset($mensajeError)) {
 
-    xdebug_break();
-
+    // Recuperamos el id del documento a mostrar
     $id = $_GET['id'];
 
+    // Preparamos una consulta para que la base de datos devuelva todos los 
+    // datos del documento especificado
     $consulta = $gestion->query("select * from documentos where id_documento=$id");
 
+    // Realizamos la consulta
     $fila = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
-    $tamanyo = $fila[0]['tamanyo'];
-    $tipo = $fila[0]['tipo'];
-    $nombre = $fila[0]['nombre'];
-    $documento = $fila[0]['documento'];
+    // Comprobamos que la consulta trae datos
+    if (count($fila) == 1) {
+        
+        
+        
+        // Usamos header para asignar los valores del fichero de la base de 
+        // datos correspondientes y permitir al navegador mostrar la información
+        // como un fichero a descargar
+        header("Content-length: ". $fila[0]['tamanyo']);
+        header("Content-type: " . $fila[0]['tipo']);
+        header("Content-Disposition: attachment; filename=".$fila[0]['nombre']);
 
+        // Finalmente mostrarmos el fichero
+        echo $fila[0]['documento'];
+    }
 
-    header("Content-length: $tamanyo");
-    header("Content-type: $tipo");
-    header("Content-Disposition: attachment; filename=$nombre");
-
-    print $documento;
-
+    // Hacemos una llamada a JavaScript para cerrar la ventana creada
     echo "<script>window.close();</script>";
 }
