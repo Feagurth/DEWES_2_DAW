@@ -1,0 +1,94 @@
+/*
+Copyright (C) 2014 Luis Cabrerizo Gómez
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* 
+    Created on : 18-nov-2014, 20:19:22
+    Author     : Luis Cabrerizo Gómez
+*/
+
+
+.imagen{
+    max-width: 55%;
+    height: auto;
+    margin: 20px;
+    padding: 5px;
+    margin: auto;    
+}
+
+#contenedor {
+    text-align: center; 
+    margin-top: 15%;
+}
+
+
+.visible{
+    display: block;    
+}
+
+.invisible{
+    display: none;
+}
+
+#nuevo_registro
+{
+    border: 1px solid;
+    padding: 10px;
+}
+
+#nuevo_registro div
+{
+    margin: 5px;
+}
+
+#listado
+{
+    margin-top: 15px;
+}
+
+#listado img{
+    width: 10%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+th
+{
+    width: 10%;
+}
+
+thead
+{
+    font-weight: bold;
+}
+
+.pijama1{
+    background-color: lightgrey;
+}
+
+.pijama2{
+    background-color: blanchedalmond;
+}
+
+.error{
+    color: #ff0000;
+}
