@@ -102,13 +102,20 @@ function validarDatos($tipodoc, $fentrada, $remit, $dest) {
  * @return type El periodo actual
  */
 function calcularPeriodoActual() {
-    xdebug_break();
 
+    // Recuperamos la fecha actual del sistema
     $fecha = getdate();
 
+    // Comprobamos el mes actual, si es mayor o igual a 9 (Septiembre) indica 
+    // un nuevo periodo
     if ($fecha['mon'] >= 9) {
+        
+        // Para periodos con mes igual o superior a Septiembre, devolvemos el 
+        // año actual y el siguiente formateados
         return $fecha['year'] . "/" . ($fecha['year'] + 1) . "-";
     } else {
+        // Para periodos con mes inferior a Septiembre, devolvemos el año 
+        // anterior y el actual formateados
         return ($fecha['year'] - 1) . "/" . ($fecha['year']) . "-";
     }
 }
