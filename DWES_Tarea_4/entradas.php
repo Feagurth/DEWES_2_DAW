@@ -108,8 +108,8 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
             if (empty($_POST['dest'])) {
 
                 // Realizamos una consulta con la base de datos para traer los 
-                // datos de la tabla entradas ordenador por fecha de entrada e 
-                // id_entrada descendiente
+                // datos de la tabla entradas ordenados por fecha de entrada e 
+                // id_entrada descendente
                 $entrada = $gestion->query('select * from entradas order by fentrada desc, id_entrada desc');
 
                 // Calculamos el siguiente número de registro a usar y lo 

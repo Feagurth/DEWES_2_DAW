@@ -172,8 +172,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             if (empty($_POST['dest'])) {
 
                 // Realizamos una consulta con la base de datos para traer los 
-                // datos de la tabla salidas ordenador por fecha de salida e 
-                // id_salida descendiente
+                // datos de la tabla salidas ordenado por fecha de salida e 
+                // id_salida descendente
                 $salida = $gestion->query('select * from salidas order by fsalida, id_salida desc');
 
                 // Calculamos el siguiente número de registro a usar y lo 
@@ -271,14 +271,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">
                     <input type="button" value="Volver" title="Volver" alt="Volver" onclick="window.location.replace('index.php')"/>
                 </div>
-<?php
+                <?php
 // Si tenemos un mensaje de error, lo mostramos al usuario
-if (isset($mensajeError)) {
-    print "<div class='error'>";
-    print $mensajeError;
-    print "</div>";
-}
-?>
+                if (isset($mensajeError)) {
+                    print "<div class='error'>";
+                    print $mensajeError;
+                    print "</div>";
+                }
+                ?>
 
             </form>
         </div>
@@ -295,69 +295,69 @@ if (isset($mensajeError)) {
                         <th>Escaneado</th>
                     </tr>
                 </thead>
-<?php
+                <?php
 // Creamos un contador y lo inicializamos
-$contador = 1;
+                $contador = 1;
 
 // Comprobamos si tenemos valores por los que iterar para crear 
 // la tabla de salidas
-if (isset($salida)) {
+                if (isset($salida)) {
 
-    // Iteramos por todos los registros consultados
-    while ($apoyo = $salida->fetch()) {
+                    // Iteramos por todos los registros consultados
+                    while ($apoyo = $salida->fetch()) {
 
-        // Si el valor de contador es impar creamos una fila 
-        // con una clase y si es par con otra clase distinta, 
-        // para poder así colorear las filas de distinto modo 
-        // alternativamente                        
-        if ($contador % 2 == 1) {
-            print "<tr class='pijama1'>";
-        } else {
-            print "<tr class='pijama2'>";
-        }
+                        // Si el valor de contador es impar creamos una fila 
+                        // con una clase y si es par con otra clase distinta, 
+                        // para poder así colorear las filas de distinto modo 
+                        // alternativamente                        
+                        if ($contador % 2 == 1) {
+                            print "<tr class='pijama1'>";
+                        } else {
+                            print "<tr class='pijama2'>";
+                        }
 
-        // Creamos columnas para cada fila con los valores 
-        // recogidos de la base de datos
-        print "<td>";
-        print $apoyo['id_salida'];
-        print "</td>";
+                        // Creamos columnas para cada fila con los valores 
+                        // recogidos de la base de datos
+                        print "<td>";
+                        print $apoyo['id_salida'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['nreg'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['nreg'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['tipodoc'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['tipodoc'];
+                        print "</td>";
 
-        // Formateamos la fecha recuperada de la base de datos 
-        // a formato dd/mm/yyyy
-        print "<td>";
-        print date("d/m/Y", strtotime($apoyo['fsalida']));
-        print "</td>";
+                        // Formateamos la fecha recuperada de la base de datos 
+                        // a formato dd/mm/yyyy
+                        print "<td>";
+                        print date("d/m/Y", strtotime($apoyo['fsalida']));
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['remit'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['remit'];
+                        print "</td>";
 
-        print "<td>";
-        print $apoyo['dest'];
-        print "</td>";
+                        print "<td>";
+                        print $apoyo['dest'];
+                        print "</td>";
 
-        // Formateamos el vlaor del escaneado con letras para 
-        // hacerlo más legible
-        print "<td>";
-        print ($apoyo['esc'] == 1 ? "Si" : "No");
-        print "</td>";
+                        // Formateamos el vlaor del escaneado con letras para 
+                        // hacerlo más legible
+                        print "<td>";
+                        print ($apoyo['esc'] == 1 ? "Si" : "No");
+                        print "</td>";
 
-        print "</tr>";
+                        print "</tr>";
 
-        // Aumentamos el valor de l contador para la siguiente 
-        // vuelta
-        $contador++;
-    }
-}
-?>
+                        // Aumentamos el valor de l contador para la siguiente 
+                        // vuelta
+                        $contador++;
+                    }
+                }
+                ?>
             </table>
 
         </div>

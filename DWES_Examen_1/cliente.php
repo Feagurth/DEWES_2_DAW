@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </head>
     <body>
         <?php
+        // Incluimos el fichero configuracion.inc.php donde se guardan el 
+        // usuario y el password de la base de datos        
         include_once './configuracion.inc.php';
 
         // Creamos un bloque try-catch para la inicialización de la base 
@@ -42,14 +44,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (!isset($mensajeError)) {
 
             // Comprobamos si en la información del POST de la página hay 
-            // información de algún destinatario. De no ser así, es la primera 
+            // información de algún cliente. De no ser así, es la primera 
             // carga de la página. En caso contrario, la carga es para validar 
             // e insertar un registro.
             if (empty($_POST['dni'])) {
 
                 // Realizamos una consulta con la base de datos para traer los 
-                // datos de la tabla entradas ordenador por fecha de entrada e 
-                // id_entrada descendiente
+                // datos de la tabla cliente ordenador 
                 $distribuye = $gestion->query('select * from cliente order by nombre desc');
             } else {
 
@@ -141,6 +142,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         print "</tr>";
                         
+                        // Incrementamos el contador
                         $contador++;
                     }
                 }

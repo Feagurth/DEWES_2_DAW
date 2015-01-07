@@ -2,6 +2,8 @@
 CREATE DATABASE `examen` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 -- Cambiamos a la base de datos
 USE `examen`;
+
+-- Creamos las tablas correspondientes
 create table fabricante(
   id_fab integer primary key,
   nombre varchar(50),
@@ -40,6 +42,7 @@ create table registra(
   medio varchar(20),
   primary key(cif,dni));
 
+-- Insertamos los valores en la base de datos
 insert into fabricante values(1,'Oracle','Estados Unidos');
 insert into fabricante values(2,'Microsoft','Estados Unidos');
 insert into fabricante values(3,'IBM','Estados Unidos');

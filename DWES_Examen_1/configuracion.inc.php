@@ -18,7 +18,8 @@
  */
 
 /**
- * Description of configuracion
+ * Archivo de configuración para almacenar los datos de conexión a la base de 
+ * datos
  *
  * @author Luis Cabrerizo Gómez
  */

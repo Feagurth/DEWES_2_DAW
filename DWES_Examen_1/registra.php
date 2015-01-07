@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </head>
     <body>
         <?php
+        // Incluimos el fichero configuracion.inc.php donde se guardan el 
+        // usuario y el password de la base de datos        
         include_once './configuracion.inc.php';
 
         // Creamos un bloque try-catch para la inicialización de la base 
@@ -42,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (!isset($mensajeError)) {
 
             // Comprobamos si en la información del POST de la página hay 
-            // información de algún destinatario. De no ser así, es la primera 
+            // información de algún registros. De no ser así, es la primera 
             // carga de la página. En caso contrario, la carga es para validar 
             // e insertar un registro.
             if (empty($_POST['cif'])) {
@@ -93,8 +95,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     CIF: 
                     <select name="cif" id="cif">
                         <?php 
+                        // Verificamos si tenemos datos de los comercios 
+                        // recuperados de la base de datos.                                                
                         if(isset($comercios))
                         {
+                            // De ser así, los usamos para crear el desplegable
                             while ($apoyo = $comercios->fetch()) {
                                 print "<option value='".$apoyo['cif']."'>".$apoyo['nombre']." - ".$apoyo['ciudad']."</option>";                                
                             }                            
@@ -104,8 +109,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     DNI: 
                     <select name="dni" id="dni">
                         <?php 
+                        // Verificamos si tenemos datos de los clientes 
+                        // recuperados de la base de datos.                                                
                         if(isset($clientes))
                         {
+                            // De ser así, los usamos para crear el desplegable
                             while ($apoyo = $clientes->fetch()) {
                                 print "<option value='".$apoyo['dni']."'>".$apoyo['dni']." - ".$apoyo['nombre']."</option>";                                
                             }                            
@@ -115,8 +123,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Codigo: 
                     <select name="codigo" id="codigo">
                         <?php 
+                        // Verificamos si tenemos datos de los programas 
+                        // recuperados de la base de datos.                                                
                         if(isset($programas))
                         {
+                            // De ser así, los usamos para crear el desplegable
                             while ($apoyo = $programas->fetch()) {
                                 print "<option value='".$apoyo['codigo']."'>".$apoyo['nombre']." ".$apoyo['version']."</option>";                                
                             }                            

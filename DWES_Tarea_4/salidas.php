@@ -108,8 +108,8 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['pass'])) {
             if (empty($_POST['dest'])) {
 
                 // Realizamos una consulta con la base de datos para traer los 
-                // datos de la tabla salidas ordenador por fecha de salida e 
-                // id_salida descendiente
+                // datos de la tabla salidas ordenados por fecha de salida e 
+                // id_salida descendente
                 $salida = $gestion->query('select * from salidas order by fsalida desc, id_salida desc');
 
                 // Calculamos el siguiente número de registro a usar y lo 

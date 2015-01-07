@@ -22,6 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </head>
     <body>
         <?php
+        
+        // Incluimos el fichero configuracion.inc.php donde se guardan el 
+        // usuario y el password de la base de datos
         include_once './configuracion.inc.php';
 
         // Creamos un bloque try-catch para la inicialización de la base 
@@ -42,19 +45,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         if (!isset($mensajeError)) {
 
             // Comprobamos si en la información del POST de la página hay 
-            // información de algún destinatario. De no ser así, es la primera 
+            // información de algún distribuidor. De no ser así, es la primera 
             // carga de la página. En caso contrario, la carga es para validar 
             // e insertar un registro.
             if (empty($_POST['cif'])) {
 
                 // Realizamos una consulta con la base de datos para traer los 
-                // datos de la tabla entradas ordenador por fecha de entrada e 
-                // id_entrada descendiente
+                // datos de las tablas de la base de datos donde están los 
+                // datos a mostrar en los desplegables
                 $distribuye = $gestion->query('select * from distribuye order by cif, codigo desc');
                 
                 $comercios = $gestion->query('select * from comercio order by nombre');
                 $programas = $gestion->query('select * from programa order by nombre');
-                $clientes = $gestion->query('select * from cliente order by nombre');
                 
             } else {
 
@@ -72,14 +74,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
                 // Realizamos una consulta con la base de datos para poder 
-                // rellenar la tabla de registros
+                // rellenar la tabla
                 $distribuye = $gestion->query('select * from distribuye order by cif, codigo desc;');
                 
                 // Realizamos consultas para recuperar los valores de programas, 
                 // comercios y clientes para crear los desplegables con esos datos
                 $comercios = $gestion->query('select * from comercio order by nombre;');
                 $programas = $gestion->query('select * from programa order by nombre;');
-                $clientes = $gestion->query('select * from cliente order by nombre');
+
             }
         }
         ?>
@@ -90,8 +92,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     CIF: 
                     <select name="cif" id="cif">
                         <?php 
+                        // Verificamos si tenemos datos de los comercios 
+                        // recuperados de la base de datos.
                         if(isset($comercios))
                         {
+                            // De ser así, los usamos para crear el desplegable
                             while ($apoyo = $comercios->fetch()) {
                                 print "<option value='".$apoyo['cif']."'>".$apoyo['nombre']." - ".$apoyo['ciudad']."</option>";                                
                             }                            
@@ -101,8 +106,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Codigo: 
                     <select name="codigo" id="codigo">
                         <?php 
+                        // Verificamos si tenemos datos de los programas 
+                        // recuperados de la base de datos.                        
                         if(isset($programas))
                         {
+                            // De ser así, los usamos para crear el desplegable
                             while ($apoyo = $programas->fetch()) {
                                 print "<option value='".$apoyo['codigo']."'>".$apoyo['nombre']." ".$apoyo['version']."</option>";                                
                             }                            
@@ -173,6 +181,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         print "</tr>";
                         
+                        // Incrementamos el contador
                         $contador++;
                     }
                 }
