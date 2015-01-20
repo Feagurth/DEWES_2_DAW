@@ -1,0 +1,129 @@
+/*
+Copyright (C) 2015 Luis Cabrerizo Gómez
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* 
+    Created on : 20-ene-2015, 14:59:51
+    Author     : Luis Cabrerizo Gómez
+*/
+
+/* Importamos las fuentes de Google usando @import */
+
+@import url(http://fonts.googleapis.com/css?family=Adamina);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+/* Estilos de la cabecera */
+
+/* Definimos el tamaño de la cabecera para que ocupe todo el ancho de la página 
+y le asignamos un alto específico. A continuación asignamos una imagen al contenedor, 
+la centramos y evitamos que se repita, ajustando su tamaño al valor del 
+contenedor. Finalmente asignamos los valores de visibilidad y flotabilidad al 
+contenedor */
+#cabecera{
+    width: 100%;
+    height: 10vmax;
+    background-image: url(imagenes/banner.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-bottom: 1vmax;
+    display: block;
+    float: left;    
+}
+
+/* Estilos del menú */
+
+/* Definimos el ancho para que ocupe todo el ancho de la pantalla. Así mismo 
+definimos un color de fondo para el contenedor y un relleno superior e inferior.
+Finalmente asignamos los valores de visibilidad y flotabilidad al contenedor */
+#menu{
+    width: 100%;
+    display: block;
+    float: left;
+    background-color: deepskyblue;
+    padding: 0.25vmax 0;    
+}
+
+/* Quitamos la decoración de las listas, así como sus márgenes */
+#menu ul 
+{
+    overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Asignamos los valores de visibilidad y flotabilidad a los componentes del 
+listado y añadimos un margen lateral */
+#menu li{
+    float: left;
+    display: block;
+    padding: 0.5vmax 0.5vmax;
+    line-height: 100%;    
+}
+
+/* Quitamos el subrayado a los enlaces que conforman los elementos de la lista */
+#menu li a {
+    text-decoration: none;
+    color: #000;
+    font-family: 'Adamina', serif;
+    font-size: 1.5vmax;    
+}
+
+/* Añadimos el subrayado a los enlaces que conforman los elementos de la lista 
+si ponemos el ratón encima de uno de ellos*/
+#menu li a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Estilo del cuerpo */
+#cuerpo{
+    width: 100%;
+    display: block;
+    float: left;
+    height: 35vmax;
+}
+
+#cuerpo #lista{
+    background-color: chartreuse;
+    width: 75%;
+    height: 35vmax;
+    display: block;
+    float: left;
+    border-right: 0.25vmax solid #fff;
+    
+}
+
+#cuerpo #detalle{
+    width: 24.7%;
+    display: block;
+    float: right;
+}
+
+#cuerpo #detalle #visualizador{
+    width: 100%;
+    height: 30vmax;
+    background-color: yellow;
+    border-bottom: 0.25vmax solid #fff;
+}
+
+#cuerpo #detalle #pdfs{
+    width: 100%;
+    height: 4.75vmax;
+    background-color: fuchsia;
+}
+
