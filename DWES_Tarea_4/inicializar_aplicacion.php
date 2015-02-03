@@ -82,34 +82,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div>
             <p>Creación de base de datos</p>
             <div  id="<?php
-        // Dependiendo del valor de la variable de control, mostramos u 
-        // ocultamos el div que contiene el botón crear la base de datos
-        if ($control == 0) {
-            echo "visible";
-        } else {
-            echo "invisible";
-        }
-        ?>">
+            // Dependiendo del valor de la variable de control, mostramos u 
+            // ocultamos el div que contiene el botón crear la base de datos
+            if ($control == 0) {
+                echo "visible";
+            } else {
+                echo "invisible";
+            }
+            ?>">
                 <input type="button" title="Creación de base de datos" alt="Creación de base de datos" value="Creación de base de datos" onclick="window.location.href = 'inicializar_aplicacion.php?control=1'"/>
             </div>
         </div>
-<?php
-// Creamos la estructura de la página para mostrar el mensaje 
-// de error o de ejecución correcta.
-print "<div>";
-print "<p>";
-if (isset($error)) {
-    print "Código de error: " . $error . " - Mensaje: " . $mensajeError;
-} else {
-    if (!empty($_GET['control'])) {
-        if ($_GET['control'] == "1") {
-            print "La creación de la base de datos se ha realizado correctamente";
+        <?php
+        // Creamos la estructura de la página para mostrar el mensaje 
+        // de error o de ejecución correcta.
+        print "<div>";
+        print "<p>";
+        if (isset($error)) {
+            print "Código de error: " . $error . " - Mensaje: " . $mensajeError;
+        } else {
+            if (!empty($_GET['control'])) {
+                if ($_GET['control'] == "1") {
+                    print "La creación de la base de datos se ha realizado correctamente";
+                }
+            }
         }
-    }
-}
-print "</p>";
-print "</div>";
-?>
+        print "</p>";
+        print "</div>";
+        ?>
         <div>
             <br>
             <input type="button" title="Volver" alt="Volver" value="Volver" onclick="window.location.href = 'index.php'" />

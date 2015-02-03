@@ -6,15 +6,27 @@
     </head>
     <body>
         <div id="cabecera"></div>
-        <div id="menu">
+        <nav id="menu">
             <ul>
                 {foreach from=$menu item=menus}
-                    <li><a href="{$menus.url}">{$menus.titulo}</a></li>
+                    <li>
+                        <a href="#">{$menus.titulo}</a>
+                        <ul>
+                            {foreach from=$menus.submenu item=submenu}
+                                <li>
+                                    <a href="{$submenu.url}">{$submenu.titulo}</a>
+                                </li>
+                            {/foreach}
+                        </ul>
+                    </li>
                 {/foreach}
             </ul>
-        </div>
+        </nav>
         <div id="cuerpo">
             <div id="lista">
+                {if empty($entradas) === false}
+                    {include file="verentradas.tpl"}                    
+                {/if}
             </div>            
             <div id="detalle">                 
                 <div id="visualizador">

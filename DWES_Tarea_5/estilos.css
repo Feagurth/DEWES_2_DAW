@@ -53,42 +53,90 @@ Finalmente asignamos los valores de visibilidad y flotabilidad al contenedor */
     display: block;
     float: left;
     background-color: deepskyblue;
-    padding: 0.25vmax 0;    
+    font-family: 'Adamina', serif;
+    font-size: 1vmax;            
 }
 
-/* Quitamos la decoración de las listas, así como sus márgenes */
-#menu ul 
-{
-    overflow: hidden;
-    list-style-type: none;
+
+nav ul ul {
+    display: none;
+}
+
+nav ul li:hover > ul {
+    display: block;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    display: inline-table;
+    vertical-align: middle;
+}
+nav ul:after {
+    content: ""; 
+    clear: both; 
+    display: block;
+}
+
+nav ul li {
+    float: left;
+    padding: 0 0.5vmax;
+    width: 10vmax;
+    border-right: 0.15vmax solid #fff;
+}
+nav ul li:hover {
+    background-color: aquamarine;
+}
+nav ul li:hover a {
+    color: black;
+}
+
+nav ul li {
     margin: 0;
     padding: 0;
 }
 
-/* Asignamos los valores de visibilidad y flotabilidad a los componentes del 
-listado y añadimos un margen lateral */
-#menu li{
-    float: left;
-    display: block;
-    padding: 0.5vmax 0.5vmax;
-    line-height: 100%;    
-}
-
-/* Quitamos el subrayado a los enlaces que conforman los elementos de la lista */
-#menu li a {
+nav ul li a {
+    display: block; 
+    padding: 0.5vmax;
+    color: black;
     text-decoration: none;
-    color: #000;
-    font-family: 'Adamina', serif;
-    font-size: 1.5vmax;    
+    text-align: center;
 }
 
-/* Añadimos el subrayado a los enlaces que conforman los elementos de la lista 
-si ponemos el ratón encima de uno de ellos*/
-#menu li a:hover {
-    text-decoration: underline;
+nav ul ul {
+    background: deepskyblue;     
+    padding: 0;
+    position: absolute; 
+    top: 100%;
+}
+nav ul ul li {
+    float: none; 
+    position: relative;
+    width: 10vmax;
+}
+nav ul ul li a {
+    padding: 0.5vmax;
+    margin: 0;
+    color: #fff;
 }
 
+nav ul ul li:hover {
+    background-color: aquamarine;
+}
 
+nav ul ul ul {
+    position: absolute; 
+    left: 100%; 
+    top:0;
+}
+
+nav ul li ul li a{
+    text-align: left;
+    border-bottom:  0.20vmax solid #fff;    
+}
 
 /* Estilo del cuerpo */
 #cuerpo{
@@ -105,7 +153,7 @@ si ponemos el ratón encima de uno de ellos*/
     display: block;
     float: left;
     border-right: 0.25vmax solid #fff;
-    
+
 }
 
 #cuerpo #detalle{
