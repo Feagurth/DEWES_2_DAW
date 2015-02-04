@@ -11,11 +11,11 @@
             <ul>
                 {foreach from=$menu item=menus}
                     <li>
-                        <a href="#">{$menus.titulo}</a>
+                        <a>{$menus.titulo}</a>
                         <ul>
                             {foreach from=$menus.submenu item=submenu}
                                 <li>
-                                    <a onclick="">{$submenu.titulo}</a>
+                                    <a href="index.php?nav={$submenu.navegacion}">{$submenu.titulo}</a>
                                 </li>
                             {/foreach}
                         </ul>
@@ -23,20 +23,31 @@
                 {/foreach}
             </ul>
         </nav>
-        <div id="cuerpo">
-            <form id="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
-                <div id="lista">
+        <div id="cuerpo">            
+            <div id="lista">
+                {if $navegacion == "1"}
+                    {include file="addentrada.tpl"}                    
+                {/if}
+                {if $navegacion == "2"}
                     {if empty($entradas) === false}
                         {include file="verentradas.tpl"}                    
                     {/if}
-                </div>            
-                <div id="detalle">                 
-                    <div id="visualizador">
-                    </div>
-                    <div id="pdfs">
-                    </div>
+                {/if}
+                {if $navegacion == "3"}
+                    {include file="addsalida.tpl"}                    
+                {/if}
+                {if $navegacion == "4"}
+                    {if empty($salidas) === false}
+                        {include file="versalidas.tpl"}                    
+                    {/if}
+                {/if}                
+            </div>            
+            <div id="detalle">                 
+                <div id="visualizador">
                 </div>
-            </form>
+                <div id="pdfs">
+                </div>
+            </div>
         </div>
     </body>    
 </html>

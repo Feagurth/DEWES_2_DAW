@@ -13,15 +13,14 @@
     <tbody>
         {foreach from=$entradas item=entrada}
             <tr>
-                <td>{$entrada.id}</td>
-                <td>{$entrada.nregistro}</td>
-                <td>{$entrada.tipodoc}</td>
-                <td>{$entrada.fentrada}</td>
-                <td>{$entrada.remitente}</td>
-                <td>{$entrada.destinatario}</td>
-                <td>{$entrada.escaneado}</td>                
-            </tr>
-            
+                <td>{$entrada->getId()}</td>
+                <td>{$entrada->getNreg()}</td>
+                <td>{$entrada->getTipodoc()}</td>
+                <td>{$entrada->getFecha()}</td>
+                <td>{$entrada->getRemitente()}</td>
+                <td>{$entrada->getDestinatario()}</td>
+                <td>{$entrada->getEscaneado()}</td>                
+            </tr>            
         {/foreach}
     </tbody>
 </table>
