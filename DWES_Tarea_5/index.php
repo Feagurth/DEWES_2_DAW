@@ -27,8 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <body>
         <?php
         // Instanciamos los ficheros de configuración y de objetos necesarios
-        require_once './configuracion.inc.php';
+        require_once './configuracion.inc.php';        
         require_once './db.php';
+        require_once './funciones.php';
 
         // Creamos un array para representar el menú desplegable
         $submenu0[0]["navegacion"] = "1";
@@ -46,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         $menu[1]["titulo"] = "Salidas";
         $menu[1]["submenu"] = $submenu1;
-
+        
         // Asignamos el menú a la página
         $html->assign("menu", $menu);
 
@@ -73,6 +74,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         // Recuperamos la fecha actual y la pasamos a 
                         // la asignamos
                         $html->assign("fechaahora", date('Y-m-d'));
+                        
+                        // Calculamos el número de registro correspondiente 
+                        // para la próxima entrada
+                        $html->assign("nreg", calcularNreg("E"));
 
                         break;
                     }
@@ -99,6 +104,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         // Recuperamos la fecha actual y la pasamos a 
                         // la asignamos                    
                         $html->assign("fechaahora", date('Y-m-d'));
+                        
+                        // Calculamos el número de registro correspondiente 
+                        // para la próxima salida
+                        $html->assign("nreg", calcularNreg("E"));
 
                         break;
                     }

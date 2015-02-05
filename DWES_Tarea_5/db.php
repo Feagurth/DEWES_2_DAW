@@ -2,8 +2,6 @@
 
 require_once './registro.php';
 
-//include './configuracion.inc.php';
-
 class DB {
 
     /**
@@ -128,5 +126,19 @@ class DB {
             throw new Exception;
         }
     }
-
+    
+    public static function calcularNReg($tipo)
+    {
+        if ($tipo === "E") {
+            $sql = "Select max(nreg) from entradas;";
+        }
+        else
+        {
+            $sql = "Select max(nreg) from salidas;";            
+        }
+        
+        $resultado = self::ejecutaConsulta($sql);
+        
+        return $resultado->fetch()[0];
+    }
 }

@@ -75,7 +75,7 @@ nav ul {
     list-style: none;
     position: relative;
     display: inline-table;
-    vertical-align: middle;
+    vertical-align: middle;   
 }
 
 /* Espeficamos la inclusión de contenido nulo despues del primer listado para 

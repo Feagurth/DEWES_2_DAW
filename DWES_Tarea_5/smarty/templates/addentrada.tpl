@@ -2,7 +2,7 @@
       <form id="form" action="index.php" method="post" enctype="multipart/form-data">
           <div>
               <h3>Nuevo Registro de Entrada</h3>
-              Nº registro: <input type="text" id="nreg" name="nreg" readonly="1" value=""/>
+              Nº registro: <input type="text" id="nreg" name="nreg" readonly="1" value="{$nreg}"/>
               Tipo Doc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>
               Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fentrada" name="fentrada" value="{$fechaahora}"/>
           </div>

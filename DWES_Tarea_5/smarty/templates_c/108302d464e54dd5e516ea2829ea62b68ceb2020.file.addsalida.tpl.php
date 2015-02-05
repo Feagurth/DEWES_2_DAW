@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-05 15:06:39
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-05 17:23:53
          compiled from ".\smarty\templates\addsalida.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2383654d36d84629068-84209805%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '108302d464e54dd5e516ea2829ea62b68ceb2020' => 
     array (
       0 => '.\\smarty\\templates\\addsalida.tpl',
-      1 => 1423144925,
+      1 => 1423152785,
       2 => 'file',
     ),
   ),
@@ -19,6 +19,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'unifunc' => 'content_54d36d84656cd4_32461894',
   'variables' => 
   array (
+    'nreg' => 0,
     'fechaahora' => 0,
   ),
   'has_nocache_code' => false,
@@ -27,7 +28,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       <form id="form" action="index.php" method="post" enctype="multipart/form-data">
           <div>
               <h3>Nuevo Registro de Salida</h3>
-              Nº registro: <input type="text" id="nreg" name="nreg" readonly="1" value=""/>
+              Nº registro: <input type="text" id="nreg" name="nreg" readonly="1" value="<?php echo $_smarty_tpl->tpl_vars['nreg']->value;?>
+"/>
               Tipo Doc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>
               Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fsalida" name="fsalida" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
 "/>
