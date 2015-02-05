@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* Importamos las fuentes de Google usando @import */
-
 @import url(http://fonts.googleapis.com/css?family=Adamina);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
@@ -46,8 +45,8 @@ contenedor */
 /* Estilos del menú */
 
 /* Definimos el ancho para que ocupe todo el ancho de la pantalla. Así mismo 
-definimos un color de fondo para el contenedor y un relleno superior e inferior.
-Finalmente asignamos los valores de visibilidad y flotabilidad al contenedor */
+definimos un color de fondo para el contenedor, los valores de visibilidad y 
+flotabilidad, así como el tipo de letra y su tamaño*/
 #menu{
     width: 100%;
     display: block;
@@ -57,15 +56,19 @@ Finalmente asignamos los valores de visibilidad y flotabilidad al contenedor */
     font-size: 1vmax;            
 }
 
-
+/* Ocultamos la segunda lista de enlaces */
 nav ul ul {
     display: none;
 }
 
+/* Y mostramos la segunda lista de enlaces si nos posicionamos en un enlace de 
+la primera lista */
 nav ul li:hover > ul {
     display: block;
 }
 
+/* Deffinimos los margenes y el relleno, quitamos los marcadores de la lista y 
+especificamos los valores de visibilidad y de posicionamiento */
 nav ul {
     margin: 0;
     padding: 0;
@@ -74,30 +77,42 @@ nav ul {
     display: inline-table;
     vertical-align: middle;
 }
+
+/* Espeficamos la inclusión de contenido nulo despues del primer listado para 
+limpiar los valores especificados de estilos */
 nav ul:after {
     content: ""; 
     clear: both; 
     display: block;
 }
 
+/* Espeficiamos el rellenos, el ancho y un borde para los enlaces de la lista */
 nav ul li {
     float: left;
     padding: 0 0.5vmax;
     width: 10vmax;
     border-right: 0.15vmax solid #fff;
 }
+
+/* Cambiamos el color del elemento de la lista que esté seleccionado por el 
+ratón */
 nav ul li:hover {
     background-color: aquamarine;
 }
+
+/* Especificamos el color del texto de los enlaces que estén seleccionados por 
+el ratón */
 nav ul li:hover a {
     color: black;
 }
 
+/* Especificamos los marges y el relleno de los elementos de la lista */
 nav ul li {
     margin: 0;
     padding: 0;
 }
 
+/* Definimos los valores de estilo de los enlaces de la lista */
 nav ul li a {
     display: block; 
     padding: 0.5vmax;
@@ -106,39 +121,37 @@ nav ul li a {
     text-align: center;
 }
 
+/* Definimos los valores de estilo de la segunda lista */
 nav ul ul {
     background: deepskyblue;     
     padding: 0;
     position: absolute; 
     top: 100%;
 }
+
+/* Especificamos los marges y el relleno de los elementos de la segunda lista */
 nav ul ul li {
     float: none; 
     position: relative;
     width: 10vmax;
 }
+
+/* Definimos los valores de estilo de los enlaces de la segunda lista */
 nav ul ul li a {
     padding: 0.5vmax;
     margin: 0;
     color: #fff;
 }
 
+/* Definimos el color de fondo de los elementos selecionados por el ratón de la 
+segunda lista */
 nav ul ul li:hover {
     background-color: aquamarine;
 }
 
-nav ul ul ul {
-    position: absolute; 
-    left: 100%; 
-    top:0;
-}
-
-nav ul li ul li a{
-    text-align: left;
-    border-bottom:  0.20vmax solid #fff;    
-}
-
 /* Estilo del cuerpo */
+
+/* Definimos los valore de estilo generales del cuerpo */
 #cuerpo{
     width: 100%;
     display: block;
@@ -146,6 +159,8 @@ nav ul li ul li a{
     height: 35vmax;
 }
 
+/* Definimos los valore de estilo específicos de la zona de listado e 
+insercción de la página */
 #cuerpo #lista{
     background-color: chartreuse;
     width: 75%;
@@ -153,15 +168,65 @@ nav ul li ul li a{
     display: block;
     float: left;
     border-right: 0.25vmax solid #fff;
-
 }
 
+/* Estilos de tablas de listado */
+
+/* Especificamos el margen y el tamaño de la tabla, así como el tipo de borde 
+que tendrá */
+#cuerpo #lista .listado table {
+    margin: 0.5vmax;
+    border-collapse: collapse;
+    width: 98%;
+}
+
+/* Definimos el ancho, color y tipo de linea que tendrán los bordes de la tabla 
+así como el alineamiento del texto */
+#cuerpo #lista .listado table, th, td {
+    border: 0.15vmax solid black;
+    text-align: center;
+}
+
+/* Definimos el ancho de los encabezamientos de la tabla */
+#cuerpo #lista .listado th
+{
+    width: 10%;
+}
+
+/* Definimos los texto de la cabecera como negrita */ 
+#cuerpo #lista .listado thead
+{
+    font-weight: bold;
+}
+
+/* Especificamos el tamaño que van a tener las imágenes que se encuentren 
+dentro del listado*/
+#cuerpo #lista .listado img
+{
+    width: 1.25vmax;
+}
+
+/* Finalmente cambiamos el color de fondo de las filas dependiendo de la 
+clase */
+#cuerpo #lista .listado tbody tr.pijama1{
+    background-color: lightgrey;
+}
+
+/* Finalmente cambiamos el color de fondo de las filas dependiendo de la 
+clase */
+#cuerpo #lista .listado tr.pijama2{
+    background-color: blanchedalmond;
+}    
+
+/*  Definimos los valores generales de la zona de detalle, donde se mostrarán 
+los archivos enlazados y los pdf's'*/
 #cuerpo #detalle{
     width: 24.7%;
     display: block;
     float: right;
 }
 
+/* Definimos los valore de estilo específicos de la zona de visualización de pdfs */
 #cuerpo #detalle #visualizador{
     width: 100%;
     height: 30vmax;
@@ -169,6 +234,7 @@ nav ul li ul li a{
     border-bottom: 0.25vmax solid #fff;
 }
 
+/* Definimos los valore de estilo específicos de la zona de listado de pdfs */
 #cuerpo #detalle #pdfs{
     width: 100%;
     height: 4.75vmax;

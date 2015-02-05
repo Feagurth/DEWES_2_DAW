@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-04 22:01:11
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-05 04:06:34
          compiled from ".\smarty\templates\verentradas.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1747354d039ef52ea78-02777453%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7522023f3a245428c1e35db70016bd101f10e16a' => 
     array (
       0 => '.\\smarty\\templates\\verentradas.tpl',
-      1 => 1423083624,
+      1 => 1423105585,
       2 => 'file',
     ),
   ),
@@ -24,41 +24,53 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_54d039ef52ea73_33759592')) {function content_54d039ef52ea73_33759592($_smarty_tpl) {?><table>
-    <thead>
-        <tr>
-            <td>Id</td>    
-            <td>Nº Registro</td>    
-            <td>Tipo de Documento</td>    
-            <td>Fecha Entrada</td>    
-            <td>Remitente</td>    
-            <td>Destinatario</td>    
-            <td>Escaneado</td>    
-        </tr>        
-    </thead>    
-    <tbody>
-        <?php  $_smarty_tpl->tpl_vars['entrada'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['entrada']->_loop = false;
+<?php if ($_valid && !is_callable('content_54d039ef52ea73_33759592')) {function content_54d039ef52ea73_33759592($_smarty_tpl) {?><div class="listado">
+    <table>
+        <thead>
+            <tr>
+                <td>Id</td>    
+                <td>Nº Registro</td>    
+                <td>Tipo de Documento</td>    
+                <td>Fecha Entrada</td>    
+                <td>Remitente</td>    
+                <td>Destinatario</td>    
+                <td>Escaneado</td>    
+            </tr>        
+        </thead>    
+        <tbody>
+            <?php  $_smarty_tpl->tpl_vars['entrada'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['entrada']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['entradas']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+ $_smarty_tpl->tpl_vars['entrada']->iteration=0;
 foreach ($_from as $_smarty_tpl->tpl_vars['entrada']->key => $_smarty_tpl->tpl_vars['entrada']->value) {
 $_smarty_tpl->tpl_vars['entrada']->_loop = true;
+ $_smarty_tpl->tpl_vars['entrada']->iteration++;
 ?>
-            <tr>
-                <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getId();?>
+                <?php if (!($_smarty_tpl->tpl_vars['entrada']->iteration % 2)) {?>
+                    <tr class="pijama1">
+                <?php } else { ?>
+                    <tr class="pijama2">
+                <?php }?>
+                    <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getId();?>
 </td>
-                <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getNreg();?>
+                    <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getNreg();?>
 </td>
-                <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getTipodoc();?>
+                    <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getTipodoc();?>
 </td>
-                <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getFecha();?>
+                    <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getFecha();?>
 </td>
-                <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getRemitente();?>
+                    <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getRemitente();?>
 </td>
-                <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getDestinatario();?>
+                    <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getDestinatario();?>
 </td>
-                <td><?php echo $_smarty_tpl->tpl_vars['entrada']->value->getEscaneado();?>
-</td>                
-            </tr>            
-        <?php } ?>
-    </tbody>
-</table>
-<?php }} ?>
+                    <td>
+                        <?php if ($_smarty_tpl->tpl_vars['entrada']->value->getEscaneado()==="0") {?>
+                            <img src='imagenes/no_file.png' alt='No hay fichero asociado al registro' title='No hay fichero asociado al registro'>
+                        <?php } else { ?>
+                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro'>
+                        <?php }?>
+                    </td>               
+                </tr>            
+            <?php } ?>
+        </tbody>
+    </table>
+</div><?php }} ?>

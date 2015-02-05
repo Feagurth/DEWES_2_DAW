@@ -56,25 +56,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         break;
                     }
                 case 2: {
-                        $entradas[0]["id"] = "1";
-                        $entradas[0]["nregistro"] = "2014/2015-001";
-                        $entradas[0]["tipodoc"] = "uiuiui";
-                        $entradas[0]["fentrada"] = "06/12/2014";
-                        $entradas[0]["remitente"] = "uuuu";
-                        $entradas[0]["destinatario"] = "uuu";
-                        $entradas[0]["escaneado"] = "1";
 
-                        $entradas[1]["id"] = "2";
-                        $entradas[1]["nregistro"] = "2014/2015-002";
-                        $entradas[1]["tipodoc"] = "fsdfsd";
-                        $entradas[1]["fentrada"] = "07/12/2014";
-                        $entradas[1]["remitente"] = "gter";
-                        $entradas[1]["destinatario"] = "32ffwe";
-                        $entradas[1]["escaneado"] = "0";
-                        
-                        $entradas = DB::listarEntradas();
-                                                
-                        $html->assign("entradas", $entradas);
+                        try {
+                            $datos = DB::listarEntradas();
+
+                            $html->assign("entradas", $datos);
+                        } catch (Exception $ex) {
+                            unset($datos);
+                        }
+
                         break;
                     }
                 case 3: {
@@ -82,30 +72,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         break;
                     }
                 case 4: {
-                        $salidas[0]["id"] = "1";
-                        $salidas[0]["nregistro"] = "2014/2015-001";
-                        $salidas[0]["tipodoc"] = "uiuiui";
-                        $salidas[0]["fentrada"] = "06/12/2014";
-                        $salidas[0]["remitente"] = "uuuu";
-                        $salidas[0]["destinatario"] = "uuu";
-                        $salidas[0]["escaneado"] = "1";
+                        try {
+                            $datos = DB::listarSalidas();
 
-                        $salidas[1]["id"] = "2";
-                        $salidas[1]["nregistro"] = "2014/2015-002";
-                        $salidas[1]["tipodoc"] = "fsdfsd";
-                        $salidas[1]["fentrada"] = "07/12/2014";
-                        $salidas[1]["remitente"] = "gter";
-                        $salidas[1]["destinatario"] = "32ffwe";
-                        $salidas[1]["escaneado"] = "0";
+                            $html->assign("salidas", $datos);
+                        } catch (Exception $ex) {
+                            unset($datos);
+                        }
 
-                        $html->assign("salidas", $salidas);
                         break;
                     }
             }
         } else {
             $html->assign("navegacion", 0);
         }
-        
+
         $html->display("index.tpl");
         ?>
     </body>
