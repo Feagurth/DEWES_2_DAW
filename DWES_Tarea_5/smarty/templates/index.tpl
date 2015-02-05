@@ -1,8 +1,7 @@
 <html>
     <head>
         <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8"/>
-        <link type = "text/css" rel = "stylesheet" href = "estilos.css"/>
-        <link type="text/javascript" href="../../scripts.js" />
+        <link type = "text/css" rel = "stylesheet" href = "estilos.css"/>        
         <title>{$titulo}</title>
     </head>
     <body>
@@ -25,18 +24,18 @@
         </nav>
         <div id="cuerpo">            
             <div id="lista">
-                {if $navegacion == "1"}
+                {if $nav == "1"}
                     {include file="addentrada.tpl"}                    
                 {/if}
-                {if $navegacion == "2"}
+                {if $nav == "2"}
                     {if empty($entradas) === false}
                         {include file="verentradas.tpl"}                    
                     {/if}
                 {/if}
-                {if $navegacion == "3"}
+                {if $nav == "3"}
                     {include file="addsalida.tpl"}                    
                 {/if}
-                {if $navegacion == "4"}
+                {if $nav == "4"}
                     {if empty($salidas) === false}
                         {include file="versalidas.tpl"}                    
                     {/if}

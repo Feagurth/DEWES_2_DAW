@@ -241,3 +241,14 @@ los archivos enlazados y los pdf's'*/
     background-color: fuchsia;
 }
 
+
+#nuevo_registro
+{
+    border: 0.15vmax solid #000;
+    margin: 0.5vmax;
+}
+
+#nuevo_registro div
+{
+    margin: 0.5vmax;
+}
