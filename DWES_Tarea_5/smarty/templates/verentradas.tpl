@@ -2,7 +2,6 @@
     <table>
         <thead>
             <tr>
-                <td>Id</td>    
                 <td>Nº Registro</td>    
                 <td>Tipo de Documento</td>    
                 <td>Fecha Entrada</td>    
@@ -18,7 +17,6 @@
                 {else}
                     <tr class="pijama2">
                 {/if}
-                    <td>{$entrada->getId()}</td>
                     <td>{$entrada->getNreg()}</td>
                     <td>{$entrada->getTipodoc()}</td>
                     <td>{$entrada->getFecha()}</td>

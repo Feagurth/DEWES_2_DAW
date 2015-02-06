@@ -218,6 +218,41 @@ clase */
     background-color: blanchedalmond;
 }    
 
+/* Estilos de la plantilla de añadir registros  */
+
+/* Definimos el borde y los margenes del contenedor donde aparecerán los 
+controles para añadir registros */
+#nuevo_registro
+{
+    border: 0.15vmax solid #000;
+    margin: 0.5vmax;
+}
+
+/* Definimos los margenes para la cabecera */
+#nuevo_registro h3{
+    margin: 0.5vmax;
+}
+
+/* Definimos un marco extra para el contenedor interior */
+#nuevo_registro div
+{
+    margin: 0.5vmax;
+    height: 2vmax;
+}
+
+/* Establecemos el ancho de los controles */
+#nuevo_registro input[type=date],
+#nuevo_registro input[type=text]{
+    width: 10.5vmax;
+}
+/* Y habilitamos el ancho automático en el checkbox */
+#nuevo_registro input[type=checkbox]{
+    width: auto;
+}
+
+
+/* Zona de detalle */
+
 /*  Definimos los valores generales de la zona de detalle, donde se mostrarán 
 los archivos enlazados y los pdf's'*/
 #cuerpo #detalle{
@@ -239,16 +274,4 @@ los archivos enlazados y los pdf's'*/
     width: 100%;
     height: 4.75vmax;
     background-color: fuchsia;
-}
-
-
-#nuevo_registro
-{
-    border: 0.15vmax solid #000;
-    margin: 0.5vmax;
-}
-
-#nuevo_registro div
-{
-    margin: 0.5vmax;
 }

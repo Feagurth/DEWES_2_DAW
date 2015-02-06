@@ -28,8 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <?php
         // Instanciamos los ficheros de configuración y de objetos necesarios
         require_once './configuracion.inc.php';        
-        require_once './db.php';
+        require_once './Db.php';
+        require_once './Fichero.php';
         require_once './funciones.php';
+        require_once './Registro.php';
 
         // Creamos un array para representar el menú desplegable
         $submenu0[0]["navegacion"] = "1";
@@ -47,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         $menu[1]["titulo"] = "Salidas";
         $menu[1]["submenu"] = $submenu1;
-        
+
         // Asignamos el menú a la página
         $html->assign("menu", $menu);
 
@@ -70,14 +72,80 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 // Si es 1 es añadir una entrada
                 case 1: {
+                        // Comprobamos si en la información del POST de la página hay 
+                        // información de algún destinatario. De no ser así, es la primera 
+                        // carga de la página. En caso contrario, la carga es para validar 
+                        // e insertar un registro.                        
+                        if (empty($_POST['dest'])) {
 
-                        // Recuperamos la fecha actual y la pasamos a 
-                        // la asignamos
-                        $html->assign("fechaahora", date('Y-m-d'));
-                        
-                        // Calculamos el número de registro correspondiente 
-                        // para la próxima entrada
-                        $html->assign("nreg", calcularNreg("E"));
+                            // Si los datos del post están vacios, es una nueva 
+                            // entrada por lo que recuperamos la fecha actual 
+                            // y la asignamos
+                            $html->assign("fechaahora", date('Y-m-d'));
+
+                            // Calculamos el número de registro correspondiente 
+                            // para la próxima entrada
+                            $html->assign("nreg", calcularNreg("E"));
+                        } else {
+                            // Si es una insercción, volcamos los valores a insertar en 
+                            // variables directamente desde el POST de la página
+                            $nreg = $_POST['nreg'];
+                            $tipodoc = $_POST['tipodoc'];
+                            $fentrada = $_POST['fentrada'];
+                            $remit = $_POST['remit'];
+                            $dest = $_POST['dest'];
+
+                            // Hay que verificar si el POST trae valores para el checkbox 
+                            // de escaneado, puesto que si solo aparece el valor on si el 
+                            // checkbox ha sido marcado. Si no se ha marcado el checkbox, 
+                            // el POST no trae información alguna. Le asignamos 1 en caso 
+                            // de estar marcado y 0 si no lo está
+                            $esc = (isset($_POST['esc']) ? "1" : "0");
+
+                            // Verificamos si está marcado el checkbox
+                            if ($esc == 1 && isset($_FILES['addfile'])) {
+
+                                // Comprobamos si hay información en los ficheros subidos al 
+                                // servidor y si se ha producido algún error en la subida de 
+                                // los mismos
+                                if (isset($_FILES['addfile'])) {
+
+                                    // Reordenamos los ficheros que hay en $_FILES para que 
+                                    // nos sea más facil trabajar luego con ellos
+                                    $archivos = ordenarFicheros($_FILES);
+
+                                    // Creamos un array nuevo
+                                    $ficheros = array();
+
+                                    xdebug_break();
+
+                                    // Recorremos todos los archivos para tratarlos
+                                    foreach ($archivos as $file) {
+                                        
+                                        // Creamos un nuevo objeto fichero
+                                        $fichero = new Fichero();
+                                        
+                                        // Le asignamos el nombre
+                                        $fichero->setNombre($file['name']);
+                                        
+                                        // Le asignamos el tamaño
+                                        $fichero->setTamanyo($file['size']);
+                                        
+                                        // Le asignamos el tipo
+                                        $fichero->setTipo($file['type']);
+
+                                        // Recuperamos la información del fichero con la función 
+                                        // fopen especificando 'rb' como parámetro para que lea 
+                                        // el fichero en binario, guardandolo en una variable 
+                                        // tipo stream y lo asignamos al fichero
+                                        $fichero->setDocumento(fopen($file['tmp_name'], 'rb'));
+
+                                        // Almacenamos el fichero en el array
+                                        $ficheros[] = $fichero;
+                                    }
+                                }
+                            }
+                        }
 
                         break;
                     }
@@ -104,10 +172,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         // Recuperamos la fecha actual y la pasamos a 
                         // la asignamos                    
                         $html->assign("fechaahora", date('Y-m-d'));
-                        
+
                         // Calculamos el número de registro correspondiente 
                         // para la próxima salida
-                        $html->assign("nreg", calcularNreg("E"));
+                        $html->assign("nreg", calcularNreg("S"));
 
                         break;
                     }

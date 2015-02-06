@@ -111,7 +111,7 @@ function calcularPeriodoActual() {
     // Comprobamos el mes actual, si es mayor o igual a 9 (Septiembre) indica 
     // un nuevo periodo
     if ($fecha['mon'] >= 9) {
-        
+
         // Para periodos con mes igual o superior a Septiembre, devolvemos el 
         // año actual y el siguiente formateados
         return $fecha['year'] . "/" . ($fecha['year'] + 1) . "-";
@@ -135,7 +135,7 @@ function calcularNreg($tipo) {
     // Realizamos una consulta para recuperar el número de registro más alto 
     // que haya en la tabla de entradas de la base de datos    
 
-    
+
     $nreg = DB::calcularNReg($tipo);
 
     $periodoActual = calcularPeriodoActual();
@@ -160,4 +160,38 @@ function calcularNreg($tipo) {
 
     // Finalmente devolvemos el valor generado
     return $nreg;
+}
+
+/**
+ * Función que nos permite reordenar los ficheros subidos al servidor y 
+ * alojados en $_FILES dandoles una estructura más comoda para procesarlos
+ * @param type $ficheros Los ficheros alojados en $_FILES
+ * @return type Un array con la información de los ficheros ordenada por fichero
+ */
+function ordenarFicheros($ficheros) {
+
+    // Creamos un nuevo array para almacenar los datos y devolverlos 
+    // posteriormente
+    $salida = array();
+
+    // Comprobamos y almacenamos el número de ficheros que se han subido
+    $cuenta = count($ficheros['addfile']['name']);
+
+    // Recuperamos las claves del array de ficheros
+    $claves = array_keys($ficheros['addfile']);
+
+    // Iteramos tantas veces como ficheros haya
+    for ($i = 0; $i < $cuenta; $i++) {
+
+        // Iteramos por todas las claves que hay en el array de entrada
+        foreach ($claves as $clave) {
+
+            // Asignamos al fichero de salida cada uno de las claves del 
+            // array de entrada para cada iteración de ficheros
+            $salida[$i][$clave] = $ficheros['addfile'][$clave][$i];
+        }
+    }
+
+    // Finalmente devolvemos el resultado
+    return $salida;
 }

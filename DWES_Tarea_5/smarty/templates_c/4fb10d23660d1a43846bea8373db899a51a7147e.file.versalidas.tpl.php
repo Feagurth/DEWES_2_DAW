@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-05 16:40:46
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-06 14:18:12
          compiled from ".\smarty\templates\versalidas.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2874954d26f3e73ec30-54686254%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '4fb10d23660d1a43846bea8373db899a51a7147e' => 
     array (
       0 => '.\\smarty\\templates\\versalidas.tpl',
-      1 => 1423149762,
+      1 => 1423228686,
       2 => 'file',
     ),
   ),
@@ -28,7 +28,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <table>
         <thead>
             <tr>
-                <td>Id</td>    
                 <td>Nº Registro</td>    
                 <td>Tipo de Documento</td>    
                 <td>Fecha Salida</td>    
@@ -50,8 +49,6 @@ $_smarty_tpl->tpl_vars['salida']->_loop = true;
                 <?php } else { ?>
                     <tr class="pijama2">
                 <?php }?>
-                    <td><?php echo $_smarty_tpl->tpl_vars['salida']->value->getId();?>
-</td>
                     <td><?php echo $_smarty_tpl->tpl_vars['salida']->value->getNreg();?>
 </td>
                     <td><?php echo $_smarty_tpl->tpl_vars['salida']->value->getTipodoc();?>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-05 17:23:00
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-06 14:55:42
          compiled from ".\smarty\templates\addentrada.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2754554d3633776a1b4-30768154%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '6d61398e0160064d48c853bc96af01d39f50ff6b' => 
     array (
       0 => '.\\smarty\\templates\\addentrada.tpl',
-      1 => 1423152778,
+      1 => 1423230926,
       2 => 'file',
     ),
   ),
@@ -25,24 +25,27 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54d363378aa8b5_36092757')) {function content_54d363378aa8b5_36092757($_smarty_tpl) {?><div id="nuevo_registro">
-      <form id="form" action="index.php" method="post" enctype="multipart/form-data">
-          <div>
-              <h3>Nuevo Registro de Entrada</h3>
-              Nº registro: <input type="text" id="nreg" name="nreg" readonly="1" value="<?php echo $_smarty_tpl->tpl_vars['nreg']->value;?>
+    <form id="form" action="index.php?nav=1" method="post" enctype="multipart/form-data">
+        <h3>Nuevo Registro de Entrada</h3>
+        <div>            
+            Nº registro:&nbsp;<input type="text" id="nreg" name="nreg" readonly="1" value="<?php echo $_smarty_tpl->tpl_vars['nreg']->value;?>
 "/>
-              Tipo Doc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>
-              Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fentrada" name="fentrada" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
-"/>
-          </div>
-          <div>
-              Remitente:&nbsp;&nbsp;<input type="text" id="remit" name="remit"/>
-              Destinatario: <input type="text" id="dest" name="dest"/>
-              Escaneado: <input type="checkbox" id="esc" name="esc" onclick="mostrarOcultar(document.getElementById('esc').checked);" />&nbsp;&nbsp;
-              <input type="file" id="addfile" name="addfile" readonly="1" value="" />
-          </div>
-          <div>
-              <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">              
-          </div>
+            Remitente:&nbsp;<input type="text" id="remit" name="remit"/>
+            Destinatario:&nbsp;<input type="text" id="dest" name="dest"/>
+        </div>
+        <div>
+            Tipo Doc:&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>                            
+            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fentrada" name="fentrada" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
+"/>              
+        </div>
+        <div>
+            Escaneado: <input type="checkbox" id="esc" name="esc" onclick="mostrarOcultar(document.getElementById('esc').checked);" />&nbsp;&nbsp;
+            <!-- Añadimos multiple="" y definimos el nombre con corchetes como un array al input tipo file para permitir la selección de multiples ficheros -->
+            <input type="file" id="addfile" name="addfile[]" readonly="1" value="" multiple="" />
+        </div>              
+        <div>
+            <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">              
+        </div>
      </form>
   </div>
 <!-- Ejecutamos la función para ocultar el botón de añadir fichero al cargar 

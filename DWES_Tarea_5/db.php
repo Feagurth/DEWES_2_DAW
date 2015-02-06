@@ -1,6 +1,6 @@
 <?php
 
-require_once './registro.php';
+require_once './Registro.php';
 
 class DB {
 
@@ -53,7 +53,9 @@ class DB {
     public static function listarEntradas() {
 
         // Especificamos la consulta que vamos a realizar sobre la base de datos
-        $sql = "SELECT id_entrada as id, nreg, tipodoc, fentrada as fecha, remit, dest, esc, id_documento FROM entradas;";
+        $sql = "SELECT id_entrada as id, nreg, tipodoc, fentrada as fecha, remit, "
+                . "dest, esc, id_documento from entradas order by fentrada desc, "
+                . "id_entrada desc;";
 
         // Llamamos la a la función protegida de la clase para realizar la consulta
         $resultado = self::ejecutaConsulta($sql);
@@ -94,7 +96,9 @@ class DB {
     public static function listarSalidas() {
 
         // Especificamos la consulta que vamos a realizar sobre la base de datos
-        $sql = "SELECT id_salida as id, nreg, tipodoc, fsalida as fecha, remit, dest, esc, id_documento FROM salidas;";
+        $sql = "SELECT id_salida as id, nreg, tipodoc, fsalida as fecha, remit, "
+                . "dest, esc, id_documento from salidas order by fsalida desc, "
+                . "id_salida desc;";
 
         // Llamamos la a la función protegida de la clase para realizar la consulta
         $resultado = self::ejecutaConsulta($sql);
