@@ -23,67 +23,68 @@
  * @author Luis Cabrerizo Gomez
  */
 class Registro {
-    
+
     /**
      * Variable para almacenar el id del registros
      * @var Integer
      */
     private $id;
-    
+
     /**
      * Variable para almacenar el número de registro
      * @var String
      */
     private $nreg;
-    
+
+    /**
+     * Variable para almacenar el tipo de registro
+     * @var type String
+     */
+    private $tipo_reg;
+
     /**
      * Variable para almacenar el tipo de documento
      * @var String
      */
     private $tipodoc;
-    
+
     /**
      * Variable para almacenar la fecha de entrada o salida del registro
      * @var Date YYYY-mm-dd
      */
     private $fecha;
-    
+
     /**
      * Variable para almacenar el nombre del remitente
      * @var Cadena
      */
     private $remitente;
-    
+
     /**
      * Variable para almacenar el nombre del destinatario
      * @var Candea
      */
     private $destinatario;
-    
+
     /**
      * Variable para almacenar si el registro tiene un fichero escaneado asignado
      * @var Boolean
      */
     private $escaneado;
-    
-    /**
-     * Variable para almacenar el id del fichero escaneado
-     * @var type 
-     */
-    private $iddocumento;
 
-    public function __construct($row) {        
+    
+    
+    public function __construct($row) {
         $this->id = $row['id'];
         $this->nreg = $row['nreg'];
+        $this->tipo_reg = $row['tipo_reg'];
         $this->tipodoc = $row['tipodoc'];
         $this->fecha = $row['fecha'];
         $this->remitente = $row['remit'];
         $this->destinatario = $row['dest'];
         $this->escaneado = $row['esc'];
-        $this->iddocumento = $row['id_documento'];
-    }    
-    
-    
+    }
+
     /**
      * Método que devuelve el identificador del registro
      * @return Integer
@@ -98,6 +99,14 @@ class Registro {
      */
     public function getNreg() {
         return $this->nreg;
+    }
+
+    /**
+     * Método que nos permite asignar el tipo de registro del documento  al registro
+     * @return type E si es de entrada, S si es de salida
+     */
+    public function getTipo_reg() {
+        return $this->tipo_reg;
     }
 
     /**
@@ -141,19 +150,19 @@ class Registro {
     }
 
     /**
-     * Método que devuelve el identificador del archivo asociado al registro
-     * @return Integer
-     */
-    public function getIddocumento() {
-        return $this->iddocumento;
-    }
-
-    /**
      * Método que nos permite asignar el número de registro al registro
      * @param type $nreg Número del registro
      */
     public function setNreg($nreg) {
         $this->nreg = $nreg;
+    }
+
+    /**
+     * Método que nos permite asignar al tipo de registro si tiene un archivo asociado
+     * @param type $tipo_reg E si es de entrada, S si es de salida
+     */
+    public function setTipo_reg($tipo_reg) {
+        $this->tipo_reg = $tipo_reg;
     }
 
     /**
@@ -194,14 +203,6 @@ class Registro {
      */
     public function setEscaneado($escaneado) {
         $this->escaneado = $escaneado;
-    }
-
-    /**
-     * Método que nos permite asignar el identificador del fichero asociado al registro
-     * @param type $iddocumento El identificador del fichero asociado
-     */
-    public function setIddocumento($iddocumento) {
-        $this->iddocumento = $iddocumento;
     }
 
 }

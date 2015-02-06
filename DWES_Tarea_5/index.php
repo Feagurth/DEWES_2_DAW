@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <body>
         <?php
         // Instanciamos los ficheros de configuración y de objetos necesarios
-        require_once './configuracion.inc.php';        
+        require_once './configuracion.inc.php';
         require_once './Db.php';
         require_once './Fichero.php';
         require_once './funciones.php';
@@ -76,22 +76,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         // información de algún destinatario. De no ser así, es la primera 
                         // carga de la página. En caso contrario, la carga es para validar 
                         // e insertar un registro.                        
-                        if (empty($_POST['dest'])) {
-
-                            // Si los datos del post están vacios, es una nueva 
-                            // entrada por lo que recuperamos la fecha actual 
-                            // y la asignamos
-                            $html->assign("fechaahora", date('Y-m-d'));
-
-                            // Calculamos el número de registro correspondiente 
-                            // para la próxima entrada
-                            $html->assign("nreg", calcularNreg("E"));
-                        } else {
+                        if (!empty($_POST['dest'])) {
                             // Si es una insercción, volcamos los valores a insertar en 
                             // variables directamente desde el POST de la página
                             $nreg = $_POST['nreg'];
                             $tipodoc = $_POST['tipodoc'];
-                            $fentrada = $_POST['fentrada'];
+                            $fecha = $_POST['fentrada'];
                             $remit = $_POST['remit'];
                             $dest = $_POST['dest'];
 
@@ -101,6 +91,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             // el POST no trae información alguna. Le asignamos 1 en caso 
                             // de estar marcado y 0 si no lo está
                             $esc = (isset($_POST['esc']) ? "1" : "0");
+
+                            // Creamos un array nuevo para almacenar posteriormente los 
+                            // ficheros en objetos si es que los ubiese
+                            $ficheros = array();
+
 
                             // Verificamos si está marcado el checkbox
                             if ($esc == 1 && isset($_FILES['addfile'])) {
@@ -114,23 +109,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     // nos sea más facil trabajar luego con ellos
                                     $archivos = ordenarFicheros($_FILES);
 
-                                    // Creamos un array nuevo
-                                    $ficheros = array();
-
-                                    xdebug_break();
 
                                     // Recorremos todos los archivos para tratarlos
                                     foreach ($archivos as $file) {
-                                        
+
                                         // Creamos un nuevo objeto fichero
                                         $fichero = new Fichero();
-                                        
+
                                         // Le asignamos el nombre
                                         $fichero->setNombre($file['name']);
-                                        
+
                                         // Le asignamos el tamaño
                                         $fichero->setTamanyo($file['size']);
-                                        
+
                                         // Le asignamos el tipo
                                         $fichero->setTipo($file['type']);
 
@@ -145,7 +136,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     }
                                 }
                             }
+
+                            xdebug_break();
+
+                            $registro = new Registro(array(
+                                'id' => 0,
+                                'nreg' => $nreg,
+                                'tipo_reg' => 'E',
+                                'tipodoc' => $tipodoc,
+                                'fecha' => $fecha,
+                                'remit' => $remit,
+                                'dest' => $dest,
+                                'esc' => sizeof($ficheros) > 0 ? 1 : 0
+                            ));
+
+                            if ($registro->getEscaneado() === 0) {
+                                $result = DB::insertarRegistro($registro);
+                            } else {
+                                
+                            }
                         }
+
+                        // Para finalizar asignamos la fecha actual 
+                        $html->assign("fechaahora", date('Y-m-d'));
+
+                        // Calculamos el número de registro correspondiente 
+                        // para la próxima entrada
+                        $html->assign("nreg", calcularNreg("E"));
+
 
                         break;
                     }

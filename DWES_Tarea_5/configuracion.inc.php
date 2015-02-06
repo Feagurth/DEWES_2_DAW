@@ -9,7 +9,7 @@ $html->config_dir = './smarty/configs';
 $html->cache_dir = './smarty/cache';
 
 $serv = "localhost";
-$base = "gestion";
+$base = "gestion2";
 $usu = "dwes";
 $pas = "abc123.";
 

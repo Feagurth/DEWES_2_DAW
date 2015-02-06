@@ -53,9 +53,11 @@ class DB {
     public static function listarEntradas() {
 
         // Especificamos la consulta que vamos a realizar sobre la base de datos
-        $sql = "SELECT id_entrada as id, nreg, tipodoc, fentrada as fecha, remit, "
-                . "dest, esc, id_documento from entradas order by fentrada desc, "
-                . "id_entrada desc;";
+        $sql = "SELECT id as id, nreg, tipo_reg, tipodoc, fecha, remit, dest, "
+                . "IF((SELECT count(*) from documentos d where "
+                . "d.id_registro = r.id AND r.tipo_reg = 'E') > 0, 1, 0) as esc "
+                . "from registros r where tipo_reg ='E' order by fecha desc, "
+                . "id desc;";
 
         // Llamamos la a la función protegida de la clase para realizar la consulta
         $resultado = self::ejecutaConsulta($sql);
@@ -95,10 +97,14 @@ class DB {
      */
     public static function listarSalidas() {
 
+        xdebug_break();
+        
         // Especificamos la consulta que vamos a realizar sobre la base de datos
-        $sql = "SELECT id_salida as id, nreg, tipodoc, fsalida as fecha, remit, "
-                . "dest, esc, id_documento from salidas order by fsalida desc, "
-                . "id_salida desc;";
+        $sql = "SELECT id as id, nreg, tipo_reg, tipodoc, fecha, remit, dest, "
+                . "IF((SELECT count(*) from documentos d where "
+                . "d.id_registro = r.id AND r.tipo_reg = 'S') > 0, 1, 0) as esc "
+                . "from registros r where tipo_reg ='S' order by fecha desc, "
+                . "id desc;";
 
         // Llamamos la a la función protegida de la clase para realizar la consulta
         $resultado = self::ejecutaConsulta($sql);
@@ -130,19 +136,56 @@ class DB {
             throw new Exception;
         }
     }
+
     
-    public static function calcularNReg($tipo)
-    {
-        if ($tipo === "E") {
-            $sql = "Select max(nreg) from entradas;";
+    public static function insertarRegistro(Registro $registro)
+    {          
+        // Creamos la consulta de insercción usando los valores del objeto 
+        // registro
+        $sql = "INSERT INTO REGISTROS VALUES (0, '" . $registro->getNreg() . "' , "
+                . "'" . $registro->getTipo_reg() . "', "
+                . "'" . $registro->getTipodoc() . "', "
+                . "'" . $registro->getFecha() . "', "
+                . "'" . $registro->getRemitente() . "',"
+                . "'" . $registro->getDestinatario() . "');";
+        
+        // Llamamos la a la función protegida de la clase para realizar la consulta
+        $resultado = self::ejecutaConsulta($sql);
+
+        // Comprobamos el resultado
+        if ($resultado) {
+            // Si es correcto, devolvemos 0
+            return 0;
         }
         else
         {
-            $sql = "Select max(nreg) from salidas;";            
-        }
-        
-        $resultado = self::ejecutaConsulta($sql);
-        
-        return $resultado->fetch()[0];
+            // En caso contrario, lanzamos una excepción
+            throw new Exception;
+        }        
     }
+    
+    
+    /**
+     * Función para recuperar el número de registro mas grande de los distintos 
+     * tipos de registro
+     * @param type $tipo Tipo de registro del que se quiere recuperar el número
+     * @return type String Numero de registro más grande dependidendo del tipo
+     */
+    public static function calcularNReg($tipo) {
+        // Creamos la consulta usando el parámetro pasado a la función
+        $sql = "Select max(nreg) from registros where tipo_reg = '$tipo';";
+
+        // Llamamos la a la función protegida de la clase para realizar la consulta
+        $resultado = self::ejecutaConsulta($sql);
+
+        // Comprobamos el resultado
+        if ($resultado) {
+            // Si es correcto, devolvemos el resultado
+            return $resultado->fetch()[0];
+        } else {
+            // En caso contrario lanzamos una excepción
+            throw new Exception;
+        }
+    }
+
 }
