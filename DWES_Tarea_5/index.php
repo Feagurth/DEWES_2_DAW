@@ -62,85 +62,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         // carga de la página. En caso contrario, la carga es para validar 
                         // e insertar un registro.                        
                         if (!empty($_POST['dest'])) {
-                            // Si es una insercción, volcamos los valores a insertar en 
-                            // variables directamente desde el POST de la página
-                            $nreg = $_POST['nreg'];
-                            $tipodoc = $_POST['tipodoc'];
-                            $fecha = $_POST['fentrada'];
-                            $remit = $_POST['remit'];
-                            $dest = $_POST['dest'];
-
-                            // Hay que verificar si el POST trae valores para el checkbox 
-                            // de escaneado, puesto que si solo aparece el valor on si el 
-                            // checkbox ha sido marcado. Si no se ha marcado el checkbox, 
-                            // el POST no trae información alguna. Le asignamos 1 en caso 
-                            // de estar marcado y 0 si no lo está
-                            $esc = (isset($_POST['esc']) ? "1" : "0");
-
-                            // Creamos un array nuevo para almacenar posteriormente los 
-                            // ficheros en objetos si es que los ubiese
+                            // Definimos un array para almacenar los ficheros subidos
                             $ficheros = array();
-
-
-                            // Verificamos si está marcado el checkbox
-                            if ($esc == 1 && isset($_FILES['addfile'])) {
-
-                                // Comprobamos si hay información en los ficheros subidos al 
-                                // servidor y si se ha producido algún error en la subida de 
-                                // los mismos
-                                if (isset($_FILES['addfile'])) {
-
-                                    // Reordenamos los ficheros que hay en $_FILES para que 
-                                    // nos sea más facil trabajar luego con ellos
-                                    $archivos = ordenarFicheros($_FILES);
-
-
-                                    // Recorremos todos los archivos para tratarlos
-                                    foreach ($archivos as $file) {
-
-                                        // Creamos un nuevo objeto fichero
-                                        $fichero = new Fichero();
-
-                                        // Le asignamos el nombre
-                                        $fichero->setNombre($file['name']);
-
-                                        // Le asignamos el tamaño
-                                        $fichero->setTamanyo($file['size']);
-
-                                        // Le asignamos el tipo
-                                        $fichero->setTipo($file['type']);
-
-                                        // Recuperamos la información del fichero con la función 
-                                        // fopen especificando 'rb' como parámetro para que lea 
-                                        // el fichero en binario, guardandolo en una variable 
-                                        // tipo stream y lo asignamos al fichero
-                                        $fichero->setDocumento(fopen($file['tmp_name'], 'rb'));
-
-                                        // Almacenamos el fichero en el array
-                                        $ficheros[] = $fichero;
-                                    }
-                                }
-                            }
-
-                            xdebug_break();
-
-                            $registro = new Registro(array(
-                                'id' => 0,
-                                'nreg' => $nreg,
-                                'tipo_reg' => 'E',
-                                'tipodoc' => $tipodoc,
-                                'fecha' => $fecha,
-                                'remit' => $remit,
-                                'dest' => $dest,
-                                'esc' => sizeof($ficheros) > 0 ? 1 : 0
-                            ));
-
+                            
+                            // Creamos una variable para almacenar el objeto registro
+                            $registro;
+                            
+                            // Creamos el objeto Registro y el array de objetos 
+                            // Fichero necesarios para la insercción. Para esto, 
+                            // usamos una función creada para tal fin, pasándole 
+                            // estas variables y el literal S para especificar 
+                            // un registros de salida
+                            crearObjetosInserccion($registro, $ficheros, 'E');
+                            
+                            // Creamos un nuevo objeto de acceso a base de datos
                             $db = new DB();
                             
+                            // Verificamos si el registro tiene documentos asociados
                             if ($registro->getEscaneado() === 0) {
+                                // De no ser así, hacemos una inserción simple
                                 $result = $db->insertarRegistro($registro);
                             } else {
-                                
+                                // En caso contrario hacemos una insercción con fichero
                                 $result = $db->insertarRegistroFichero($registro, $ficheros);
                             }
                         }
@@ -177,12 +120,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     }
                 // Si es 3 es añadir una salida
                 case 3: {
-                        // Recuperamos la fecha actual y la pasamos a 
-                        // la asignamos                    
+                        xdebug_break();
+                    
+                        // Comprobamos si en la información del POST de la página hay 
+                        // información de algún destinatario. De no ser así, es la primera 
+                        // carga de la página. En caso contrario, la carga es para validar 
+                        // e insertar un registro.                        
+                        if (!empty($_POST['dest'])) {                            
+                            // Definimos un array para almacenar los ficheros subidos
+                            $ficheros = array();
+                            
+                            // Creamos una variable para almacenar el objeto registro
+                            $registro;
+                            
+                            // Creamos el objeto Registro y el array de objetos 
+                            // Fichero necesarios para la insercción. Para esto, 
+                            // usamos una función creada para tal fin, pasándole 
+                            // estas variables y el literal S para especificar 
+                            // un registros de salida
+                            crearObjetosInserccion($registro, $ficheros, 'S');
+                            
+                            // Creamos un nuevo objeto de acceso a base de datos
+                            $db = new DB();
+
+                            // Verificamos si el registro tiene documentos asociados
+                            if ($registro->getEscaneado() === 0) {
+                                
+                                // De no ser así, hacemos una inserción simple
+                                $result = $db->insertarRegistro($registro);
+                            } else {
+                                // En caso contrario hacemos una insercción con fichero
+                                $result = $db->insertarRegistroFichero($registro, $ficheros);
+                            }
+                        }
+
+                        // Para finalizar asignamos la fecha actual 
                         $html->assign("fechaahora", date('Y-m-d'));
 
                         // Calculamos el número de registro correspondiente 
-                        // para la próxima salida
+                        // para la próxima entrada
                         $html->assign("nreg", calcularNreg("S"));
 
                         break;

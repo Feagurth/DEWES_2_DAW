@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-06 14:55:42
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-07 22:24:04
          compiled from ".\smarty\templates\addentrada.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2754554d3633776a1b4-30768154%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '6d61398e0160064d48c853bc96af01d39f50ff6b' => 
     array (
       0 => '.\\smarty\\templates\\addentrada.tpl',
-      1 => 1423230926,
+      1 => 1423343145,
       2 => 'file',
     ),
   ),
@@ -35,7 +35,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         </div>
         <div>
             Tipo Doc:&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>                            
-            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fentrada" name="fentrada" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
+            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fecha" name="fecha" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
 "/>              
         </div>
         <div>

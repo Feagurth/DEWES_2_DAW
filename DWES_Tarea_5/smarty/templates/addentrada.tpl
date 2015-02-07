@@ -8,7 +8,7 @@
         </div>
         <div>
             Tipo Doc:&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>                            
-            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fentrada" name="fentrada" value="{$fechaahora}"/>              
+            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fecha" name="fecha" value="{$fechaahora}"/>              
         </div>
         <div>
             Escaneado: <input type="checkbox" id="esc" name="esc" onclick="mostrarOcultar(document.getElementById('esc').checked);" />&nbsp;&nbsp;

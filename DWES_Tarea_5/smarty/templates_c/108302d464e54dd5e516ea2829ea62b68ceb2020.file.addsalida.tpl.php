@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-06 20:04:25
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-07 22:11:31
          compiled from ".\smarty\templates\addsalida.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2383654d36d84629068-84209805%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '108302d464e54dd5e516ea2829ea62b68ceb2020' => 
     array (
       0 => '.\\smarty\\templates\\addsalida.tpl',
-      1 => 1423230933,
+      1 => 1423343147,
       2 => 'file',
     ),
   ),
@@ -35,13 +35,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         </div>
         <div>
             Tipo Doc:&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>                            
-            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fsalida" name="fsalida" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
+            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fecha" name="fecha" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
 "/>              
         </div>
         <div>
             Escaneado: <input type="checkbox" id="esc" name="esc" onclick="mostrarOcultar(document.getElementById('esc').checked);" />&nbsp;&nbsp;
             <!-- Añadimos multiple="" y definimos el nombre con corchetes como un array al input tipo file para permitir la selección de multiples ficheros -->
-            <input type="file" id="addfile" name="addfile" readonly="1" value="" multiple="" />
+            <input type="file" id="addfile" name="addfile[]" readonly="1" value="" multiple="" />
         </div>              
         <div>
             <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">              

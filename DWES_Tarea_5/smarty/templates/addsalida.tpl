@@ -8,12 +8,12 @@
         </div>
         <div>
             Tipo Doc:&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>                            
-            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fsalida" name="fsalida" value="{$fechaahora}"/>              
+            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fecha" name="fecha" value="{$fechaahora}"/>              
         </div>
         <div>
             Escaneado: <input type="checkbox" id="esc" name="esc" onclick="mostrarOcultar(document.getElementById('esc').checked);" />&nbsp;&nbsp;
             <!-- Añadimos multiple="" y definimos el nombre con corchetes como un array al input tipo file para permitir la selección de multiples ficheros -->
-            <input type="file" id="addfile" name="addfile" readonly="1" value="" multiple="" />
+            <input type="file" id="addfile" name="addfile[]" readonly="1" value="" multiple="" />
         </div>              
         <div>
             <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">              

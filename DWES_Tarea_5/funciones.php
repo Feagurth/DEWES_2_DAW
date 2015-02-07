@@ -171,6 +171,8 @@ function calcularNreg($tipo) {
  */
 function ordenarFicheros($ficheros) {
 
+
+
     // Creamos un nuevo array para almacenar los datos y devolverlos 
     // posteriormente
     $salida = array();
@@ -197,26 +199,101 @@ function ordenarFicheros($ficheros) {
     return $salida;
 }
 
-
-
+/**
+ * Función que nos crea un array para realizar el menú de la página principal
+ * @return string Un array multidimensional con la estructura del menú
+ */
 function crearMenu() {
-        // Creamos un array para representar el menú desplegable
-        $submenu0[0]["navegacion"] = "1";
-        $submenu0[0]["titulo"] = "Nueva Entrada";
-        $submenu0[1]["navegacion"] = "2";
-        $submenu0[1]["titulo"] = "Ver Entradas";
+    // Creamos un array para representar el menú desplegable
+    $submenu0[0]["navegacion"] = "1";
+    $submenu0[0]["titulo"] = "Nueva Entrada";
+    $submenu0[1]["navegacion"] = "2";
+    $submenu0[1]["titulo"] = "Ver Entradas";
 
-        $menu[0]["titulo"] = "Entradas";
-        $menu[0]["submenu"] = $submenu0;
+    $menu[0]["titulo"] = "Entradas";
+    $menu[0]["submenu"] = $submenu0;
 
-        $submenu1[0]["navegacion"] = "3";
-        $submenu1[0]["titulo"] = "Nueva Salida";
-        $submenu1[1]["navegacion"] = "4";
-        $submenu1[1]["titulo"] = "Ver Salidas";
+    $submenu1[0]["navegacion"] = "3";
+    $submenu1[0]["titulo"] = "Nueva Salida";
+    $submenu1[1]["navegacion"] = "4";
+    $submenu1[1]["titulo"] = "Ver Salidas";
 
-        $menu[1]["titulo"] = "Salidas";
-        $menu[1]["submenu"] = $submenu1;
-        
-        // Devolvemos el menú creado
-        return $menu;    
+    $menu[1]["titulo"] = "Salidas";
+    $menu[1]["submenu"] = $submenu1;
+
+    // Devolvemos el menú creado
+    return $menu;
+}
+
+function crearObjetosInserccion(&$registro, array &$ficheros, $tipoRegistro) {
+
+    // Si es una insercción, volcamos los valores a insertar en 
+    // variables directamente desde el POST de la página
+    $nreg = $_POST['nreg'];
+    $tipodoc = $_POST['tipodoc'];
+    $fecha = $_POST['fecha'];
+    $remit = $_POST['remit'];
+    $dest = $_POST['dest'];
+
+    // Hay que verificar si el POST trae valores para el checkbox 
+    // de escaneado, puesto que si solo aparece el valor on si el 
+    // checkbox ha sido marcado. Si no se ha marcado el checkbox, 
+    // el POST no trae información alguna. Le asignamos 1 en caso 
+    // de estar marcado y 0 si no lo está
+    $esc = (isset($_POST['esc']) ? "1" : "0");
+
+    // Verificamos si está marcado el checkbox
+    if ($esc == 1 && isset($_FILES['addfile'])) {
+
+        // Comprobamos si hay información en los ficheros subidos al 
+        // servidor y si se ha producido algún error en la subida de 
+        // los mismos
+        if (isset($_FILES['addfile'])) {
+
+            // Reordenamos los ficheros que hay en $_FILES para que 
+            // nos sea más facil trabajar luego con ellos
+            $archivos = ordenarFicheros($_FILES);
+
+
+            // Recorremos todos los archivos para tratarlos
+            foreach ($archivos as $file) {
+
+                // Creamos un nuevo objeto fichero
+                $fichero = new Fichero();
+
+                // Asignamos 0 como valor para el id_documento 
+                // al crear el objeto
+                $fichero->setId_documento(0);
+
+                // Le asignamos el nombre
+                $fichero->setNombre($file['name']);
+
+                // Le asignamos el tamaño
+                $fichero->setTamanyo($file['size']);
+
+                // Le asignamos el tipo
+                $fichero->setTipo($file['type']);
+
+                // Recuperamos la información del fichero con la función 
+                // fopen especificando 'rb' como parámetro para que lea 
+                // el fichero en binario, guardandolo en una variable 
+                // tipo stream y lo asignamos al fichero
+                $fichero->setDocumento(fopen($file['tmp_name'], 'rb'));
+
+                // Almacenamos el fichero en el array
+                $ficheros[] = $fichero;
+            }
+        }
+    }
+
+    $registro = new Registro(array(
+        'id' => 0,
+        'nreg' => $nreg,
+        'tipo_reg' => $tipoRegistro,
+        'tipodoc' => $tipodoc,
+        'fecha' => $fecha,
+        'remit' => $remit,
+        'dest' => $dest,
+        'esc' => sizeof($ficheros) > 0 ? 1 : 0
+    ));
 }
