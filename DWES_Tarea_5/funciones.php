@@ -135,8 +135,9 @@ function calcularNreg($tipo) {
     // Realizamos una consulta para recuperar el número de registro más alto 
     // que haya en la tabla de entradas de la base de datos    
 
+    $db = new DB();
 
-    $nreg = DB::calcularNReg($tipo);
+    $nreg = $db->calcularNReg($tipo);
 
     $periodoActual = calcularPeriodoActual();
 
@@ -194,4 +195,28 @@ function ordenarFicheros($ficheros) {
 
     // Finalmente devolvemos el resultado
     return $salida;
+}
+
+
+
+function crearMenu() {
+        // Creamos un array para representar el menú desplegable
+        $submenu0[0]["navegacion"] = "1";
+        $submenu0[0]["titulo"] = "Nueva Entrada";
+        $submenu0[1]["navegacion"] = "2";
+        $submenu0[1]["titulo"] = "Ver Entradas";
+
+        $menu[0]["titulo"] = "Entradas";
+        $menu[0]["submenu"] = $submenu0;
+
+        $submenu1[0]["navegacion"] = "3";
+        $submenu1[0]["titulo"] = "Nueva Salida";
+        $submenu1[1]["navegacion"] = "4";
+        $submenu1[1]["titulo"] = "Ver Salidas";
+
+        $menu[1]["titulo"] = "Salidas";
+        $menu[1]["submenu"] = $submenu1;
+        
+        // Devolvemos el menú creado
+        return $menu;    
 }

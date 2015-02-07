@@ -33,23 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         require_once './funciones.php';
         require_once './Registro.php';
 
-        // Creamos un array para representar el menú desplegable
-        $submenu0[0]["navegacion"] = "1";
-        $submenu0[0]["titulo"] = "Nueva Entrada";
-        $submenu0[1]["navegacion"] = "2";
-        $submenu0[1]["titulo"] = "Ver Entradas";
-
-        $menu[0]["titulo"] = "Entradas";
-        $menu[0]["submenu"] = $submenu0;
-
-        $submenu1[0]["navegacion"] = "3";
-        $submenu1[0]["titulo"] = "Nueva Salida";
-        $submenu1[1]["navegacion"] = "4";
-        $submenu1[1]["titulo"] = "Ver Salidas";
-
-        $menu[1]["titulo"] = "Salidas";
-        $menu[1]["submenu"] = $submenu1;
-
+        $menu = crearMenu();
+        
         // Asignamos el menú a la página
         $html->assign("menu", $menu);
 
@@ -150,10 +135,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 'esc' => sizeof($ficheros) > 0 ? 1 : 0
                             ));
 
+                            $db = new DB();
+                            
                             if ($registro->getEscaneado() === 0) {
-                                $result = DB::insertarRegistro($registro);
+                                $result = $db->insertarRegistro($registro);
                             } else {
                                 
+                                $result = $db->insertarRegistroFichero($registro, $ficheros);
                             }
                         }
 
@@ -171,9 +159,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 // Si es dos, es el listado de entradas
                 case 2: {
                         try {
+                            
+                            $db = new DB();
                             // Realizamos una consulta a la base de datos para 
                             // recuperar las entradas
-                            $datos = DB::listarEntradas();
+                            $datos = $db->listarEntradas();
 
                             // Asignamos el resultado al html para que se use 
                             // en la subplantilla adecuada
@@ -200,9 +190,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 // Si es cuatro, es el listado de salidas
                 case 4: {
                         try {
+                            
+                            $db = new DB();
                             // Realizamos una consulta a la base de datos para 
                             // recuperar las entradas
-                            $datos = DB::listarSalidas();
+                            $datos = $db->listarSalidas();
 
                             // Asignamos el resultado al html para que se use 
                             // en la subplantilla adecuada
