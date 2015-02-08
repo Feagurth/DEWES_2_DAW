@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-06 14:18:08
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 03:03:18
          compiled from ".\smarty\templates\verentradas.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1747354d039ef52ea78-02777453%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7522023f3a245428c1e35db70016bd101f10e16a' => 
     array (
       0 => '.\\smarty\\templates\\verentradas.tpl',
-      1 => 1423228684,
+      1 => 1423360986,
       2 => 'file',
     ),
   ),
@@ -63,7 +63,8 @@ $_smarty_tpl->tpl_vars['entrada']->_loop = true;
                         <?php if ($_smarty_tpl->tpl_vars['entrada']->value->getEscaneado()==="0") {?>
                             <img src='imagenes/no_file.png' alt='No hay fichero asociado al registro' title='No hay fichero asociado al registro'>
                         <?php } else { ?>
-                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro'>
+                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro' onclick="listarFichero(2, <?php echo $_smarty_tpl->tpl_vars['entrada']->value->getId();?>
+);">
                         <?php }?>
                     </td>               
                 </tr>            

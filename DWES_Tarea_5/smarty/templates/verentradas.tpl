@@ -26,7 +26,7 @@
                         {if $entrada->getEscaneado() === "0"}
                             <img src='imagenes/no_file.png' alt='No hay fichero asociado al registro' title='No hay fichero asociado al registro'>
                         {else}
-                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro'>
+                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro' onclick="listarFichero(2, {$entrada->getId()});">
                         {/if}
                     </td>               
                 </tr>            

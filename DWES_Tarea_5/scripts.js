@@ -40,3 +40,70 @@ function mostrarOcultar(valor)
         boton.style.display = "";
     }
 }
+
+/**
+ * Método que nos permite realizar un envio de información al servidor
+ * @param {type} path Ruta a donde vamos a enviar la información
+ * @param {type} params Parametros a enviar
+ * @param {type} method Método de envio: POST (default) o GET
+ * @returns {undefined}
+ */
+function post(path, params, method) {
+    // Definimos el método post como por defecto
+    method = method || "post"; 
+
+    // Creamos un elemento form en el documento y lo almacenamos en una variable
+    var form = document.createElement("form");
+    
+    // Le ponemos como atributo el método y la ruta
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    // Iteramos por todos los valores del array de parámetros
+    for(var key in params) {
+        
+        // Comprobamos que tenga una propiedad propia
+        if(params.hasOwnProperty(key)) {
+            
+            // Si es así, creamos un campo oculto y le añadimos como nombre la 
+            // clave del array y como valor el contenido del mismo
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            // Finalmente lo añadimos al formulario
+            form.appendChild(hiddenField);
+         }
+    }
+
+    // Finalmente añadimos el formulario al cuerpo de la página web desde 
+    // donde se esté llamando
+    document.body.appendChild(form);
+    
+    // Y se envía
+    form.submit();
+}
+
+/**
+ * Método para navegar entre los distintos menús de la página
+ * @param {type} valorNavegacion Valor de navegación
+ * @returns {undefined}
+ */
+function navegar(valorNavegacion)
+{
+    // Hacemos uso de la funcion post y enviamos los datos 
+    // necesarios para navegar
+    post('index.php', {nav: valorNavegacion});  
+}
+
+/**
+ * Función para listar los archivos relacionados con un registro
+ * @param {type} valorNavegacion Valor de navegación
+ * @param {type} id_registro Id del registro con archivos
+ * @returns {undefined}
+ */
+function listarFichero(valorNavegacion, id_registro)
+{
+    post('index.php', {nav: valorNavegacion, idr: id_registro});
+}

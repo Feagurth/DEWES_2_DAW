@@ -14,7 +14,7 @@
                         <ul>
                             {foreach from=$menus.submenu item=submenu}
                                 <li>
-                                    <a href="index.php?nav={$submenu.navegacion}">{$submenu.titulo}</a>
+                                    <a href="#" onclick="navegar({$submenu@iteration});">{$submenu.titulo}</a>
                                 </li>
                             {/foreach}
                         </ul>
@@ -45,6 +45,9 @@
                 <div id="visualizador">
                 </div>
                 <div id="pdfs">
+                    {if empty($docs) === false}
+                        {include file="ficheros.tpl"}
+                    {/if}
                 </div>
             </div>
         </div>

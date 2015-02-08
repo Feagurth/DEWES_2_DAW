@@ -1,5 +1,5 @@
 <div id="nuevo_registro">
-    <form id="form" action="index.php?nav=1" method="post" enctype="multipart/form-data">
+    <form id="form" action="index.php" method="post" enctype="multipart/form-data">
         <h3>Nuevo Registro de Entrada</h3>
         <div>            
             Nº registro:&nbsp;<input type="text" id="nreg" name="nreg" readonly="1" value="{$nreg}"/>
@@ -15,8 +15,9 @@
             <!-- Añadimos multiple="" y definimos el nombre con corchetes como un array al input tipo file para permitir la selección de multiples ficheros -->
             <input type="file" id="addfile" name="addfile[]" readonly="1" value="" multiple="" />
         </div>              
-        <div>
+        <div>            
             <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">              
+            <input type="hidden" value="1" name="nav" title="nav" />
         </div>
      </form>
   </div>

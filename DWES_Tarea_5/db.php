@@ -225,6 +225,51 @@ class DB {
         }
     }
 
+    /**
+     * Método que nos permite listar los documentos relacionados con un registro
+     * @param type $id_registro Id del registro relacionado con los documentos
+     * @return \Registro
+     * @throws Exception
+     */
+    public function listarDocumentos($id_registro) {
+        
+        xdebug_break();
+        
+        // Especificamos la consulta que vamos a realizar sobre la base de datos
+        $sql = "SELECT id_documento, nombre, tipo FROM documentos WHERE "
+                . "id_registro = $id_registro;";
+
+        // Llamamos la a la función protegida de la clase para realizar la consulta
+        $resultado = $this->ejecutaConsulta($sql);
+
+        // Comprobamos si hemos obtenido algún resultado
+        if ($resultado) {
+
+            // Definimos un nuevo array para almacenar el resultado
+            $datos = array();
+
+            // Añadimos un elemento por cada registro de entrada obtenido
+            $row = $resultado->fetch();
+
+            // Iteramos por los resultados obtenidos
+            while ($row != null) {
+
+                // Creamos un nuevo registro usando el constructo de la clase y 
+                // lo asginamos al array de resultados
+                $datos[] = $row;
+
+                // Recuperamos una nueva fila
+                $row = $resultado->fetch();
+            }
+
+            // Devolvemos el resultado
+            return $datos;
+        } else {
+            // Si no tenemos resultados lanzamos una excepción
+            throw new Exception;
+        }
+    }
+
     public function insertarRegistro(Registro $registro) {
         // Creamos la consulta de insercción usando los valores del objeto 
         // registro
