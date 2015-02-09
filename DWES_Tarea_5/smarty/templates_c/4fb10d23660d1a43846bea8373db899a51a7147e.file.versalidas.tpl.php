@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-06 14:18:12
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 18:19:42
          compiled from ".\smarty\templates\versalidas.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2874954d26f3e73ec30-54686254%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '4fb10d23660d1a43846bea8373db899a51a7147e' => 
     array (
       0 => '.\\smarty\\templates\\versalidas.tpl',
-      1 => 1423228686,
+      1 => 1423415780,
       2 => 'file',
     ),
   ),
@@ -25,11 +25,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54d26f3e801503_83960605')) {function content_54d26f3e801503_83960605($_smarty_tpl) {?><div class="listado">
+    <h3>Registro de Salida</h3>
     <table>
         <thead>
             <tr>
                 <td>Nº Registro</td>    
-                <td>Tipo de Documento</td>    
+                <td>Tipo</td>    
                 <td>Fecha Salida</td>    
                 <td>Remitente</td>    
                 <td>Destinatario</td>    
@@ -63,7 +64,8 @@ $_smarty_tpl->tpl_vars['salida']->_loop = true;
                         <?php if ($_smarty_tpl->tpl_vars['salida']->value->getEscaneado()==="0") {?>
                             <img src='imagenes/no_file.png' alt='No hay fichero asociado al registro' title='No hay fichero asociado al registro'>
                         <?php } else { ?>
-                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro'>
+                            <img class="pointer"src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro' onclick="listarFichero(4, <?php echo $_smarty_tpl->tpl_vars['salida']->value->getId();?>
+);">
                         <?php }?>
                     </td>                
                 </tr>            

@@ -7,9 +7,9 @@ USE `Gestion2`;
 -- Creamos la tabla usuario. Definimos el tamaño de los campos a 32 pues es
 -- la longitud de la respuesta que dará la función de encriptación MD5
 CREATE TABLE usuario(
-	id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	user VARCHAR(32) NOT NULL,
-	pass VARCHAR(32) NOT NULL) engine= InnoDB;
+    id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user VARCHAR(32) NOT NULL,
+    pass VARCHAR(32) NOT NULL) engine= InnoDB;
 
 -- Insertamos un usuario encriptando sus valores con la función MD5
 INSERT INTO usuario VALUES (0, md5('dwes'), md5('abc123.'));
@@ -18,7 +18,7 @@ INSERT INTO usuario VALUES (0, md5('dwes'), md5('abc123.'));
 CREATE TABLE registros(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nreg VARCHAR(15) NOT NULL, 
-	tipo_reg VARCHAR(1) NOT NULL,
+    tipo_reg VARCHAR(1) NOT NULL,
     tipodoc VARCHAR(15) NOT NULL,
     fecha DATE NOT NULL,
     remit VARCHAR(150) NOT NULL,
@@ -27,13 +27,13 @@ CREATE TABLE registros(
 
 -- Creamos la tabla documento
 CREATE TABLE documentos(
-	id_documento INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	id_registro INT NOT NULL, 
-	tamanyo VARCHAR(30) NOT NULL, 
+    id_documento INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_registro INT NOT NULL, 
+    tamanyo VARCHAR(30) NOT NULL, 
     tipo VARCHAR(30) NOT NULL, 
     nombre VARCHAR(30) NOT NULL, 
-	documento BLOB NOT NULL, 
-	FOREIGN KEY (id_registro) REFERENCES registros(id)) ENGINE = InnoDB;
+    documento LONGBLOB NOT NULL, 
+    FOREIGN KEY (id_registro) REFERENCES registros(id)) ENGINE = InnoDB;
 
 -- Creamos el usuario 
 CREATE USER `dwes`

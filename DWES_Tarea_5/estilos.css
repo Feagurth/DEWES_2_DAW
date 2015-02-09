@@ -23,6 +23,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @import url(http://fonts.googleapis.com/css?family=Adamina);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
+
+
+/* Espeficicamos la fuente, el tamaño y el color que tendrán todos los textos 
+de la página de forma general*/
+*{
+    font-family: 'Adamina', sans-serif;
+    font-size: 1vmax;
+    color: #000;
+}
+
 /* Estilos de la cabecera */
 
 /* Definimos el tamaño de la cabecera para que ocupe todo el ancho de la página 
@@ -52,7 +62,7 @@ flotabilidad, así como el tipo de letra y su tamaño*/
     display: block;
     float: left;
     background-color: deepskyblue;
-    font-family: 'Adamina', serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 1vmax;            
 }
 
@@ -172,12 +182,21 @@ insercción de la página */
 
 /* Estilos de tablas de listado */
 
+#cuerpo #lista div.listado h3{
+
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1vmax;
+    margin: 0.75vmax;
+
+}
+
 /* Especificamos el margen y el tamaño de la tabla, así como el tipo de borde 
 que tendrá */
-#cuerpo #lista .listado table {
+#cuerpo #lista div.listado table {
     margin: 0.5vmax;
     border-collapse: collapse;
     width: 98%;
+
 }
 
 /* Definimos el ancho, color y tipo de linea que tendrán los bordes de la tabla 
@@ -203,7 +222,14 @@ así como el alineamiento del texto */
 dentro del listado*/
 #cuerpo #lista .listado img
 {
-    width: 1.25vmax;
+    width: 1.25vmax;    
+}
+
+/* Especificamos que el cursor se transforme en un cursor si se situa sobre una 
+imagen con la clase pointer, que corresponderá a los registros con archivos 
+asociados */
+#cuerpo #lista .listado img.pointer{
+    cursor: pointer;
 }
 
 /* Finalmente cambiamos el color de fondo de las filas dependiendo de la 
@@ -261,35 +287,67 @@ los archivos enlazados y los pdf's'*/
     float: right;
 }
 
+/* Definimos los valore de estilo específicos de la zona de listado de pdfs */
+#cuerpo #detalle #pdfs{
+    width: 100%;
+    height: 5.75vmax;
+    background-color: fuchsia;
+}
+
+/* Especificamos el ancho y alto que tendrá el div que contendrá los iconos de 
+los ficheros, así como la aparición del scroll vertical */
+#cuerpo #detalle #pdfs > div {    
+    width: 100%;
+    height: 5.75vmax;
+    overflow-y: scroll;    
+}
+
+/* Especificamos el tamaño de los contenedores para la imagen del icono y del 
+texto  */
+#cuerpo #detalle #pdfs > div > div{
+    margin: 0.75vmax;
+    padding: 0;
+    display: inline-table;
+    text-align: center;    
+    word-wrap: break-word;    
+}
+
+/* Definimos los estilos para el parrafo que contiene el nombre del documento */
+#cuerpo #detalle #pdfs > div > div > p{
+    font-size: 0.75vmax;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;    
+    width: 3.5vmax;
+    margin: 0;
+    padding: 0;
+
+}
+
+/* Definimos los estilos para las imágenes de los iconos de los documentos 
+y especificamos que cambie el cursor a una mano posicionarse sobre ellas */
+#cuerpo #detalle #pdfs > div > div > img{
+    width: 3.5vmax;
+    cursor: pointer;
+}
+
 /* Definimos los valore de estilo específicos de la zona de visualización de pdfs */
 #cuerpo #detalle #visualizador{
     width: 100%;
-    height: 30vmax;
+    height: 29vmax;
     background-color: yellow;
     border-bottom: 0.25vmax solid #fff;
 }
 
-/* Definimos los valore de estilo específicos de la zona de listado de pdfs */
-#cuerpo #detalle #pdfs{
+/* Especificamos el tamaño del contenedor de los documentos, así como de los 
+objetos que contedrá */
+#cuerpo #detalle #visualizador div,
+#cuerpo #detalle #visualizador div img,
+#cuerpo #detalle #visualizador div object
+{
     width: 100%;
-    height: 4.75vmax;
-    background-color: fuchsia;
-}
-
-#cuerpo #detalle #pdfs > div {    
-    width: 100%;
-    height: 4.75vmax;
-    overflow-y: scroll;    
+    height: 29vmax;
 }
 
 
-#cuerpo #detalle #pdfs > div > p{
-    width: 1.5vmax;
-    text-align:center;    
-    font-size: xx-small;
-}
-
-#cuerpo #detalle #pdfs > div > p > img{
-    width: 3.5vmax;
-    margin: 1vmax;
-}

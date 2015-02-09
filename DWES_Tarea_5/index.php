@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         require_once './funciones.php';
         require_once './Registro.php';
 
+        // Creamos el menú y lo asociamos a una variable
         $menu = crearMenu();
 
         // Asignamos el menú a la página
@@ -118,13 +119,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 // Listamos los documentos relacionados y los 
                                 // almacenamos en una variable
                                 $docs = $db->listarDocumentos($_POST['idr']);
-                                
+
                                 // Los asignamos al html para que se use en la 
                                 // subplantilla correspondiente
                                 $html->assign("docs", $docs);
                             }
-                            
-                            
+
+                            // Comprobamos si el POST trae información de 
+                            // número de documento
+                            if (isset($_POST['idd'])) {
+
+                                // Recuperamos los datos relativos al fichero
+                                $file = $db->recuperarDocumento($_POST['idd']);
+
+                                // Verificamos si el fichero recuperado es un pdf, 
+                                // que necesitará un tratamiento distinto
+                                if (substr($file['tipo'], -3) === 'pdf') {
+                                    // Creamos un fichero con nombre generico, 
+                                    // pues al solo mostrarse un pdf a la vez, 
+                                    // el fichero generado será machacado
+                                    $filename = "dummy.pdf";
+
+                                    //Grabamos el fichero
+                                    if (grabarFichero($filename, $file['documento'])) {
+                                        // Si se ha escrito correctamente 
+                                        // asignamos el nombre del fichero 
+                                        // al html para pasarlo a la plantilla
+                                        $html->assign("filename", $filename);
+                                    }
+                                }
+
+                                // Asignamos el contenido del fichero al 
+                                // html para pasarlo a la plantilla
+                                $html->assign("file", $file);
+                            }
 
                             // Asignamos el resultado al html para que se use 
                             // en la subplantilla adecuada
@@ -185,20 +213,65 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     }
                 // Si es cuatro, es el listado de salidas
                 case 4: {
-                        try {
+                                                try {
 
                             $db = new DB();
                             // Realizamos una consulta a la base de datos para 
-                            // recuperar las entradas
+                            // recuperar las salidas
                             $datos = $db->listarSalidas();
+
+                            // Comprobamos si en la información del POST hay 
+                            // información de algún Identificador de registros, 
+                            // lo que implicaría que alguien ha pulsado la lupa 
+                            // para listarlos
+                            if (isset($_POST['idr'])) {
+                                // Listamos los documentos relacionados y los 
+                                // almacenamos en una variable
+                                $docs = $db->listarDocumentos($_POST['idr']);
+
+                                // Los asignamos al html para que se use en la 
+                                // subplantilla correspondiente
+                                $html->assign("docs", $docs);
+                            }
+
+                            // Comprobamos si el POST trae información de 
+                            // número de documento
+                            if (isset($_POST['idd'])) {
+
+                                // Recuperamos los datos relativos al fichero
+                                $file = $db->recuperarDocumento($_POST['idd']);
+
+                                // Verificamos si el fichero recuperado es un pdf, 
+                                // que necesitará un tratamiento distinto
+                                if (substr($file['tipo'], -3) === 'pdf') {
+                                    // Creamos un fichero con nombre generico, 
+                                    // pues al solo mostrarse un pdf a la vez, 
+                                    // el fichero generado será machacado
+                                    $filename = "dummy.pdf";
+
+                                    //Grabamos el fichero
+                                    if (grabarFichero($filename, $file['documento'])) {
+                                        // Si se ha escrito correctamente 
+                                        // asignamos el nombre del fichero 
+                                        // al html para pasarlo a la plantilla
+                                        $html->assign("filename", $filename);
+                                    }
+                                }
+
+                                // Asignamos el contenido del fichero al 
+                                // html para pasarlo a la plantilla
+                                $html->assign("file", $file);
+                            }
 
                             // Asignamos el resultado al html para que se use 
                             // en la subplantilla adecuada
                             $html->assign("salidas", $datos);
                         } catch (Exception $ex) {
-                            // En caso de error, limpiamos el valor de los datos
+
+                            // Limpiamos datos
                             unset($datos);
                         } finally {
+                            // Limpiamos el objeto de base de datos
                             unset($db);
                         }
 

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-07 22:11:31
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 15:56:30
          compiled from ".\smarty\templates\addsalida.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2383654d36d84629068-84209805%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '108302d464e54dd5e516ea2829ea62b68ceb2020' => 
     array (
       0 => '.\\smarty\\templates\\addsalida.tpl',
-      1 => 1423343147,
+      1 => 1423407166,
       2 => 'file',
     ),
   ),
@@ -25,7 +25,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54d36d84656cd4_32461894')) {function content_54d36d84656cd4_32461894($_smarty_tpl) {?><div id="nuevo_registro">
-    <form id="form" action="index.php?nav=3" method="post" enctype="multipart/form-data">
+    <form id="form" action="index.php" method="post" enctype="multipart/form-data">
         <h3>Nuevo Registro de Salida</h3>
         <div>            
             Nº registro:&nbsp;<input type="text" id="nreg" name="nreg" readonly="1" value="<?php echo $_smarty_tpl->tpl_vars['nreg']->value;?>
@@ -43,8 +43,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <!-- Añadimos multiple="" y definimos el nombre con corchetes como un array al input tipo file para permitir la selección de multiples ficheros -->
             <input type="file" id="addfile" name="addfile[]" readonly="1" value="" multiple="" />
         </div>              
-        <div>
+        <div>            
             <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">              
+            <input type="hidden" value="3" name="nav" title="nav" />
         </div>
      </form>
   </div>

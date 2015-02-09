@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 03:23:37
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 20:15:07
          compiled from ".\smarty\templates\index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1835754be5b09811e20-23647140%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '574dee0eb4e1f2028170052ff5213936dc4c1acb' => 
     array (
       0 => '.\\smarty\\templates\\index.tpl',
-      1 => 1423362024,
+      1 => 1423422871,
       2 => 'file',
     ),
   ),
@@ -26,6 +26,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'nav' => 0,
     'entradas' => 0,
     'salidas' => 0,
+    'file' => 0,
+    'docs' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
@@ -51,13 +53,11 @@ $_smarty_tpl->tpl_vars['menus']->_loop = true;
                         <ul>
                             <?php  $_smarty_tpl->tpl_vars['submenu'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['submenu']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['menus']->value['submenu']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
- $_smarty_tpl->tpl_vars['submenu']->iteration=0;
 foreach ($_from as $_smarty_tpl->tpl_vars['submenu']->key => $_smarty_tpl->tpl_vars['submenu']->value) {
 $_smarty_tpl->tpl_vars['submenu']->_loop = true;
- $_smarty_tpl->tpl_vars['submenu']->iteration++;
 ?>
                                 <li>
-                                    <a href="#" onclick="navegar(<?php echo $_smarty_tpl->tpl_vars['submenu']->iteration;?>
+                                    <a href="#" onclick="navegar(<?php echo $_smarty_tpl->tpl_vars['submenu']->value['navegacion'];?>
 );"><?php echo $_smarty_tpl->tpl_vars['submenu']->value['titulo'];?>
 </a>
                                 </li>
@@ -92,9 +92,13 @@ $_smarty_tpl->tpl_vars['submenu']->_loop = true;
             </div>            
             <div id="detalle">                 
                 <div id="visualizador">
+                    <?php if (empty($_smarty_tpl->tpl_vars['file']->value)===false) {?>
+                        <?php echo $_smarty_tpl->getSubTemplate ("visor.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+                    <?php }?>
                 </div>
                 <div id="pdfs">
-                    <?php if (empty($_smarty_tpl->tpl_vars['salidas']->value)===false) {?>
+                    <?php if (empty($_smarty_tpl->tpl_vars['docs']->value)===false) {?>
                         <?php echo $_smarty_tpl->getSubTemplate ("ficheros.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
                     <?php }?>

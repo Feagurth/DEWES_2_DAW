@@ -14,7 +14,7 @@
                         <ul>
                             {foreach from=$menus.submenu item=submenu}
                                 <li>
-                                    <a href="#" onclick="navegar({$submenu@iteration});">{$submenu.titulo}</a>
+                                    <a href="#" onclick="navegar({$submenu.navegacion});">{$submenu.titulo}</a>
                                 </li>
                             {/foreach}
                         </ul>
@@ -43,6 +43,9 @@
             </div>            
             <div id="detalle">                 
                 <div id="visualizador">
+                    {if empty($file) === false}
+                        {include file="visor.tpl"}
+                    {/if}
                 </div>
                 <div id="pdfs">
                     {if empty($docs) === false}

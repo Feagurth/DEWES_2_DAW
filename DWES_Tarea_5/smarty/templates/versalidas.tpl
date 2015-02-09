@@ -1,9 +1,10 @@
 <div class="listado">
+    <h3>Registro de Salida</h3>
     <table>
         <thead>
             <tr>
                 <td>Nº Registro</td>    
-                <td>Tipo de Documento</td>    
+                <td>Tipo</td>    
                 <td>Fecha Salida</td>    
                 <td>Remitente</td>    
                 <td>Destinatario</td>    
@@ -26,7 +27,7 @@
                         {if $salida->getEscaneado() === "0"}
                             <img src='imagenes/no_file.png' alt='No hay fichero asociado al registro' title='No hay fichero asociado al registro'>
                         {else}
-                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro' onclick="navegar(4);">
+                            <img class="pointer"src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro' onclick="listarFichero(4, {$salida->getId()});">
                         {/if}
                     </td>                
                 </tr>            

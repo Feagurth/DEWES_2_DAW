@@ -20,7 +20,7 @@ CREATE TABLE documentos(
         tamanyo VARCHAR(30) NOT NULL, 
         tipo VARCHAR(30) NOT NULL, 
         nombre VARCHAR(30) NOT NULL, 
-	documento BLOB NOT NULL) ENGINE = InnoDB;
+	documento LONGBLOB NOT NULL) ENGINE = InnoDB;
 
 -- Creamos la tabla de entradas con una referencia a la tabla documentos
 CREATE TABLE entradas(

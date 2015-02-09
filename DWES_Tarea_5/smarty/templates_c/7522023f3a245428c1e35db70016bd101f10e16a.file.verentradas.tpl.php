@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 03:03:18
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 18:16:29
          compiled from ".\smarty\templates\verentradas.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1747354d039ef52ea78-02777453%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7522023f3a245428c1e35db70016bd101f10e16a' => 
     array (
       0 => '.\\smarty\\templates\\verentradas.tpl',
-      1 => 1423360986,
+      1 => 1423415785,
       2 => 'file',
     ),
   ),
@@ -25,11 +25,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54d039ef52ea73_33759592')) {function content_54d039ef52ea73_33759592($_smarty_tpl) {?><div class="listado">
+    <h3>Registro de Entrada</h3>
     <table>
         <thead>
             <tr>
                 <td>Nº Registro</td>    
-                <td>Tipo de Documento</td>    
+                <td>Tipo</td>    
                 <td>Fecha Entrada</td>    
                 <td>Remitente</td>    
                 <td>Destinatario</td>    
@@ -63,7 +64,7 @@ $_smarty_tpl->tpl_vars['entrada']->_loop = true;
                         <?php if ($_smarty_tpl->tpl_vars['entrada']->value->getEscaneado()==="0") {?>
                             <img src='imagenes/no_file.png' alt='No hay fichero asociado al registro' title='No hay fichero asociado al registro'>
                         <?php } else { ?>
-                            <img src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro' onclick="listarFichero(2, <?php echo $_smarty_tpl->tpl_vars['entrada']->value->getId();?>
+                            <img class="pointer"src='imagenes/view_file.png' alt='Hay ficheros asociados al registro' title='Hay ficheros asociados al registro' onclick="listarFichero(2, <?php echo $_smarty_tpl->tpl_vars['entrada']->value->getId();?>
 );">
                         <?php }?>
                     </td>               

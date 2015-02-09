@@ -170,9 +170,6 @@ function calcularNreg($tipo) {
  * @return type Un array con la información de los ficheros ordenada por fichero
  */
 function ordenarFicheros($ficheros) {
-
-
-
     // Creamos un nuevo array para almacenar los datos y devolverlos 
     // posteriormente
     $salida = array();
@@ -296,4 +293,45 @@ function crearObjetosInserccion(&$registro, array &$ficheros, $tipoRegistro) {
         'dest' => $dest,
         'esc' => sizeof($ficheros) > 0 ? 1 : 0
     ));
+}
+
+/**
+ * Función que nos permite grabar un fichero con un nombre y una extensión 
+ * específica
+ * @param type $nombre Nombre del fichero a grabar
+ * @param type $datos Datos que contendrá el fichero codificados en binario
+ * @return boolean TRUE si la operación es correcta, FALSE en caso contrario
+ */
+function grabarFichero($nombre, $datos) {
+    
+    // Definimos una variable de salida con TRUE como valor específico. 
+    // Si algo sale mal, se cambiará el valor de la variable y se devolverá 
+    // como resultado
+    $salida = TRUE;
+    
+    // Abrimos el fichero
+    $file = fopen($nombre, "w");
+
+    // Si se ha abierto correctamente
+    if ($file) {
+        // Escribimos en el fichero en contenido 
+        // del archivo recuperado de la base de 
+        // datos
+        if (!fwrite($file, $datos)) {
+            // Si no se han grabado los datos de forma correcta, 
+            // cambiamos el valor de la variable de salida
+            $salida = FALSE;
+        }
+        // Cerramos el fichero
+        fclose($file);
+    }
+    else
+    {
+        // Si no se ha abierto de forma correcta, cambiamos 
+        // el valor de la variable de salida
+        $salida = FALSE;
+    }
+    
+    // Devolvemos el resultado de la operación
+    return $salida;
 }
