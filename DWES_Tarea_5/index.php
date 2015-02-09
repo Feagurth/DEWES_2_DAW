@@ -58,47 +58,56 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 // Si es 1 es añadir una entrada
                 case 1: {
-                        // Comprobamos si en la información del POST de la página hay 
-                        // información de algún destinatario. De no ser así, es la primera 
-                        // carga de la página. En caso contrario, la carga es para validar 
-                        // e insertar un registro.                        
-                        if (!empty($_POST['dest'])) {
-                            // Definimos un array para almacenar los ficheros subidos
-                            $ficheros = array();
-
-                            // Creamos una variable para almacenar el objeto registro
-                            $registro;
-
-                            // Creamos el objeto Registro y el array de objetos 
-                            // Fichero necesarios para la insercción. Para esto, 
-                            // usamos una función creada para tal fin, pasándole 
-                            // estas variables y el literal S para especificar 
-                            // un registros de salida
-                            crearObjetosInserccion($registro, $ficheros, 'E');
-
+                        try {
                             // Creamos un nuevo objeto de acceso a base de datos
                             $db = new DB();
 
-                            // Verificamos si el registro tiene documentos asociados
-                            if ($registro->getEscaneado() === 0) {
-                                // De no ser así, hacemos una inserción simple
-                                $result = $db->insertarRegistro($registro);
-                            } else {
-                                // En caso contrario hacemos una insercción con fichero
-                                $result = $db->insertarRegistroFichero($registro, $ficheros);
+                            // Obtenemos el listado de todas las personas
+                            $personas = $db->listarPersonas();
+
+                            // Las asignamos al html para poder pasarlas a la plantilla
+                            $html->assign("personas", $personas);
+
+
+                            // Comprobamos si en la información del POST de la página hay 
+                            // información de algún destinatario. De no ser así, es la primera 
+                            // carga de la página. En caso contrario, la carga es para validar 
+                            // e insertar un registro.                        
+                            if (!empty($_POST['dest'])) {
+                                // Definimos un array para almacenar los ficheros subidos
+                                $ficheros = array();
+
+                                // Creamos una variable para almacenar el objeto registro
+                                $registro;
+
+                                // Creamos el objeto Registro y el array de objetos 
+                                // Fichero necesarios para la insercción. Para esto, 
+                                // usamos una función creada para tal fin, pasándole 
+                                // estas variables y el literal S para especificar 
+                                // un registros de salida
+                                crearObjetosInserccionRegistro($registro, $ficheros, 'E');
+
+                                // Verificamos si el registro tiene documentos asociados
+                                if ($registro->getEscaneado() === 0) {
+                                    // De no ser así, hacemos una inserción simple
+                                    $result = $db->insertarRegistro($registro);
+                                } else {
+                                    // En caso contrario hacemos una insercción con fichero
+                                    $result = $db->insertarRegistroFichero($registro, $ficheros);
+                                }
                             }
 
+                            // Para finalizar asignamos la fecha actual 
+                            $html->assign("fechaahora", date('Y-m-d'));
+
+                            // Calculamos el número de registro correspondiente 
+                            // para la próxima entrada
+                            $html->assign("nreg", calcularNreg("E"));
+                        } catch (Exception $ex) {
+                            
+                        } finally {
                             unset($db);
                         }
-
-                        // Para finalizar asignamos la fecha actual 
-                        $html->assign("fechaahora", date('Y-m-d'));
-
-                        // Calculamos el número de registro correspondiente 
-                        // para la próxima entrada
-                        $html->assign("nreg", calcularNreg("E"));
-
-
                         break;
                     }
 
@@ -170,50 +179,64 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     }
                 // Si es 3 es añadir una salida
                 case 3: {
-                        // Comprobamos si en la información del POST de la página hay 
-                        // información de algún destinatario. De no ser así, es la primera 
-                        // carga de la página. En caso contrario, la carga es para validar 
-                        // e insertar un registro.                        
-                        if (!empty($_POST['dest'])) {
-                            // Definimos un array para almacenar los ficheros subidos
-                            $ficheros = array();
-
-                            // Creamos una variable para almacenar el objeto registro
-                            $registro;
-
-                            // Creamos el objeto Registro y el array de objetos 
-                            // Fichero necesarios para la insercción. Para esto, 
-                            // usamos una función creada para tal fin, pasándole 
-                            // estas variables y el literal S para especificar 
-                            // un registros de salida
-                            crearObjetosInserccion($registro, $ficheros, 'S');
-
+                        try {
+                            
                             // Creamos un nuevo objeto de acceso a base de datos
                             $db = new DB();
 
-                            // Verificamos si el registro tiene documentos asociados
-                            if ($registro->getEscaneado() === 0) {
+                            // Obtenemos el listado de todas las personas
+                            $personas = $db->listarPersonas();
 
-                                // De no ser así, hacemos una inserción simple
-                                $result = $db->insertarRegistro($registro);
-                            } else {
-                                // En caso contrario hacemos una insercción con fichero
-                                $result = $db->insertarRegistroFichero($registro, $ficheros);
+                            // Las asignamos al html para poder pasarlas a la plantilla
+                            $html->assign("personas", $personas);                            
+                            
+                            // Comprobamos si en la información del POST de la página hay 
+                            // información de algún destinatario. De no ser así, es la primera 
+                            // carga de la página. En caso contrario, la carga es para validar 
+                            // e insertar un registro.                        
+                            if (!empty($_POST['dest'])) {
+                                // Definimos un array para almacenar los ficheros subidos
+                                $ficheros = array();
+
+                                // Creamos una variable para almacenar el objeto registro
+                                $registro;
+
+                                // Creamos el objeto Registro y el array de objetos 
+                                // Fichero necesarios para la insercción. Para esto, 
+                                // usamos una función creada para tal fin, pasándole 
+                                // estas variables y el literal S para especificar 
+                                // un registros de salida
+                                crearObjetosInserccionRegistro($registro, $ficheros, 'S');
+
+
+                                // Verificamos si el registro tiene documentos asociados
+                                if ($registro->getEscaneado() === 0) {
+
+                                    // De no ser así, hacemos una inserción simple
+                                    $result = $db->insertarRegistro($registro);
+                                } else {
+                                    // En caso contrario hacemos una insercción con fichero
+                                    $result = $db->insertarRegistroFichero($registro, $ficheros);
+                                }
                             }
+
+                            // Para finalizar asignamos la fecha actual 
+                            $html->assign("fechaahora", date('Y-m-d'));
+
+                            // Calculamos el número de registro correspondiente 
+                            // para la próxima entrada
+                            $html->assign("nreg", calcularNreg("S"));
+                            
+                        } catch (Exception $ex) {
+
+                        } finally {
+                            unset($db);
                         }
-
-                        // Para finalizar asignamos la fecha actual 
-                        $html->assign("fechaahora", date('Y-m-d'));
-
-                        // Calculamos el número de registro correspondiente 
-                        // para la próxima entrada
-                        $html->assign("nreg", calcularNreg("S"));
-
                         break;
                     }
                 // Si es cuatro, es el listado de salidas
                 case 4: {
-                                                try {
+                        try {
 
                             $db = new DB();
                             // Realizamos una consulta a la base de datos para 
@@ -272,6 +295,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             unset($datos);
                         } finally {
                             // Limpiamos el objeto de base de datos
+                            unset($db);
+                        }
+
+                        break;
+                    }
+                // Si es cinco, es listado de personas
+                case 5: {
+                        try {
+                            // Creamos un objeto de base de datos
+                            $db = new DB();
+
+                            // Verificamos si los datos de POST contienen nombre, 
+                            // lo que indicaría una insercción
+                            if (isset($_POST['nombre'])) {
+                                // Creamos un objeto persona usando la función 
+                                // auxiliar creada para tal fin
+                                $persona = crearObjetosInserccionPersona();
+
+                                // Insertamos los datos en la base de datos
+                                $db->insertarPersona($persona);
+                            }
+
+                            // Verificamos si los datos de POST contienen un 
+                            // identificador de persona. De ser así, indicaría un 
+                            // borrado
+                            if (isset($_POST['idp'])) {
+                                // Eliminamos la información de la persona de la base de datos
+                                $db->eliminarPersona($_POST['idp']);
+                            }
+
+                            // Realizamos una consulta a la base de datos para 
+                            // recuperar las personas
+                            $datos = $db->listarPersonas();
+
+                            // Asignamos el resultado al html para que se use 
+                            // en la subplantilla adecuada                            
+                            $html->assign("personas", $datos);
+                        } catch (Exception $exc) {
+                            unset($datos);
+                        } finally {
                             unset($db);
                         }
 

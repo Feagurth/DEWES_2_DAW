@@ -20,86 +20,6 @@
 require_once './db.php';
 
 /**
- * Método para verificar los datos introducidos por el usuario
- * @param type $tipodoc Tipo de documento
- * @param type $fentrada Fecha de entrada
- * @param type $remit Remitente
- * @param type $dest Destinatario
- * @return int Devuelve 
- * 0 si la validación es correcta
- * 1 si hay un error en el remitente
- * 1 si hay un error en el destinatario
- * 3 si hay un error en el tipo de documento
- * 4 si hay un error en la fecha
- * 5 si el remitente está vacío
- * 6 si el destinatario está vacío
- * 7 si el tipo de documento está vacío
- */
-function validarDatos($tipodoc, $fentrada, $remit, $dest) {
-    // Inicializamos la variable de salida al valor que tendría si 
-    // toda la validación fuese correcta
-    $validacion = 0;
-
-    // Verificamos con expresiones regulares que los caracteres 
-    // introducidos para el remitente son los permitidos
-    if (!preg_match("/^[0-9a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/", $remit)) {
-        // Si la validación no se cumple, asignamos el valor 
-        // correspondiente a la variable de salida
-        $validacion = 1;
-    }
-
-    // Verificamos con expresiones regulares que los caracteres 
-    // introducidos para el destinatario son los permitidos
-    if (!preg_match("/^[0-9a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/", $dest)) {
-        // Si la validación no se cumple, asignamos el valor 
-        // correspondiente a la variable de salida                
-        $validacion = 2;
-    }
-
-    // Verificamos con expresiones regulares que los caracteres 
-    // introducidos para el tipo de documento son los permitidos           
-    if (!preg_match("/^[0-9a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$/", $tipodoc)) {
-        // Si la validación no se cumple, asignamos el valor 
-        // correspondiente a la variable de salida                
-        $validacion = 3;
-    }
-
-    // Verificamos que la fecha de entrada no sea superior a la fecha 
-    // actual puesto que no deberían permitirse la entrada de documentos 
-    // con dias posteriores al actual. No se puede registrar documentos 
-    // que aún no han llegado a la oficina
-    if ($fentrada > date('Y-m-d')) {
-        // Si la validación no se cumple, asignamos el valor 
-        // correspondiente a la variable de salida                
-        $validacion = 4;
-    }
-
-    // Verificamos que el remitente no esté vacío
-    if ($remit == "") {
-        // Si la validación no se cumple, asignamos el valor 
-        // correspondiente a la variable de salida                                
-        $validacion = 5;
-    }
-
-    // Verificamos que el destinatario no esté vacío
-    if ($dest == "") {
-        // Si la validación no se cumple, asignamos el valor 
-        // correspondiente a la variable de salida                                
-        $validacion = 6;
-    }
-
-    // Verificamos que el tipo de documento no esté vacío
-    if ($tipodoc == "") {
-        // Si la validación no se cumple, asignamos el valor 
-        // correspondiente a la variable de salida                                
-        $validacion = 7;
-    }
-
-    // Devolvemos la variable con el resultado de la validación
-    return $validacion;
-}
-
-/**
  * Función que calcula el periodo actual a partir de la fecha del sistema
  * @return type El periodo actual
  */
@@ -218,11 +138,17 @@ function crearMenu() {
     $menu[1]["titulo"] = "Salidas";
     $menu[1]["submenu"] = $submenu1;
 
+    $submenu2[0]["navegacion"] = "5";
+    $submenu2[0]["titulo"] = "Gestión Personas";
+        
+    $menu[2]["titulo"] = "Personas";
+    $menu[2]["submenu"] = $submenu2;
+    
     // Devolvemos el menú creado
     return $menu;
 }
 
-function crearObjetosInserccion(&$registro, array &$ficheros, $tipoRegistro) {
+function crearObjetosInserccionRegistro(&$registro, array &$ficheros, $tipoRegistro) {
 
     // Si es una insercción, volcamos los valores a insertar en 
     // variables directamente desde el POST de la página
@@ -294,6 +220,26 @@ function crearObjetosInserccion(&$registro, array &$ficheros, $tipoRegistro) {
         'esc' => sizeof($ficheros) > 0 ? 1 : 0
     ));
 }
+
+/**
+ * Función que nos permite crear un Objeto Persona para su insercción
+ * @return \Persona Objeto Persona con la información obtenida del POST
+ */
+function crearObjetosInserccionPersona()
+{
+    // Volcamos los valores de la insercción de persona en variables
+    $id_persona = (isset($_POST['id_persona']) ? $_POST['id_persona']:0);
+    $nombre = $_POST['nombre'];
+    $apellido1 = $_POST['apellido1'];
+    $apellido2 = $_POST['apellido2'];
+    
+    // Creamos con los datos un array
+    $row = array('id_persona'=> $id_persona, 'nombre'=>$nombre, 'apellido1'=>$apellido1, 'apellido2'=>$apellido2);
+    
+    // Lo usamos para crear un objeto Persona, que devolvemos
+    return new Persona($row);
+}
+
 
 /**
  * Función que nos permite grabar un fichero con un nombre y una extensión 

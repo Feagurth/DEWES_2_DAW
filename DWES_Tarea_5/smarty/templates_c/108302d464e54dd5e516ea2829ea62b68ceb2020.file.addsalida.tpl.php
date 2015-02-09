@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-08 15:56:30
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-09 20:27:44
          compiled from ".\smarty\templates\addsalida.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2383654d36d84629068-84209805%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '108302d464e54dd5e516ea2829ea62b68ceb2020' => 
     array (
       0 => '.\\smarty\\templates\\addsalida.tpl',
-      1 => 1423407166,
+      1 => 1423504766,
       2 => 'file',
     ),
   ),
@@ -20,22 +20,51 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'variables' => 
   array (
     'nreg' => 0,
+    'personas' => 0,
+    'persona' => 0,
     'fechaahora' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54d36d84656cd4_32461894')) {function content_54d36d84656cd4_32461894($_smarty_tpl) {?><div id="nuevo_registro">
-    <form id="form" action="index.php" method="post" enctype="multipart/form-data">
+    <form id="form" action="index.php" method="post" enctype="multipart/form-data" onsubmit="return validarEnvioRegistro();">
         <h3>Nuevo Registro de Salida</h3>
         <div>            
             Nº registro:&nbsp;<input type="text" id="nreg" name="nreg" readonly="1" value="<?php echo $_smarty_tpl->tpl_vars['nreg']->value;?>
 "/>
-            Remitente:&nbsp;<input type="text" id="remit" name="remit"/>
-            Destinatario:&nbsp;<input type="text" id="dest" name="dest"/>
+            Remitente:&nbsp;
+            <select id="remit" name="remit">
+                <?php  $_smarty_tpl->tpl_vars['persona'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['persona']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['personas']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['persona']->key => $_smarty_tpl->tpl_vars['persona']->value) {
+$_smarty_tpl->tpl_vars['persona']->_loop = true;
+?>
+                    <option value="<?php echo $_smarty_tpl->tpl_vars['persona']->value->getId_persona();?>
+"><?php echo $_smarty_tpl->tpl_vars['persona']->value->getNombre();?>
+ <?php echo $_smarty_tpl->tpl_vars['persona']->value->getApellido1();?>
+ <?php echo $_smarty_tpl->tpl_vars['persona']->value->getApellido2();?>
+</option>
+                <?php } ?>
+            </select>
+            Destinatario:&nbsp;
+            <select id="dest" name="dest">
+                <?php  $_smarty_tpl->tpl_vars['persona'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['persona']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['personas']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['persona']->key => $_smarty_tpl->tpl_vars['persona']->value) {
+$_smarty_tpl->tpl_vars['persona']->_loop = true;
+?>
+                    <option value="<?php echo $_smarty_tpl->tpl_vars['persona']->value->getId_persona();?>
+"><?php echo $_smarty_tpl->tpl_vars['persona']->value->getNombre();?>
+ <?php echo $_smarty_tpl->tpl_vars['persona']->value->getApellido1();?>
+ <?php echo $_smarty_tpl->tpl_vars['persona']->value->getApellido2();?>
+</option>
+                <?php } ?>
+            </select>
+            
         </div>
         <div>
-            Tipo Doc:&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc"/>                            
-            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fecha" name="fecha" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
+            Tipo Doc:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="tipodoc" name="tipodoc" maxlength="15"/>                            
+            Fecha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="fecha" name="fecha" value="<?php echo $_smarty_tpl->tpl_vars['fechaahora']->value;?>
 "/>              
         </div>
         <div>

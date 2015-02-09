@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
 
-
 /* Espeficicamos la fuente, el tamaño y el color que tendrán todos los textos 
 de la página de forma general*/
 *{
@@ -177,7 +176,8 @@ insercción de la página */
     height: 35vmax;
     display: block;
     float: left;
-    border-right: 0.25vmax solid #fff;
+    border-right: 0.25vmax solid #fff;        
+    overflow-y: scroll;
 }
 
 /* Estilos de tablas de listado */
@@ -195,7 +195,7 @@ que tendrá */
 #cuerpo #lista div.listado table {
     margin: 0.5vmax;
     border-collapse: collapse;
-    width: 98%;
+    width: 98.7%;
 
 }
 
@@ -248,34 +248,56 @@ clase */
 
 /* Definimos el borde y los margenes del contenedor donde aparecerán los 
 controles para añadir registros */
-#nuevo_registro
+#nuevo_registro,
+#nueva_persona
 {
     border: 0.15vmax solid #000;
     margin: 0.5vmax;
 }
 
 /* Definimos los margenes para la cabecera */
-#nuevo_registro h3{
+#nuevo_registro h3,
+#nueva_persona h3
+{
     margin: 0.5vmax;
 }
 
 /* Definimos un marco extra para el contenedor interior */
-#nuevo_registro div
+#nuevo_registro div,
+#nueva_persona div
 {
     margin: 0.5vmax;
     height: 2vmax;
 }
 
 /* Establecemos el ancho de los controles */
-#nuevo_registro input[type=date],
 #nuevo_registro input[type=text]{
     width: 10.5vmax;
 }
+
+#nuevo_registro input[type=date]{
+    width: 10.5vmax;
+}
+
+#nuevo_registro select {
+    width: 20vmax;
+    overflow: hidden; 
+    white-space: pre; 
+    text-overflow: ellipsis;
+
+}
+
 /* Y habilitamos el ancho automático en el checkbox */
 #nuevo_registro input[type=checkbox]{
     width: auto;
 }
 
+/* Definimos el tamaño de los cuadros de texto en el contenedor de añadir 
+personas */
+#nueva_persona input[type=text]
+{
+    width: 15.5vmax;
+}
 
 /* Zona de detalle */
 
@@ -309,7 +331,7 @@ texto  */
     padding: 0;
     display: inline-table;
     text-align: center;    
-    word-wrap: break-word;    
+    word-wrap: break-word; 
 }
 
 /* Definimos los estilos para el parrafo que contiene el nombre del documento */
@@ -350,4 +372,6 @@ objetos que contedrá */
     height: 29vmax;
 }
 
-
+input.error{
+    background-color: red;
+}

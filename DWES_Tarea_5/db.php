@@ -2,6 +2,7 @@
 
 require_once './Registro.php';
 require_once './Fichero.php';
+require_once './Persona.php';
 
 class DB {
 
@@ -11,6 +12,13 @@ class DB {
      */
     private $dwes;
 
+    /**
+     * Constructor de la base de datos
+     * @global type $serv Servidor donde está alojada el servidor de base de datos
+     * @global type $base Nombre de la base de datos
+     * @global type $usu Usuario de acceso a la base de datos
+     * @global type $pas Contraseña para acceder a la base de datos
+     */
     public function __construct() {
         // Recuperamos las variables globales que contienen la configuración 
         // de conxión a la base de datos
@@ -32,26 +40,35 @@ class DB {
 
     /**
      * Método que nos permite realizar consultas a la base de datos
-     * @global type $serv Servidor de base de datos donde está situada la base  
-     * de datos
-     * @param type $sql Sentencia SQL a realizar sobre la base de datos
-     * @return type Devuelve el resultado de una consulta con base de datos
+     * @param type $sql Sentencia sql a ejecutar
+     * @return type Resultado de la consulta
+     * @throws Exception Lanzamos una excepción si se produce un error
      */
     private function ejecutaConsulta($sql) {
 
-        $resultado = null;
+        try {
+            // Comprobamos si el objeto se ha creado correctamente
+            if (isset($this->dwes)) {
 
-        // Comprobamos si el objeto se ha creado correctamente
-        if (isset($this->dwes)) {
+                // De ser así, realizamos la consulta
+                $resultado = $this->dwes->query($sql);
 
-            // De ser así, realizamos la consulta
-            $resultado = $this->dwes->query($sql);
-
-            // Devolvemos el resultado
-            return $resultado;
+                // Devolvemos el resultado
+                return $resultado;
+            }
+        } catch (Exception $ex) {
+            // Si se produce un error, lanzamos una excepción
+            throw $ex;
         }
     }
 
+    /**
+     * Función que nos permite realizar consultas a la base de datos en forma de transacciones
+     * @param type $sql Sentencia sql a ejecutar
+     * @param array $datos Datos a almacenar en forma de array
+     * @return type El resultado de la operación
+     * @throws Exception Lanza una excepción si se produce un error
+     */
     private function ejecutaConsultaTransaccion($sql, array $datos) {
 
         try {
@@ -96,6 +113,13 @@ class DB {
         }
     }
 
+    /**
+     * Función que nos permite insertar un fichero en la base de datos
+     * @param Fichero $fichero Objeto Fichero que contiene la información a almacenar
+     * @param type $id_registro Id del registro al que está vinculado el fichero
+     * @return type Resultado de la operación
+     * @throws Exception Lanza una excepción si se produce un error
+     */
     private function insertarFichero(Fichero $fichero, $id_registro) {
 
         try {
@@ -143,11 +167,13 @@ class DB {
     public function listarEntradas() {
 
         // Especificamos la consulta que vamos a realizar sobre la base de datos
-        $sql = "SELECT id as id, nreg, tipo_reg, tipodoc, fecha, remit, dest, "
-                . "IF((SELECT count(*) from documentos d where "
-                . "d.id_registro = r.id AND r.tipo_reg = 'E') > 0, 1, 0) as esc "
-                . "from registros r where tipo_reg ='E' order by fecha desc, "
-                . "id desc;";
+        $sql = "SELECT id AS id, nreg, tipo_reg, tipodoc, fecha, "
+                . "CONCAT_WS(' ', p.nombre, p.apellido1, p.apellido2) as remit, "
+                . "CONCAT_WS(' ', p2.nombre, p2.apellido1, p2.apellido2) as dest, "
+                . "IF((SELECT count(*) FROM documentos d WHERE d.id_registro = r.id "
+                . "AND r.tipo_reg = 'E') > 0, 1, 0) AS esc FROM registros r, personas p, "
+                . "personas p2 WHERE tipo_reg ='E' AND	r.remit = p.id_persona AND "
+                . "r.dest = p2.id_persona ORDER BY fecha DESC, id DESC;";
 
         // Llamamos la a la función protegida de la clase para realizar la consulta
         $resultado = $this->ejecutaConsulta($sql);
@@ -188,11 +214,13 @@ class DB {
     public function listarSalidas() {
 
         // Especificamos la consulta que vamos a realizar sobre la base de datos
-        $sql = "SELECT id as id, nreg, tipo_reg, tipodoc, fecha, remit, dest, "
-                . "IF((SELECT count(*) from documentos d where "
-                . "d.id_registro = r.id AND r.tipo_reg = 'S') > 0, 1, 0) as esc "
-                . "from registros r where tipo_reg ='S' order by fecha desc, "
-                . "id desc;";
+        $sql = "SELECT id AS id, nreg, tipo_reg, tipodoc, fecha, "
+                . "CONCAT_WS(' ', p.nombre, p.apellido1, p.apellido2) as remit, "
+                . "CONCAT_WS(' ', p2.nombre, p2.apellido1, p2.apellido2) as dest, "
+                . "IF((SELECT count(*) FROM documentos d WHERE d.id_registro = r.id "
+                . "AND r.tipo_reg = 'S') > 0, 1, 0) AS esc FROM registros r, personas p, "
+                . "personas p2 WHERE tipo_reg ='S' AND	r.remit = p.id_persona AND "
+                . "r.dest = p2.id_persona ORDER BY fecha DESC, id DESC;";
 
         // Llamamos la a la función protegida de la clase para realizar la consulta
         $resultado = $this->ejecutaConsulta($sql);
@@ -228,8 +256,8 @@ class DB {
     /**
      * Método que nos permite listar los documentos relacionados con un registro
      * @param type $id_registro Id del registro relacionado con los documentos
-     * @return \Registro
-     * @throws Exception
+     * @return type Devuelve un array con la información recuperada de la base de datos
+     * @throws Exception Lanza una excepción si se produce un error
      */
     public function listarDocumentos($id_registro) {
 
@@ -267,6 +295,103 @@ class DB {
         }
     }
 
+    /**
+     * Función que nos permite listar las personas almacenadas en la base de datos
+     * @return \Persona Devuelve un array de objetos Persona con la información de la base de datos
+     * @throws Exception Lanza una excepción si se produce un error
+     */
+    public function listarPersonas() {
+        // Especificamos la consulta que vamos a realizar sobre la base de datos
+        $sql = "SELECT * FROM personas ORDER BY nombre, apellido1, apellido2 ASC";
+
+        // Llamamos la a la función protegida de la clase para realizar la consulta
+        $resultado = $this->ejecutaConsulta($sql);
+
+        // Comprobamos si hemos obtenido algún resultado
+        if ($resultado) {
+
+            // Definimos un nuevo array para almacenar el resultado
+            $datos = array();
+
+            // Añadimos un elemento por cada registro de entrada obtenido
+            $row = $resultado->fetch();
+
+            // Iteramos por los resultados obtenidos
+            while ($row != null) {
+
+                // Asignamos el resultado al array de resultados                
+                $datos[] = new Persona($row);
+
+                // Recuperamos una nueva fila
+                $row = $resultado->fetch();
+            }
+
+            // Devolvemos el resultado
+            return $datos;
+        } else {
+            // Si no tenemos resultados lanzamos una excepción
+            throw new Exception;
+        }
+    }
+
+    /**
+     * Función que nos permite insertar los datos de una persona en la base de datos
+     * @param Persona $persona Objeto Persona que contiene los datos a almacenar
+     * @return int 0 si es correcto
+     * @throws Exception Lanza una excepción si se produce un error
+     */
+    public function insertarPersona(Persona $persona) {
+        
+        // Creamos la consulta de insercción usando los valores del objeto 
+        // Persona
+        $sql = "INSERT INTO PERSONAS VALUES (0, "
+                . "'" . $persona->getNombre() . "' , "
+                . "'" . $persona->getApellido1() . "', "
+                . "'" . $persona->getApellido2() . "');";
+
+        // Llamamos la a la función protegida de la clase para realizar la consulta
+        $resultado = self::ejecutaConsulta($sql);
+
+        // Comprobamos el resultado
+        if ($resultado) {
+            // Si es correcto, devolvemos 0
+            return 0;
+        } else {
+            // En caso contrario, lanzamos una excepción
+            throw new Exception;
+        }
+    }
+    
+    /**
+     * Función que nos permite eliminar una persona de la base de datos
+     * @param type $id_persona Identificador de la persona a eliminar
+     * @return int 0 si sale correcto, cualquier otro valor en caso contrario
+     * @throws Exception Lanzamos una excepción si se produce un error
+     */
+    public function  eliminarPersona($id_persona)
+    {
+        // Creamos la consulta de borrado usando el identificador de la persona
+        $sql = "DELETE FROM personas where id_persona = " . $id_persona . ";";
+
+        // Llamamos la a la función protegida de la clase para realizar la consulta
+        $resultado = self::ejecutaConsulta($sql);
+
+        // Comprobamos el resultado
+        if ($resultado) {
+            // Si es correcto, devolvemos 0
+            return 0;
+        } else {
+            // En caso contrario, lanzamos una excepción
+            throw new Exception;
+        }        
+    }
+
+    /**
+     * Función que nos permite insertar los datos de un registro en la base de datos
+     * @param Registro $registro Objeto Registro que contiene los datos a almacenar
+     * @return int 0 si es correcto
+     * @throws Exception Lanza una excepción si se produce un error
+     */
     public function insertarRegistro(Registro $registro) {
         // Creamos la consulta de insercción usando los valores del objeto 
         // registro
@@ -291,6 +416,14 @@ class DB {
         }
     }
 
+    /**
+     * Función que nos permite insertar los datos de un registro con ficheros 
+     * en la base de datos
+     * @param Registro $registro Objeto Registro que contiene los datos a almacenar
+     * @param array $ficheros Array de objeto Fichero que contiene la información 
+     * de los documentos a almacenar
+     * @throws Exception Lanza una excepción si se produce un error
+     */
     public function insertarRegistroFichero(Registro $registro, array $ficheros) {
 
         // Iniciamos una transacción
@@ -353,6 +486,13 @@ class DB {
         }
     }
 
+    /**
+     * Función que nos permite recuperar la información de un documento de la 
+     * base de datos
+     * @param type $id_documento Identificador del documento a recuperar
+     * @return type Devuelve el resultado de la consulta a la base de datos
+     * @throws Exception Lanza una excepción si se produce un error
+     */
     public function recuperarDocumento($id_documento) {
 
         // Especificamos la consulta que vamos a realizar sobre la base de datos
@@ -376,6 +516,7 @@ class DB {
      * tipos de registro
      * @param type $tipo Tipo de registro del que se quiere recuperar el número
      * @return type String Numero de registro más grande dependidendo del tipo
+     * @throws Exception Lanza una excepción si se produce un error
      */
     public function calcularNReg($tipo) {
         // Creamos la consulta usando el parámetro pasado a la función

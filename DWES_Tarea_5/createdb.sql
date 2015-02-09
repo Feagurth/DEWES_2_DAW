@@ -14,6 +14,13 @@ CREATE TABLE usuario(
 -- Insertamos un usuario encriptando sus valores con la función MD5
 INSERT INTO usuario VALUES (0, md5('dwes'), md5('abc123.'));
 
+-- Creamos la tabla de personas
+CREATE TABLE personas(
+    id_persona INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(32) NOT NULL,
+    apellido1 VARCHAR(32) NOT NULL,
+    apellido2 VARCHAR(32)) engine= InnoDB;
+
 -- Creamos la tabla para almacenar los registros necesarios
 CREATE TABLE registros(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -21,8 +28,10 @@ CREATE TABLE registros(
     tipo_reg VARCHAR(1) NOT NULL,
     tipodoc VARCHAR(15) NOT NULL,
     fecha DATE NOT NULL,
-    remit VARCHAR(150) NOT NULL,
-    dest VARCHAR(150) NOT NULL) ENGINE=InnoDB;
+    remit INT NOT NULL,
+    dest INT NOT NULL,
+    FOREIGN KEY (remit) REFERENCES personas(id_persona),
+    FOREIGN KEY (dest) REFERENCES personas(id_persona)) ENGINE=InnoDB;
 
 
 -- Creamos la tabla documento
@@ -35,12 +44,17 @@ CREATE TABLE documentos(
     documento LONGBLOB NOT NULL, 
     FOREIGN KEY (id_registro) REFERENCES registros(id)) ENGINE = InnoDB;
 
+
 -- Creamos el usuario 
 CREATE USER `dwes`
 IDENTIFIED BY 'abc123.';
 
 CREATE USER 'dwes'@'localhost' 
 IDENTIFIED BY 'abc123.';
+
+-- Asignamos permisos de la tabla al usuario dwes    
+GRANT ALL ON `Gestion1`.*
+TO `dwes`;
 
 -- Asignamos permisos de la tabla al usuario dwes    
 GRANT ALL ON `Gestion2`.*

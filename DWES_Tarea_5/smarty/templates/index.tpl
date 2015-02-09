@@ -40,6 +40,9 @@
                         {include file="versalidas.tpl"}                    
                     {/if}
                 {/if}                
+                {if $nav == "5"}
+                    {include file="addpersona.tpl"}                    
+                {/if}                      
             </div>            
             <div id="detalle">                 
                 <div id="visualizador">

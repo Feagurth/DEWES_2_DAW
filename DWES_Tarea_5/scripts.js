@@ -131,7 +131,178 @@ function mostrarFichero(valorNavegacion, id_registro, id_documento)
  */
 function descargarFichero(id_documento)
 {
-    // Realizamos un posta la página descarga.php, pasando el id del documento 
+    // Realizamos un post a la página descarga.php, pasando el id del documento 
     // como parámetro
-    post('descarga.php', {idd: id_documento});    
+    post('descarga.php', {idd: id_documento});
+}
+
+function eliminarPersona(id_persona)
+{
+    // Pedimos la confirmación por parte del usuario para el borrado
+    if (confirm("¿Desea eleminar la persona?"))
+    {
+        // Hacemos uso de la funcion post y enviamos los datos 
+        // necesarios para eliminar una persona
+        post('index.php', {nav: 5, idp: id_persona});
+    }
+}
+
+/**
+ * Función para validar una cadena mediante expresiones regulares
+ * @param {type} cadena Cadena a validar
+ * @returns {Array} Resultado de la validación
+ */
+function validarCadena(cadena)
+{
+    // Validamos el nombre introducido usando expresiones regulares 
+    // y devolvemos el resultado
+    return new RegExp("^[a-zA-ZñÑáÁéÉíÍóÓúÚ ]+$").exec(cadena);
+}
+
+
+/**
+ * Función para validar los datos de una persona antes de insertarlos en la base 
+ * de datos
+ * @returns {Boolean} True si son validos, False en caso contrario
+ */
+function validarEnvioPersona()
+{
+    // Creamos una variable de control y la inicializamos a verdadero
+    var salida = true;
+
+    // Verificamos que el campo no venga vacio
+    if (validarCadena(document.getElementById("nombre").value))
+    {
+        // Si no viene vacio, verificamos el contenido
+        if (!validarCadena(document.getElementById("nombre").value))
+        {
+            // Si no es válido, cambiamos el valor de la variable y añadimos la clase error al objeto input
+            salida = false;
+            document.getElementById("nombre").className = "error";
+        }
+        else
+        {
+            // Si la validación es correcta, quitamos la clase de error que 
+            // hayamos podido poner anteriormente
+            document.getElementById("nombre").className = "";
+        }
+    }
+    else
+    {
+        // Si viene vacio, cambiamos la variable a devolver a false y le 
+        // cambiamos la clase
+        document.getElementById("nombre").className = "error";
+        salida = false;
+    }
+
+    // Verificamos que el campo no venga vacio
+    if (validarCadena(document.getElementById("apellido1").value))
+    {
+        // Si no viene vacio, verificamos el contenido
+        if (!validarCadena(document.getElementById("apellido1").value))
+        {
+            // Si no es válido, cambiamos el valor de la variable y añadimos la clase error al objeto input
+            salida = false;
+            document.getElementById("apellido1").className = "error";
+        }
+        else
+        {
+            // Si la validación es correcta, quitamos la clase de error que 
+            // hayamos podido poner anteriormente
+            document.getElementById("apellido1").className = "";
+        }
+    }
+    else
+    {
+        // Si viene vacio, cambiamos la variable a devolver a false y le 
+        // cambiamos la clase
+        document.getElementById("apellido1").className = "error";
+        salida = false;
+    }
+
+    // Comprobamos que el campo de apellidos contiene datos
+    if (document.getElementById("apellido2").value)
+    {
+        // Verificamos el segundo apellido
+        if (!validarCadena(document.getElementById("apellido2").value))
+        {
+            // Si no es válido, cambiamos el valor de la variable y añadimos la clase error al objeto input
+            salida = false;
+            document.getElementById("apellido2").className = "error";
+        }
+        else
+        {
+            // Si la validación es correcta, quitamos la clase de error que 
+            // hayamos podido poner anteriormente
+            document.getElementById("apellido2").className = "";
+        }
+    }
+    else
+    {
+        // Si el campo de segundo apellido viene vacio, es correcto, por tanto 
+        // quitamos la clase de error que hayamos podido poner anteriormente
+        document.getElementById("apellido2").className = "";
+
+    }
+
+    // Devolvemos el resultado
+    return salida;
+}
+
+/**
+ * Función para validar los datos de un registro antes de insertarlos en la base 
+ * de datos
+ * @returns {Boolean} True si son validos, False en caso contrario
+ */
+function validarEnvioRegistro()
+{
+    // Creamos una variable de control y la inicializamos a verdadero
+    var salida = true;
+
+    // Verificamos que el campo no venga vacio
+    if (document.getElementById("tipodoc").value)
+    {
+        // Si contiene texto, verificamos que el texto no contenga caracteres inválidos
+        if (!validarCadena(document.getElementById("tipodoc").value))
+        {
+            // Si no es válido, cambiamos el valor de la variable y añadimos la clase error al objeto input
+            salida = false;
+            document.getElementById("tipodoc").className = "error";
+        }
+        else
+        {
+            // Si la validación es correcta, quitamos la clase de error que 
+            // hayamos podido poner anteriormente
+            document.getElementById("tipodoc").className = "";
+        }
+    }
+    else
+    {
+        // Si viene vacio, cambiamos la variable a devolver a false y le 
+        // cambiamos la clase
+        salida = false;
+        document.getElementById("tipodoc").className = "error";
+    }
+
+    // Comprobamos si se ha marcado el checkbox para insertar ficheros
+    if (document.getElementById("esc").checked === true)
+    {
+        // Si se ha marcado, comprobamos que se ha seleccionado alguno
+        if (!document.getElementById("addfile").value)
+        {
+            // Si no se ha selecionado ninguno, marcamos la variable de salida 
+            // como falsa y añadimos la clase error a los objetos
+            salida = false;
+            document.getElementById("addfile").className = "error";
+        }
+        else
+        {
+            // Si la validación es correcta, quitamos la clase de error que 
+            // hayamos podido poner anteriormente            
+            document.getElementById("addfile").className = "";
+        }
+    }
+
+    // Devolvemos el resultado
+    return salida;
 }
