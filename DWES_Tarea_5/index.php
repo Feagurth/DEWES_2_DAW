@@ -68,12 +68,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             // Las asignamos al html para poder pasarlas a la plantilla
                             $html->assign("personas", $personas);
 
-
                             // Comprobamos si en la información del POST de la página hay 
-                            // información de algún destinatario. De no ser así, es la primera 
-                            // carga de la página. En caso contrario, la carga es para validar 
-                            // e insertar un registro.                        
-                            if (!empty($_POST['dest'])) {
+                            // información de algún destinatario y un remitente. De no ser 
+                            // así, es la primera carga de la página. En caso contrario, 
+                            // la carga es para validar e insertar un registro.                        
+                            if (!empty($_POST['remit']) && !empty($_POST['dest'])) {
                                 // Definimos un array para almacenar los ficheros subidos
                                 $ficheros = array();
 
@@ -191,10 +190,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             $html->assign("personas", $personas);                            
                             
                             // Comprobamos si en la información del POST de la página hay 
-                            // información de algún destinatario. De no ser así, es la primera 
-                            // carga de la página. En caso contrario, la carga es para validar 
-                            // e insertar un registro.                        
-                            if (!empty($_POST['dest'])) {
+                            // información de algún destinatario y un remitente. De no ser así, 
+                            // es la primera carga de la página. En caso contrario, la 
+                            // carga es para validar e insertar un registro.                        
+                            if (!empty($_POST['remit']) && !empty($_POST['dest'])) {
                                 // Definimos un array para almacenar los ficheros subidos
                                 $ficheros = array();
 

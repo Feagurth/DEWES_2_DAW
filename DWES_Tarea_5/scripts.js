@@ -259,6 +259,36 @@ function validarEnvioRegistro()
     // Creamos una variable de control y la inicializamos a verdadero
     var salida = true;
 
+    // Validamos si el desplegable de remitente tiene un valor seleccionado
+    if (!document.getElementById("remit").value)
+    {
+        // Si no se ha selecionado ninguno, marcamos la variable de salida 
+        // como falsa y añadimos la clase error a los objetos        
+        salida = false;
+        document.getElementById("remit").className = "error";
+    }
+    else
+    {
+        // Si la validación es correcta, quitamos la clase de error que 
+        // hayamos podido poner anteriormente            
+        document.getElementById("remit").className = "";
+    }
+
+    // Validamos si el desplegable de destinatario tiene un valor seleccionado
+    if (!document.getElementById("dest").value)
+    {
+        // Si no se ha selecionado ninguno, marcamos la variable de salida 
+        // como falsa y añadimos la clase error a los objetos        
+        salida = false;
+        document.getElementById("dest").className = "error";
+    }
+    else
+    {
+        // Si la validación es correcta, quitamos la clase de error que 
+        // hayamos podido poner anteriormente            
+        document.getElementById("dest").className = "";
+    }
+
     // Verificamos que el campo no venga vacio
     if (document.getElementById("tipodoc").value)
     {

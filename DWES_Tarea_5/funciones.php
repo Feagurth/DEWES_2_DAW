@@ -177,6 +177,7 @@ function crearObjetosInserccionRegistro(&$registro, array &$ficheros, $tipoRegis
             // nos sea más facil trabajar luego con ellos
             $archivos = ordenarFicheros($_FILES);
 
+            xdebug_break();
 
             // Recorremos todos los archivos para tratarlos
             foreach ($archivos as $file) {

@@ -176,7 +176,7 @@ insercción de la página */
     height: 35vmax;
     display: block;
     float: left;
-    border-right: 0.25vmax solid #fff;        
+    border-right: 0.25vmax solid #fff; 
     overflow-y: scroll;
 }
 
@@ -196,8 +196,8 @@ que tendrá */
     margin: 0.5vmax;
     border-collapse: collapse;
     width: 98.7%;
-
 }
+
 
 /* Definimos el ancho, color y tipo de linea que tendrán los bordes de la tabla 
 así como el alineamiento del texto */
@@ -372,6 +372,9 @@ objetos que contedrá */
     height: 29vmax;
 }
 
-input.error{
-    background-color: red;
+/* Especificamos los estilos para los errores en los elementos que puedan 
+causarlos */
+input.error,
+select.error{
+    border: 0.15vmax solid #ff0000;
 }
