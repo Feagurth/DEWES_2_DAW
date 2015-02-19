@@ -1,6 +1,6 @@
 <html>
     <head>
-        <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link type = "text/css" rel = "stylesheet" href = "estilos.css"/>        
         <title>{$titulo}</title>
     </head>
@@ -24,25 +24,29 @@
         </nav>
         <div id="cuerpo">            
             <div id="lista">
-                {if $nav == "1"}
-                    {include file="addentrada.tpl"}                    
-                {/if}
-                {if $nav == "2"}
-                    {if empty($entradas) === false}
-                        {include file="verentradas.tpl"}                    
+                {if !isset($error)}
+                    {if $nav == "1"}
+                        {include file="addentrada.tpl"}                    
                     {/if}
-                {/if}
-                {if $nav == "3"}
-                    {include file="addsalida.tpl"}                    
-                {/if}
-                {if $nav == "4"}
-                    {if empty($salidas) === false}
-                        {include file="versalidas.tpl"}                    
+                    {if $nav == "2"}
+                        {if empty($entradas) === false}
+                            {include file="verentradas.tpl"}                    
+                        {/if}
                     {/if}
-                {/if}                
-                {if $nav == "5"}
-                    {include file="addpersona.tpl"}                    
-                {/if}                      
+                    {if $nav == "3"}
+                        {include file="addsalida.tpl"}                    
+                    {/if}
+                    {if $nav == "4"}
+                        {if empty($salidas) === false}
+                            {include file="versalidas.tpl"}                    
+                        {/if}
+                    {/if}                
+                    {if $nav == "5"}
+                        {include file="addpersona.tpl"}                    
+                    {/if} 
+                {else}
+                    {include file="mostrarerror.tpl"}
+                {/if}
             </div>            
             <div id="detalle">                 
                 <div id="visualizador">

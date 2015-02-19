@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html>
     <head>
-        <meta charset="UTF-8">   
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <!-- Cargamos el fichero de funciones Javascript. Hay que cargarlo con 
         la etiqueta <script> para que no de errores -->
         <script type="text/javascript" src="scripts.js"></script>
@@ -331,7 +331,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             // Asignamos el resultado al html para que se use 
                             // en la subplantilla adecuada                            
                             $html->assign("personas", $datos);
-                        } catch (Exception $exc) {
+                        } catch (Exception $ex) {
                             unset($datos);
                         } finally {
                             unset($db);
@@ -343,8 +343,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         } else {
             // En caso de que no haya valor de navegación, asignamos un 0
             $html->assign("nav", 0);
+        }        
+        
+        // Comprobamos si tenemos asignada la variable que contiene las excepciónes 
+        // producidas en la aplicación
+        if(isset($ex))
+        {
+            // Si la variable contiene algún valor, la asignamos al motor Smarty
+            $html->assign("error", $ex);
+            $html->assign("emailadmin", $emailAdmin);
         }
 
+        // Mostramos en el motor Smarty la plantilla de la página principal
         $html->display("index.tpl");
         ?>
     </body>

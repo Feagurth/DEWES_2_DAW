@@ -14,4 +14,4 @@ $sev = "localhost";
 $base = "gestion2";
 $usu = "dwes";
 $pas = "abc123.";
-
+$emailAdmin = "admin@dominio.es";

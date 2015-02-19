@@ -18,24 +18,32 @@ class DB {
      * @global type $base Nombre de la base de datos
      * @global type $usu Usuario de acceso a la base de datos
      * @global type $pas Contraseña para acceder a la base de datos
+     * @throws Exception Se lanza una excepción si se produce algún error
      */
     public function __construct() {
-        // Recuperamos las variables globales que contienen la configuración 
-        // de conxión a la base de datos
-        global $serv;
-        global $base;
-        global $usu;
-        global $pas;
+        try {
+            // Recuperamos las variables globales que contienen la configuración 
+            // de conxión a la base de datos
+            global $serv;
+            global $base;
+            global $usu;
+            global $pas;
 
-        // Creamos un array de configuración para la conexion PDO a la base de 
-        // datos
-        $opc = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
+            // Creamos un array de configuración para la conexion PDO a la base de 
+            // datos
+            $opc = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
 
-        // Creamos la cadena de conexión con la base de datos
-        $dsn = "mysql:host=$serv;dbname=$base";
+            // Creamos la cadena de conexión con la base de datos
+            $dsn = "mysql:host=$serv;dbname=$base";
 
-        // Finalmente creamos el objeto PDO para la base de datos
-        $this->dwes = new PDO($dsn, $usu, $pas, $opc);
+            // Finalmente creamos el objeto PDO para la base de datos
+            $this->dwes = new PDO($dsn, $usu, $pas, $opc);
+            
+            $this->dwes->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 
     /**
@@ -144,7 +152,7 @@ class DB {
                 $this->dwes->rollBack();
 
                 // Y lanzamos una excepción
-                throw new Exception;
+                throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
             } else {
                 // Si el resultado es correcto, lo devolvemos
                 return $resultado;
@@ -202,7 +210,7 @@ class DB {
             return $datos;
         } else {
             // Si no tenemos resultados lanzamos una excepción
-            throw new Exception;
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
 
@@ -249,7 +257,7 @@ class DB {
             return $datos;
         } else {
             // Si no tenemos resultados lanzamos una excepción
-            throw new Exception;
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
 
@@ -291,7 +299,7 @@ class DB {
             return $datos;
         } else {
             // Si no tenemos resultados lanzamos una excepción
-            throw new Exception;
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
 
@@ -330,7 +338,7 @@ class DB {
             return $datos;
         } else {
             // Si no tenemos resultados lanzamos una excepción
-            throw new Exception;
+            throw new Exception();
         }
     }
 
@@ -341,7 +349,7 @@ class DB {
      * @throws Exception Lanza una excepción si se produce un error
      */
     public function insertarPersona(Persona $persona) {
-        
+
         // Creamos la consulta de insercción usando los valores del objeto 
         // Persona
         $sql = "INSERT INTO PERSONAS VALUES (0, "
@@ -358,18 +366,17 @@ class DB {
             return 0;
         } else {
             // En caso contrario, lanzamos una excepción
-            throw new Exception;
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
-    
+
     /**
      * Función que nos permite eliminar una persona de la base de datos
      * @param type $id_persona Identificador de la persona a eliminar
      * @return int 0 si sale correcto, cualquier otro valor en caso contrario
      * @throws Exception Lanzamos una excepción si se produce un error
      */
-    public function  eliminarPersona($id_persona)
-    {
+    public function eliminarPersona($id_persona) {
         // Creamos la consulta de borrado usando el identificador de la persona
         $sql = "DELETE FROM personas where id_persona = " . $id_persona . ";";
 
@@ -382,8 +389,8 @@ class DB {
             return 0;
         } else {
             // En caso contrario, lanzamos una excepción
-            throw new Exception;
-        }        
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
+        }
     }
 
     /**
@@ -412,7 +419,7 @@ class DB {
             return 0;
         } else {
             // En caso contrario, lanzamos una excepción
-            throw new Exception;
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
 
@@ -426,63 +433,76 @@ class DB {
      */
     public function insertarRegistroFichero(Registro $registro, array $ficheros) {
 
-        // Iniciamos una transacción
-        $this->dwes->beginTransaction();
+        try {
 
-        // Especificamos la sentencia SQL que insertará los valores en la base 
-        // de datos
-        $sql = "INSERT INTO REGISTROS VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        // Pasamos el objeto a un array
-        $datos = (array) $registro;
+            // Iniciamos una transacción
+            $this->dwes->beginTransaction();
 
-        // Quitamos la última posición del array, correspondiente a si hay 
-        // ficheros insertados, pues esta información no se almacenará en 
-        // la base de datos
-        array_pop($datos);
+            // Especificamos la sentencia SQL que insertará los valores en la base 
+            // de datos
+            $sql = "INSERT INTO REGISTROS VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        // Ejecutamos la consulta haciendo uso de la función privada diseñada 
-        // para este fin y almacenamos el resultado
-        $resultado = $this->ejecutaConsultaTransaccion($sql, $datos);
+            // Pasamos el objeto a un array
+            $datos = (array) $registro;
 
-        // Verificamos el resultado de la operación
-        if ($resultado) {
+            // Quitamos la última posición del array, correspondiente a si hay 
+            // ficheros insertados, pues esta información no se almacenará en 
+            // la base de datos
+            array_pop($datos);
 
-            // Si es correcto, recuperamos el último Id insertado en la base de 
-            // datos, que corresponderá con el identificador del registro 
-            // recién insertado
-            $lastid = $this->dwes->lastInsertId();
+            // Ejecutamos la consulta haciendo uso de la función privada diseñada 
+            // para este fin y almacenamos el resultado
+            $resultado = $this->ejecutaConsultaTransaccion($sql, $datos);
 
-            // Iteramos por el array de ficheros para procesarlos
-            foreach ($ficheros as $value) {
+            // Verificamos el resultado de la operación
+            if ($resultado) {
 
-                // Insertamos cada fichero haciendo uso de la función privada 
-                // diseñada para este fin y almacenamos el resultado
-                $resultado = $this->insertarFichero($value, $lastid);
+                // Si es correcto, recuperamos el último Id insertado en la base de 
+                // datos, que corresponderá con el identificador del registro 
+                // recién insertado
+                $lastid = $this->dwes->lastInsertId();
 
-                // Si el resultado no es correcto para todas las iteraciones de 
-                // los ficheros
-                if (!$resultado) {
+                // Iteramos por el array de ficheros para procesarlos
+                foreach ($ficheros as $value) {
 
-                    // Hacemos un rollback para anular las insercciones
-                    $this->dwes->rollBack();
+                    // Insertamos cada fichero haciendo uso de la función privada 
+                    // diseñada para este fin y almacenamos el resultado
+                    $resultado = $this->insertarFichero($value, $lastid);
 
-                    // Lanzamos una excepción
-                    throw new Exception;
+                    // Si el resultado no es correcto para todas las iteraciones de 
+                    // los ficheros
+                    if (!$resultado) {
+
+                        // Hacemos un rollback para anular las insercciones
+                        $this->dwes->rollBack();
+
+                        // Lanzamos una excepción
+                        throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
+                    }
                 }
-            }
 
-            // Si todo es correcto, comfirmamos los cambios
-            $this->dwes->commit();
-        } else {
+                // Si todo es correcto, comfirmamos los cambios
+                $this->dwes->commit();
+            } else {
+
+                // Si el resultado de la inserción del registro no es correcta, 
+                // hacemos un rollback para invalidarlos cambios que se hayan hecho 
+                // en la base de datos
+                $this->dwes->rollBack();
+
+                // Lanzamos una excepción
+                throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
+            }
+        } catch (Exception $ex) {
 
             // Si el resultado de la inserción del registro no es correcta, 
             // hacemos un rollback para invalidarlos cambios que se hayan hecho 
             // en la base de datos
             $this->dwes->rollBack();
 
-            // Y lanzamos una excepción
-            throw new Exception;
+            // Lanzamos una excepción
+            throw $ex;
         }
     }
 
@@ -507,7 +527,7 @@ class DB {
             return $resultado->fetch();
         } else {
             // Si no tenemos resultados lanzamos una excepción
-            throw new Exception;
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
 
@@ -531,7 +551,7 @@ class DB {
             return $resultado->fetch()[0];
         } else {
             // En caso contrario lanzamos una excepción
-            throw new Exception;
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
 

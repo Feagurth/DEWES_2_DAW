@@ -378,3 +378,14 @@ input.error,
 select.error{
     border: 0.15vmax solid #ff0000;
 }
+
+/* Definimos un borde y un margen para el contenedor de errores */
+#mostrarerror{
+    margin: 0.5vmax;
+    border: 0.15vmax solid #ff0000;
+}
+
+/* Justificamos el encabezamiento */
+#mostrarerror > *{
+    margin-left: 0.5vmax;
+}
