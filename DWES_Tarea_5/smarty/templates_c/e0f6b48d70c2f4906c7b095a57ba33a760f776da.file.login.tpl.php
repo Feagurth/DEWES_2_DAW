@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 05:06:24
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 17:14:37
          compiled from ".\smarty\templates\login.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1276654e544781d8747-57030425%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e0f6b48d70c2f4906c7b095a57ba33a760f776da' => 
     array (
       0 => '.\\smarty\\templates\\login.tpl',
-      1 => 1424318778,
+      1 => 1424362476,
       2 => 'file',
     ),
   ),
@@ -26,7 +26,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <?php if ($_valid && !is_callable('content_54e54478204221_53676980')) {function content_54e54478204221_53676980($_smarty_tpl) {?><html id="login">
     <head>
         <title>Login</title>
-        <link type = "text/css" rel = "stylesheet" href = "estilos.css"/>
+        <link type = "text/css" rel = "stylesheet" href = "./estilos.css"/>
     </head>
     <body>
         <div id="divlogin">

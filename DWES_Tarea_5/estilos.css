@@ -158,14 +158,13 @@ nav ul ul li:hover {
 }
 
 nav span{
-    margin: 0.25vmax 0.5vmax 0.25vmax 0;
+    margin: 0.5vmax 0.5vmax 0.5vmax 0;
     float: right;
-    font-size: 0.8vmax;  
-        
+    font-size: 0.8vmax;        
 }
 
 nav span a{
-    font-size: 0.50vmax;
+    font-size: 0.8vmax;
     float: right;
 }
 

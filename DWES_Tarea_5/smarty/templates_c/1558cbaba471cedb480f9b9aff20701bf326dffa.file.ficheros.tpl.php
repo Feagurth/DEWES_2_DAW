@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 13:30:43
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 17:20:12
          compiled from ".\smarty\templates\ficheros.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2325354d6cd6eb33745-58551087%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '1558cbaba471cedb480f9b9aff20701bf326dffa' => 
     array (
       0 => '.\\smarty\\templates\\ficheros.tpl',
-      1 => 1424348928,
+      1 => 1424361784,
       2 => 'file',
     ),
   ),
@@ -41,7 +41,7 @@ $_smarty_tpl->tpl_vars['doc']->_loop = true;
 "><?php echo $_smarty_tpl->tpl_vars['doc']->value['nombre'];?>
 </p></div>
         <?php }?>            
-        <?php if (substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-4)==='jpeg'||substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-3)==='png'||substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-3)==='gif'||substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-3)==='bmp'||substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-4)==='tiff') {?>
+        <?php if (substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-4)==='jpeg'||substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-3)==='png'||substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-3)==='gif'||substr($_smarty_tpl->tpl_vars['doc']->value['tipo'],-3)==='bmp') {?>
             <div><img src='imagenes/pic.png' alt="<?php echo $_smarty_tpl->tpl_vars['doc']->value['nombre'];?>
 " title="<?php echo $_smarty_tpl->tpl_vars['doc']->value['nombre'];?>
 " onclick="mostrarFichero(<?php echo $_smarty_tpl->tpl_vars['nav']->value;?>

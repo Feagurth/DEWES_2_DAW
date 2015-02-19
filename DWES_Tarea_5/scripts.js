@@ -418,5 +418,5 @@ function validarPassword(valor)
 
 function logout()
 {    
-    alert('Pendiente codificación');
+    post('login.php', {clear: true}, 'POST');
 }

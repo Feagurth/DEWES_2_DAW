@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 13:36:38
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 17:20:14
          compiled from ".\smarty\templates\visor.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:753054d7b608b4f966-91720301%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '2b9dafe9bd68265bc33f4af24d942284f5681eff' => 
     array (
       0 => '.\\smarty\\templates\\visor.tpl',
-      1 => 1424349396,
+      1 => 1424361784,
       2 => 'file',
     ),
   ),
@@ -38,7 +38,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 " alt="<?php echo $_smarty_tpl->tpl_vars['file']->value['nombre'];?>
 " />
     <?php }?>
-    <?php if (substr($_smarty_tpl->tpl_vars['file']->value['tipo'],-12)==='octet-stream'||substr($_smarty_tpl->tpl_vars['file']->value['tipo'],-4)==='tiff') {?>
+    <?php if (substr($_smarty_tpl->tpl_vars['file']->value['tipo'],-12)==='octet-stream') {?>
         
     <?php }?>
   </object>

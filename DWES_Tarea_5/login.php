@@ -29,10 +29,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         // Iniciamos sesión
         session_start();
 
+        // Cargamos los archivos necesarios
         require_once './configuracion.inc.php';
         require_once './Db.php';
 
-        // Definimos e inicializaos la variable de errores
+        // Comprobamos si hay una petición de limpieza de usuario y password de 
+        // sesión, lo que siginificariá que el usuario logeado desea deslogearse
+        if (isset($_POST['clear'])) {
+            // Eliminamos la informaicón del POST sobre usuario y contraseña
+            unset($_POST['user']);
+            unset($_POST['pass']);
+        }
+        
+        // Definimos e inicializamos la variable de errores
         $error = " ";
 
         try {

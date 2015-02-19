@@ -1,7 +1,7 @@
 <html id="login">
     <head>
         <title>Login</title>
-        <link type = "text/css" rel = "stylesheet" href = "estilos.css"/>
+        <link type = "text/css" rel = "stylesheet" href = "./estilos.css"/>
     </head>
     <body>
         <div id="divlogin">

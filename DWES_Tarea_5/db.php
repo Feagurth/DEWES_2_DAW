@@ -565,8 +565,6 @@ class DB {
     public function validarUsuario($usuario, $password)
     {
         
-        xdebug_break();
-        
         // Especificamos la consulta que vamos a realizar sobre la base de datos        
         $sql = "select * from usuario where user='$usuario' and pass='$password'";
         
