@@ -64,7 +64,6 @@ flotabilidad, así como el tipo de letra y su tamaño*/
     font-family: 'Open Sans', sans-serif;
     font-size: 1vmax;            
 }
-
 /* Ocultamos la segunda lista de enlaces */
 nav ul ul {
     display: none;
@@ -157,6 +156,21 @@ segunda lista */
 nav ul ul li:hover {
     background-color: aquamarine;
 }
+
+nav span{
+    margin: 0.25vmax 0.5vmax 0.25vmax 0;
+    float: right;
+    font-size: 0.8vmax;  
+        
+}
+
+nav span a{
+    font-size: 0.50vmax;
+    float: right;
+}
+
+
+
 
 /* Estilo del cuerpo */
 
@@ -391,8 +405,6 @@ select.error{
 }
 
 /* Estilos de la pantalla de login  */
-
-
 
 /* Definimos el tamaño del formulario, su color y los margenes para centrarlo */
 #login #divlogin {

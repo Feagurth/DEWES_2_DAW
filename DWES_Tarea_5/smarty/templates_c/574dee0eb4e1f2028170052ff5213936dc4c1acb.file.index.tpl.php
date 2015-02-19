@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 00:42:06
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 14:56:44
          compiled from ".\smarty\templates\index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1835754be5b09811e20-23647140%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '574dee0eb4e1f2028170052ff5213936dc4c1acb' => 
     array (
       0 => '.\\smarty\\templates\\index.tpl',
-      1 => 1424302911,
+      1 => 1424354204,
       2 => 'file',
     ),
   ),
@@ -23,6 +23,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'menu' => 0,
     'menus' => 0,
     'submenu' => 0,
+    'nombreUser' => 0,
     'error' => 0,
     'nav' => 0,
     'entradas' => 0,
@@ -67,6 +68,8 @@ $_smarty_tpl->tpl_vars['submenu']->_loop = true;
                     </li>
                 <?php } ?>
             </ul>
+                <span>Usuario: <?php echo $_smarty_tpl->tpl_vars['nombreUser']->value;?>
+<br/><a href="#" onclick="logout();">Log Out</a></span>
         </nav>
         <div id="cuerpo">            
             <div id="lista">

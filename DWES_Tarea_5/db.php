@@ -564,6 +564,9 @@ class DB {
      */
     public function validarUsuario($usuario, $password)
     {
+        
+        xdebug_break();
+        
         // Especificamos la consulta que vamos a realizar sobre la base de datos        
         $sql = "select * from usuario where user='$usuario' and pass='$password'";
         
@@ -573,8 +576,14 @@ class DB {
         // Comprobamos si hemos obtenido algún resultado
         if ($resultado) {
             
+            global $nombreUsuario;
+
+            $valores = $resultado->fetch();
+            
+            $nombreUsuario = $valores['nombre'];
+            
             // Devolvemos el resultado pasandolo a booleano
-            return $resultado->fetch() ? TRUE: FALSE;
+            return $valores ? TRUE: FALSE;
         } else {
             // Si no tenemos resultados lanzamos una excepción
             throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);

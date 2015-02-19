@@ -26,39 +26,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </head>
     <body>
         <?php
-        
         // Iniciamos sesión
-        session_start();        
+        session_start();
+
         require_once './configuracion.inc.php';
         require_once './Db.php';
 
+        // Definimos e inicializaos la variable de errores
         $error = " ";
 
-        if (isset($_POST['user']) && isset($_POST['pass'])) {
-            // Creamos un nuevo objeto de acceso a base de datos
-            $db = new DB();
+        try {
 
-            // Obtenemos el listado de todas las personas
-            if ($db->validarUsuario(md5($_POST['user']), md5($_POST['pass']))) {
-                // Guardamos el hash del usuario y del password en sesión
-                $_SESSION['user'] = md5($_POST['user']);
-                $_SESSION['pass'] = md5($_POST['pass']);
-                
-                unset($_POST['user']);
-                unset($_POST['pass']);
-                
-                header("location:index.php");
+            // Comprobamos si POST trae informaicón de usuario y password
+            if (isset($_POST['user']) && isset($_POST['pass'])) {
+                // Creamos un nuevo objeto de acceso a base de datos
+                $db = new DB();
+
+                // Obtenemos el listado de todas las personas
+                if ($db->validarUsuario(md5($_POST['user']), md5($_POST['pass']))) {
+                    // Guardamos el hash del usuario y del password en sesión
+                    $_SESSION['user'] = md5($_POST['user']);
+                    $_SESSION['pass'] = md5($_POST['pass']);
+
+                    // Eliminamos la informaicón del POST sobre usuario y contraseña
+                    unset($_POST['user']);
+                    unset($_POST['pass']);
+
+                    // Limpiamos la variable de errores
+                    $error = " ";
+
+                    // Navegamos a la página de inicio de la aplicación
+                    header("location:index.php");
+                } else {
+                    // Mostramos un mensaje de error
+                    $error = "Usuario o contraseña incorrectos";
+                }
             }
-            else {
-                $error = "Usuario o contraseña incorrectos";
+
+            // Comprobamos si se trae información de error en el POST de la web
+            if (isset($_POST['error'])) {
+
+                // Dependiendo del error devuelto, mostramos un mensaje diferente al usuario
+                switch ($_POST['error']) {
+                    case 1:
+                        // Mensaje error de validación
+                        $error = "Debe introducir un usuario y una contraseña válidos";
+                        break;
+
+                    default:
+                        // Mensaje por defecto
+                        $error = "Error!. Pongase en contacto con el administrador en la siguiente dirección: $emailAdmin";
+                        break;
+                }
             }
+        } catch (Exception $ex) {
+            // Si se produce una excepción, asignamos el mensaje a la variable de error
+            $error = $ex->getMessage();
         }
 
-        if (isset($_POST['error'])) {
-            $error = $_POST['error'];
-        }
 
-
+        // Asignamos la variable error a la plantilla
         $html->assign('error', $error);
 
         // Mostramos en el motor Smarty la plantilla de la página principal

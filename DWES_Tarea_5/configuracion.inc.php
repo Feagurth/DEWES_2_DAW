@@ -10,8 +10,9 @@ $html->cache_dir = './smarty/cache';
 
 $html->registerPlugin("modifier",'base64_encode',  'base64_encode');
 
-$sev = "localhost";
+$serv = "localhost";
 $base = "gestion2";
 $usu = "dwes";
 $pas = "abc123.";
 $emailAdmin = "admin@dominio.es";
+$nombreUsuario;

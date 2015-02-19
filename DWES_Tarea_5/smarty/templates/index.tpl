@@ -21,6 +21,7 @@
                     </li>
                 {/foreach}
             </ul>
+                <span>Usuario: {$nombreUser}<br/><a href="#" onclick="logout();">Log Out</a></span>
         </nav>
         <div id="cuerpo">            
             <div id="lista">

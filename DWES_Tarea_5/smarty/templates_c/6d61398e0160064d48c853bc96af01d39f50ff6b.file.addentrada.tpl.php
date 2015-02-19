@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-10 19:14:59
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2015-02-19 13:44:30
          compiled from ".\smarty\templates\addentrada.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2754554d3633776a1b4-30768154%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '6d61398e0160064d48c853bc96af01d39f50ff6b' => 
     array (
       0 => '.\\smarty\\templates\\addentrada.tpl',
-      1 => 1423588271,
+      1 => 1424349864,
       2 => 'file',
     ),
   ),
@@ -70,7 +70,7 @@ $_smarty_tpl->tpl_vars['persona']->_loop = true;
         <div>
             Escaneado: <input type="checkbox" id="esc" name="esc" onclick="mostrarOcultar(document.getElementById('esc').checked);" />&nbsp;&nbsp;
             <!-- Añadimos multiple="" y definimos el nombre con corchetes como un array al input tipo file para permitir la selección de multiples ficheros -->
-            <input type="file" id="addfile" name="addfile[]" readonly="1" value="" multiple="" />
+            <input type="file" id="addfile" name="addfile[]" readonly="1" value="" multiple="" accept=".bmp,.jpg,.gif,.png,.pdf,.doc,.odt"/>
         </div>              
         <div>            
             <input type="submit" value="Insertar registro" title="Insertar registro" alt="Insertar registro">              

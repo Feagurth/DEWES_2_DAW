@@ -31,7 +31,6 @@ function calcularPeriodoActual() {
     // Comprobamos el mes actual, si es mayor o igual a 9 (Septiembre) indica 
     // un nuevo periodo
     if ($fecha['mon'] >= 9) {
-
         // Para periodos con mes igual o superior a Septiembre, devolvemos el 
         // año actual y el siguiente formateados
         return $fecha['year'] . "/" . ($fecha['year'] + 1) . "-";
@@ -54,7 +53,6 @@ function calcularNreg($tipo) {
 
     // Realizamos una consulta para recuperar el número de registro más alto 
     // que haya en la tabla de entradas de la base de datos    
-
     $db = new DB();
 
     $nreg = $db->calcularNReg($tipo);
@@ -121,6 +119,7 @@ function ordenarFicheros($ficheros) {
  * @return string Un array multidimensional con la estructura del menú
  */
 function crearMenu() {
+
     // Creamos un array para representar el menú desplegable
     $submenu0[0]["navegacion"] = "1";
     $submenu0[0]["titulo"] = "Nueva Entrada";
@@ -140,10 +139,10 @@ function crearMenu() {
 
     $submenu2[0]["navegacion"] = "5";
     $submenu2[0]["titulo"] = "Gestión Personas";
-        
+
     $menu[2]["titulo"] = "Personas";
     $menu[2]["submenu"] = $submenu2;
-    
+
     // Devolvemos el menú creado
     return $menu;
 }
@@ -224,21 +223,19 @@ function crearObjetosInserccionRegistro(&$registro, array &$ficheros, $tipoRegis
  * Función que nos permite crear un Objeto Persona para su insercción
  * @return \Persona Objeto Persona con la información obtenida del POST
  */
-function crearObjetosInserccionPersona()
-{
+function crearObjetosInserccionPersona() {
     // Volcamos los valores de la insercción de persona en variables
-    $id_persona = (isset($_POST['id_persona']) ? $_POST['id_persona']:0);
+    $id_persona = (isset($_POST['id_persona']) ? $_POST['id_persona'] : 0);
     $nombre = $_POST['nombre'];
     $apellido1 = $_POST['apellido1'];
     $apellido2 = $_POST['apellido2'];
-    
+
     // Creamos con los datos un array
-    $row = array('id_persona'=> $id_persona, 'nombre'=>$nombre, 'apellido1'=>$apellido1, 'apellido2'=>$apellido2);
-    
+    $row = array('id_persona' => $id_persona, 'nombre' => $nombre, 'apellido1' => $apellido1, 'apellido2' => $apellido2);
+
     // Lo usamos para crear un objeto Persona, que devolvemos
     return new Persona($row);
 }
-
 
 /**
  * Función que nos permite grabar un fichero con un nombre y una extensión 
@@ -248,12 +245,12 @@ function crearObjetosInserccionPersona()
  * @return boolean TRUE si la operación es correcta, FALSE en caso contrario
  */
 function grabarFichero($nombre, $datos) {
-    
+
     // Definimos una variable de salida con TRUE como valor específico. 
     // Si algo sale mal, se cambiará el valor de la variable y se devolverá 
     // como resultado
     $salida = TRUE;
-    
+
     // Abrimos el fichero
     $file = fopen($nombre, "w");
 
@@ -269,14 +266,51 @@ function grabarFichero($nombre, $datos) {
         }
         // Cerramos el fichero
         fclose($file);
-    }
-    else
-    {
+    } else {
         // Si no se ha abierto de forma correcta, cambiamos 
         // el valor de la variable de salida
         $salida = FALSE;
     }
-    
+
     // Devolvemos el resultado de la operación
     return $salida;
+}
+
+/**
+ * Método para validar el usuario y la contraseña de un usuario logeado y actuar 
+ * en consecuencia
+ * @param type $usuario Usuario a validar
+ * @param type $password Contraseña a validar
+ * @throws Exception Se lanza una excepción si se ha producido un error
+ */
+function validarUsuario($usuario, $password) {
+    // Comprobamos si tenemos en sesión usuario y password
+    if (!isset($usuario) || !isset($password)) {
+        // De no ser así volvemos a la página login.php para pedirselos al usuario
+        header("location:login.php");
+    } else {
+        // En caso contrario crearemos una conexión con la base de datos para 
+        // verificar el usuario y el password
+        try {
+            $db = new DB();
+
+            if (!$db->validarUsuario($usuario, $password)) {
+                // En el caso de que devuelva cualquier valor distinto de 1, eso 
+                // quiere decir que el usuario y la contraseña son erróneos, 
+                // por tanto volvemos a la página index.php tras limpiar la sesión
+                session_unset();
+
+                // volvemos a la página login.php para hacer que el usuario se valide
+                header("location:login.php");
+            }
+        } catch (Exception $ex) {
+            // En el caso de que devuelva cualquier valor distinto de 1, eso 
+            // quiere decir que el usuario y la contraseña son erróneos, 
+            // por tanto volvemos a la página index.php tras limpiar la sesión
+            session_unset();
+
+            // Lanzamos una excepción
+            throw $ex;
+        }
+    }
 }
