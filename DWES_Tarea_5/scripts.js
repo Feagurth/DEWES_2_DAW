@@ -345,43 +345,43 @@ function validarEnvioRegistro()
  */
 function validarLogin()
 {
-    
+
     // Recuperamos el botón de envio de datos
     var boton = document.getElementById('submit');
-    
+
     // Lo deshabilitamos
     boton.disabled = true;
-    
+
     // Le cambiamos el texto
     boton.value = 'Enviado...';
-    
+
     // Iniciamos una variable para controlar la validación de los datos
     var validado = true;
-    
+
     // Validamos el usuario
-    if(!validarUsuario(document.getElementById('user').value))
+    if (!validarUsuario(document.getElementById('user').value))
     {
         // Si no es correcto, cambiamos el valor de la variable de validación
         validado = false;
     }
-    
+
     // Validamos el password
-    if(!validarPassword(document.getElementById('pass').value))
+    if (!validarPassword(document.getElementById('pass').value))
     {
         // Si no es correcto, cambiamos el valor de la variable de validación
         validado = false;
-    }    
-    
+    }
+
     // Verificamos que la validación sea correcta
-    if(validado)
+    if (validado)
     {
         // Si es correcta, hacemos un post con la información de usuario y del password
-        post('login.php', {user: document.getElementById('user').value, pass: document.getElementById('pass').value} , 'post');
+        post('login.php', {user: document.getElementById('user').value, pass: document.getElementById('pass').value}, 'post');
     }
     else
     {
         // Si no es correcta, hacemos un post enviando información de error
-        post('login.php', {error: 1} , 'post');
+        post('login.php', {error: 1}, 'post');
     }
 
 }
@@ -416,7 +416,13 @@ function validarPassword(valor)
     return expresion.exec(valor);
 }
 
+/**
+ * Función que permite enviar una petición de logout mediante POST
+ * @returns {undefined}
+ */
 function logout()
-{    
+{
+    // Llamamos a la función post, pasándole los parámetros necesarios para 
+    // hacer logout
     post('login.php', {clear: true}, 'POST');
 }
