@@ -554,5 +554,31 @@ class DB {
             throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
         }
     }
+    
+    /**
+     * Función que nos permite validar un usuario contra la base de datos
+     * @param type $usuario Usuario a validar
+     * @param type $password Contraseña a validar
+     * @return type True si es un usuario correcto, False si no lo es
+     * @throws Exception Se lanza una excepción si se produce un error
+     */
+    public function validarUsuario($usuario, $password)
+    {
+        // Especificamos la consulta que vamos a realizar sobre la base de datos        
+        $sql = "select * from usuario where user='$usuario' and pass='$password'";
+        
+        // Llamamos la a la función protegida de la clase para realizar la consulta
+        $resultado = $this->ejecutaConsulta($sql);
+
+        // Comprobamos si hemos obtenido algún resultado
+        if ($resultado) {
+            
+            // Devolvemos el resultado pasandolo a booleano
+            return $resultado->fetch() ? TRUE: FALSE;
+        } else {
+            // Si no tenemos resultados lanzamos una excepción
+            throw new Exception($this->dwes->errorInfo()[2], $this->dwes->errorInfo()[1]);
+        }        
+    }
 
 }

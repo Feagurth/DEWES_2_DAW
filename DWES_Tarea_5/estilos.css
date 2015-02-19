@@ -389,3 +389,36 @@ select.error{
 #mostrarerror > *{
     margin-left: 0.5vmax;
 }
+
+/* Estilos de la pantalla de login  */
+
+
+
+/* Definimos el tamaño del formulario, su color y los margenes para centrarlo */
+#login #divlogin {
+    background-color: chartreuse;
+    width: 15vmax;
+    border: 0.15vmax solid #000;  
+    margin: auto;
+}
+
+/* Centramos el texto de la cabecera */
+#login #divlogin h3{
+    text-align: center;
+}
+
+
+/* Centramos los campos respecto al formulario */
+#login #divlogin input{
+    display: block;
+    margin : 0.5vmax auto;
+}
+
+#login #divlogin #error {
+    text-align: center;   
+}
+
+#login #divlogin #error p{
+    color: #ff0000;
+
+}

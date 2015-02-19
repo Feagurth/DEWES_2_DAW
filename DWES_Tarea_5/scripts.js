@@ -336,3 +336,66 @@ function validarEnvioRegistro()
     // Devolvemos el resultado
     return salida;
 }
+
+
+function validarLogin()
+{
+    
+    
+    var boton = document.getElementById('submit');
+    
+    boton.disabled = true;
+    boton.value = 'Enviado...';
+    
+    var validado = true;
+    
+    if(!validarUsuario(document.getElementById('user').value))
+    {
+        validado = false;
+    }
+    
+    if(!validarPassword(document.getElementById('pass').value))
+    {
+        validado = false;
+    }    
+    
+    if(validado)
+    {
+        post('login.php', {user: document.getElementById('user').value, pass: document.getElementById('pass').value} , 'post');
+    }
+    else
+    {
+        post('login.php', {error: 1} , 'post');
+    }
+
+}
+
+/**
+ * Función que nos permite validar una cadena de texto que representa un usuario 
+ * para que solo contenga carácteres válidos
+ * @param {type} valor Cadena a validar
+ * @returns {Array} True si la validación es correcta, False en caso contrario
+ */
+function validarUsuario(valor)
+{
+    // Validamos que solo puedan introducirse letras, en mayuscula o minúscula, 
+    // con y sin acentos y espacios en blanco
+    expresion = /^[a-zA-ZñÑ0-9_]+$/;
+
+    return expresion.exec(valor);
+}
+
+/**
+ * Función que nos permite validar una cadena de texto que representa un usuario 
+ * para que solo contenga carácteres válidos
+ * @param {type} valor Cadena a validar
+ * @returns {Array} True si la validación es correcta, False en caso contrario
+ */
+function validarPassword(valor)
+{
+    // Validamos que solo puedan introducirse letras, en mayuscula o minúscula, 
+    // con y sin acentos y espacios en blanco
+    expresion = /^[a-zA-ZñÑ0-9_!¡?¿#~.]+$/;
+
+    return expresion.exec(valor);
+}
