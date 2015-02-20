@@ -124,9 +124,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     case 2: {
                             try {
 
-
-                                xdebug_break();
-
                                 $db = new DB();
                                 // Realizamos una consulta a la base de datos para 
                                 // recuperar las entradas
