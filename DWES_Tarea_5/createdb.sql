@@ -54,9 +54,5 @@ CREATE USER 'dwes'@'localhost'
 IDENTIFIED BY 'abc123.';
 
 -- Asignamos permisos de la tabla al usuario dwes    
-GRANT ALL ON `Gestion1`.*
-TO `dwes`;
-
--- Asignamos permisos de la tabla al usuario dwes    
 GRANT ALL ON `Gestion2`.*
 TO `dwes`;
