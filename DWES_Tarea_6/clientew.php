@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * Copyright (C) 2015 Luis Cabrerizo Gómez
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once './webservicew.php';
+
 // Permitimos el uso de acentos y caracteres especiales
 header('Content-Type: text/html; charset=UTF-8');
 
 
-// Creamos un par de variables con la información necesaria para acceder al servicio
-$url = "http://localhost/DWES_Tarea_6/servicio.php";
-$uri = "http://localhost/DWES_Tarea_6";
-
-// Creamos un cliente pasandole las opciones como un array
-$cliente = new SoapClient(null, array('location' => $url, 'uri' => $uri));
-
+// Creamos un nuevo cliente usando la clase interface del servicio web que tenemos
+$cliente = new webservice();
 
 // Usamos la funcion getPVP del servicio para recuperar el PVP de un artículo y 
 // lo almacenamos en una variable
@@ -44,7 +41,6 @@ $familias = $cliente->getFamilias();
 // Usamos la funcion getProductosFamilia del servicio para recuperar el los 
 // productos de una familia determinada y lo almacenamos en una variable
 $productosFamilias = $cliente->getProductosFamilia('CONSOL');
-
 
 // Imprimimos el pvp del artículo seleccionado
 echo "El artículo PS3320GB vale: " . $pvp . " euros";
