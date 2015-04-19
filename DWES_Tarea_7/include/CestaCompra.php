@@ -42,7 +42,7 @@ class CestaCompra {
         if (!isset($_SESSION['cesta'])) {
             return new CestaCompra();
         } else {
-            return (($_SESSION['cesta']));
+            return ($_SESSION['cesta']);
         }
     }
 

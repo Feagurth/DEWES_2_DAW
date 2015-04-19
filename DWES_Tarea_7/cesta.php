@@ -1,12 +1,9 @@
 <?php
 require_once('include/CestaCompra.php');
-require_once('./productos.php');
+require_once ('./include/Producto.php');
 
 // Recuperamos la información de la sesión
-if(!isset($_SESSION))
-{
-    session_start();
-}
+session_start();
 
 // Y comprobamos que el usuario se haya autentificado
 if (!isset($_SESSION['usuario'])) {
@@ -18,9 +15,7 @@ $cesta = CestaCompra::carga_cesta();
 
 function listaProductos($productos) {
     $coste = 0;
-    
     foreach ($productos as $p) {
-        
         echo "<p><span class='codigo'>" . $p->getcodigo() . "</span>";
         echo "<span class='nombre'>" . $p->getnombre() . "</span>";
         echo "<span class='precio'>" . $p->getPVP() . "</span></p>";

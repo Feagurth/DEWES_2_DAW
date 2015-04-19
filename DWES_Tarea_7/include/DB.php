@@ -12,8 +12,7 @@ class DB {
 
         $dwes = new PDO($dsn, $usuario, $contrasena, $opc);
         $resultado = null;
-        if (isset($dwes))
-        {
+        if (isset($dwes)) {
             $resultado = $dwes->query($sql);
         }
         return $resultado;
@@ -59,8 +58,7 @@ class DB {
 
         if (isset($resultado)) {
             $fila = $resultado->fetch();
-            if ($fila !== false)
-            {
+            if ($fila !== false) {
                 $verificado = true;
             }
         }
