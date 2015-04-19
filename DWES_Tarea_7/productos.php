@@ -16,7 +16,6 @@ $cesta = CestaCompra::carga_cesta();
 
 // Comprobamos si se ha enviado el formulario de vaciar la cesta
 if (isset($_POST['vaciar'])) {
-    
     unset($_SESSION['cesta']);
     $cesta = new CestaCompra();
 }
