@@ -19,6 +19,11 @@
 
 // Instanciamos las librerias de xajax
 require_once('xajax_core/xajax.inc.php');
+require_once('CestaCompra.php');
+require_once('DB.php');
+
+// Iniciamos la sesión para poder trabajar con la cesta de la compra
+session_start();
 
 // Creamos un nuevo objeto xajax con el que trabajar
 $xajax = new xajax();
@@ -32,8 +37,9 @@ $xajax->register(XAJAX_FUNCTION, "mostrarCesta");
 $xajax->processRequest();
 
 /**
- * Función que nos permite limpiar la cesta de compra
- * @return \xajaxResponse
+ * Función que nos permite limpiar la cesta de compra y mostrarla en la página
+ * @return \xajaxResponse Contenido HTML con la información de la cesta para 
+ * mostrar en la página
  */
 function limpiarCesta() {
 
@@ -41,47 +47,132 @@ function limpiarCesta() {
     // respuesta a la petición de limpiar la cesta de compra
     $respuesta = new xajaxResponse();
 
-    // Asignamos un valor a la respuesta, en este caso la palabra 'vaciar', de 
-    // este modo la petición enviará este mensaje al $_POST de la página para 
-    // limpiar la cesta con el codigo correspondiente en productos.php
-    $respuesta->setReturnValue("vaciar");
+    // Eliminamos la cesta de la sesión
+    unset($_SESSION['cesta']);
+
+    // Creamos un nuevo objeto cesta que estará vacío por defecto
+    $canasto = new CestaCompra();
+
+    // Y le asignamos una nueva cesta de la compra que estará vacía por defecto
+    $_SESSION['cesta'] = $canasto;
+
+    // Usamos la función de apoyo para formatear el resultado en HTML
+    $salida = formatearCesta($canasto);
+
+    // Asignamos el resultado como el contenido html del objeto con id cesta
+    $respuesta->assign('cesta', 'innerHTML', $salida);
 
     // Devolvemos la respuesta
     return $respuesta;
 }
 
-function anadirArticulo($codArticulo)
-{
-    
-    xdebug_break();
-    
+/**
+ * Función que nos permite añadir un artículo a la cesta y mostrarla en la página
+ * @param String $codArticulo Código del artículo a añadir a la cesta
+ * @return \xajaxResponse Contenido HTML con la información de la cesta para 
+ * mostrar en la página
+ */
+function anadirArticulo($codArticulo) {
+
+    // Creamos un nuevo objeto cesta
+    $canasto = new CestaCompra();
+
+    // Comprobamos si en sesión tenemos alguna cesta almacenada
+    if (isset($_SESSION['cesta'])) {
+        // Si es así, guardamos la cesta almacenada en sesioón en el objeto 
+        // recién creado, para poder continuar añadiendo objetos a esa cesta
+        $canasto = $_SESSION['cesta'];
+    }
+
+    // Añadimos un nuevo artículo a la cesta usando la función adecuada 
+    // pasándole el código del artículo
+    $canasto->nuevo_articulo($codArticulo);
+
+    // Guardamos la cesta en la sesión
+    $canasto->guarda_cesta();
+
     // Creamos un objeto xajaxResponse que será el encargado de contener la 
     // respuesta a la petición de añadir un nuevo artículo
     $respuesta = new xajaxResponse();
-    
-    // Asignamos un valor a la respuesta, en este caso el código del artículo, de 
-    // este modo la petición enviará este mensaje al $_POST de la página para 
-    // añadir el artículo 
-    $respuesta->setReturnValue($codArticulo);
-    
+
+    // Usamos la función de apoyo para formatear el resultado en HTML
+    $salida = formatearCesta($canasto);
+
+    // Asignamos el resultado como el contenido html del objeto con id cesta
+    $respuesta->assign('cesta', 'innerHTML', $salida);
+
     //Devolvemos la respuesta
-    return respuesta;
+    return $respuesta;
 }
 
-function mostrarCesta()
-{
+/**
+ * Función que nos permite mostrar mostrar una cesta formateada
+ * @return \xajaxResponse Contenido HTML con la información de la cesta para 
+ * mostrar en la página
+ */
+function mostrarCesta() {
+
+    // Creamos un nuevo objeto cesta
+    $canasto = new CestaCompra();
+
+    // Comprobamos si en sesión tenemos alguna cesta almacenada
+    if (isset($_SESSION['cesta'])) {
+        // Si es así, guardamos la cesta almacenada en sesioón en el objeto 
+        // recién creado, para poder continuar añadiendo objetos a esa cesta
+        $canasto = $_SESSION['cesta'];
+    }
+
     // Creamos un objeto xajaxResponse que será el encargado de contener la 
-    // respuesta a la petición de limpiar la cesta de compra
+    // respuesta a la petición de añadir un nuevo artículo
     $respuesta = new xajaxResponse();
 
-    
-    // Asignamos un valor en blanco a la respuesta. Puesto que la cesta se 
-    // mostrará en la página cesta.php no hace falta diferenciar valores para 
-    // identificar conductas, puesto que la página cesta.pho siempre actuará 
-    // del mismo modo
-    $respuesta->setReturnValue("");
+    // Usamos la función de apoyo para formatear el resultado en HTML
+    $salida = formatearCesta($canasto);
 
-    // Devolvemos la respuesta
+    // Asignamos el resultado como el contenido html del objeto con id cesta
+    $respuesta->assign('cesta', 'innerHTML', $salida);
+
+    //Devolvemos la respuesta
     return $respuesta;
-    
+}
+
+/**
+ * Función que nos permite dar un formato HTML a una cesta para posteriormente 
+ * hacerla visible en un html
+ * @param object $cesta Cesta a formatear
+ * @return string HTML con el contenido de la cesta y los botones necesarios
+ */
+function formatearCesta($cesta) {
+
+    // Inicializamos una variable de salida
+    $salida = "";
+
+    // Concatenamos el resultado en html de la cesta vacia
+    $salida .= "<h3><img src='cesta.png' alt='Cesta' width='24' height='21'> Cesta</h3>";
+    $salida .= "<hr />";
+    $salida .= $cesta->muestra();
+    $salida .= "<form id='vaciar' onclick='limpiarCesta();'>";
+    $salida .= "<input type='button' name='vaciar' value='Vaciar Cesta'";
+
+    // Verificamos si la cesta está vacía
+    if ($cesta->vacia()) {
+        // Si lo está, deshabilitamos el bóton de vaciar la cesta
+        $salida .= "disabled='true'";
+    }
+
+    $salida .= "/></form>";
+    $salida .= "<form id='comprar' action='cesta.php' method='post'>";
+    $salida .= "<input type='submit' name='comprar' value='Comprar'";
+
+    // Verificamos si la cesta está vacía
+    if ($cesta->vacia()) {
+        // Si lo está, deshabilitamos el bóton de comprar
+        $salida .= "disabled='true'";
+    }
+
+    // Terminamos de formatear la salida
+    $salida .= "/></form>";
+
+    // Y devolvemos la cadena
+    return $salida;
 }

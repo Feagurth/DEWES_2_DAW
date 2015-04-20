@@ -28,51 +28,30 @@ if (!isset($_SESSION['usuario'])) {
 // Recuperamos la cesta de la compra
 $cesta = CestaCompra::carga_cesta();
 
-// Comprobamos si se ha enviado el formulario de vaciar la cesta
-if (isset($_POST['vaciar'])) {
-    unset($_SESSION['cesta']);
-    $cesta = new CestaCompra();
-}
-
-// Comprobamos si se quiere añadir un producto a la cesta
-if (isset($_POST['enviar'])) {
-    if (isset($_POST['cod'])) {
-        $cesta->nuevo_articulo($_POST['cod']);
-        $cesta->guarda_cesta();
-    }
-}
-
+/**
+ * Función que nos permite leer de la base de datos los artículos a vender y 
+ * crear una presentación HTML con los mismos para generar el listado de 
+ * artículos en venta
+ */
 function creaFormularioProductos() {
+
+    // Recuperamos los artículos de la base de datos
     $productos = DB::obtieneProductos();
+
+    // Iteramos por todos los artículos recuperados
     foreach ($productos as $p) {
-        echo "<p><form id='" . $p->getcodigo() . "' action='productos.php' method='post' onsubmit='return anadirArticulo();'>";
+
+        // Creamos la estructura HTML necesaria para mostrar la información del 
+        // producto junto con un botón para poder añadirlo al carrito
+        echo "<p><form id='" . $p->getcodigo() . "' onclick='anadirArticulo(this.id);'>";
         // Metemos ocultos los datos de los productos
         echo "<input type='hidden' id='cod' name='cod' value='" . $p->getcodigo() . "'/>";
-        echo "<input type='submit' name='enviar' value='Añadir'/>";
+        echo "<input type='button' name='enviar' value='Añadir'/>";
         echo $p->getnombrecorto() . ": ";
         echo $p->getPVP() . " euros.";
         echo "</form>";
         echo "</p>";
     }
-}
-
-function muestraCestaCompra($cesta) {
-
-    echo "<h3><img src='cesta.png' alt='Cesta' width='24' height='21'> Cesta</h3>";
-    echo "<hr />";
-    $cesta->muestra();
-    echo "<form id='vaciar' action='productos.php' method='post' onsubmit='return limpiarCesta();'>";
-    echo "<input type='submit' name='vaciar' value='Vaciar Cesta' ";
-    if ($cesta->vacia()) {
-        echo "disabled='true'";
-    }
-    echo "/></form>";
-    echo "<form id='comprar' action='cesta.php' method='post' onsubmit='return mostrarCesta();'>";
-    echo "<input type='submit' name='comprar' value='Comprar' ";
-    if ($cesta->vacia()) {
-        echo "disabled='true'";
-    }
-    echo "/></form>";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -84,18 +63,18 @@ function muestraCestaCompra($cesta) {
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <title>Ejemplo Tema 5: Listado de Productos</title>
         <link href="tienda.css" rel="stylesheet" type="text/css">
+        <!-- Imprimimos las funciones de javascript generadas por xajax -->
         <?php $xajax->printJavascript(); ?>
         <script src="include/fcesta.js"></script>
     </head>
 
-    <body class="pagproductos">
-
+    <!-- Cargamos la cesta mediente una petición ajax lanza desde javascript -->
+    <body class="pagproductos" onload="mostrarCesta();">
         <div id="contenedor">
             <div id="encabezado">
                 <h1>Listado de productos</h1>
             </div>
             <div id="cesta">
-                <?php muestraCestaCompra($cesta); ?>
             </div>
             <div id="productos">
                 <?php creaFormularioProductos(); ?>

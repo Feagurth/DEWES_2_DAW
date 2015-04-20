@@ -32,31 +32,31 @@ function limpiarCesta()
 
 /**
  * Functión que nos permite añadir un artículo a la cesta de la compra
- * @returns {Boolean|xajax.request|respuesta}
+ * @param {String} codigo Código del artículo a añadir a la cesta
+ * @returns {Boolean|xajax.request}
  */
-function anadirArticulo()
+function anadirArticulo(codigo)
 {
-    // Recuperamos el valor del código pulsado
-    var codArticulo = document.getElementById('cod').value;
-
     // Realizamos una petición ajax sobre la función añadirArticulo del 
     // fichero fcesta.php en modo síncrono pasándole como parámetro el código 
     // del artículo a añadir a la cesta de la compra
-    var respuesta = xajax.request({xjxfun: "anadirArticulo"}, {mode: 'synchronous', parameters: [codArticulo]});
+    var respuesta = xajax.request({xjxfun: "anadirArticulo"}, {mode: 'synchronous', parameters: [codigo]});
 
     // Devolvemos el resultado de la petición
     return respuesta;
 
 }
 
+/**
+ * Función que nos permite mostrar la cesta de la compra
+ * @returns {Boolean|xajax.request}
+ */
 function mostrarCesta()
 {
-     // Realizamos una petición ajax sobre la función mostrarCesta del 
+    // Realizamos una petición ajax sobre la función mostrarCesta del 
     // fichero fcesta.php en modo síncrono
     var respuesta = xajax.request({xjxfun: "mostrarCesta"}, {mode: 'synchronous'});
 
     // Devolvemos el resultado de la petición
     return respuesta;
-
-    
 }

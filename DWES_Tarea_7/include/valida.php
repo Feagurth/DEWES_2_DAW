@@ -22,8 +22,6 @@ $xajax->processRequest();
 // Validamos el nombre y contraseña enviados
 function validarLogin($usuario, $password) {
     $respuesta = new xajaxResponse();
-    
-    xdebug_break();
 
     if (empty($usuario) || empty($password)) {
         $respuesta->setReturnValue(false);

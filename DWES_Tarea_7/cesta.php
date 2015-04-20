@@ -1,6 +1,6 @@
 <?php
 require_once('include/CestaCompra.php');
-require_once ('./include/Producto.php');
+require_once ('include/Producto.php');
 
 // Recuperamos la información de la sesión
 session_start();
