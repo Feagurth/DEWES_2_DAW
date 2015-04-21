@@ -3,7 +3,7 @@ function enviarFormulario() {
     var password = document.getElementById("password").value;
 
     // Aquí se hace la llamada a la función registrada de PHP
-    var respuesta = xajax.request({xjxfun: "validarLogin"}, {mode: 'asynchronous', parameters: [usuario, password]});
+    var respuesta = xajax.request({xjxfun: "validarLogin"}, {mode: 'synchronous', parameters: [usuario, password]});
 
     if (respuesta === false)
     {
@@ -11,4 +11,3 @@ function enviarFormulario() {
     }
     return respuesta;
 }
-

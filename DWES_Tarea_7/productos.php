@@ -2,7 +2,6 @@
 require_once('include/DB.php');
 require_once('include/CestaCompra.php');
 
-
 // Instanciamos las librerias de xajax
 require_once ('/include/xajax_core/xajax.inc.php');
 

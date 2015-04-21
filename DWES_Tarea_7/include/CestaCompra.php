@@ -93,5 +93,4 @@ class CestaCompra {
         // Devolvemos la cadena con el resultado
         return $salida;
     }
-
 }
