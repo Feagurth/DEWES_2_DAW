@@ -14,6 +14,7 @@ require_once './libs/google-api-php-client/src/contrib/apiTasksService.php';
 // y la librería Xajax
 require_once 'libs/xajax_core/xajax.inc.php';
 
+
 // Creamos el objeto xajax
 $xajax = new xajax('ajaxmaps.php');
 
@@ -28,10 +29,10 @@ $xajax->register(XAJAX_FUNCTION,"ordenarReparto");
 $cliente = new apiClient();
 
 // Y lo configuramos con los nuestros identificadores
-$cliente->setClientId('Aquí irá tu identificador de cliente');
-$cliente->setClientSecret('Aquí tu clave secreta');
-$cliente->setRedirectUri('http://localhost/dwes/ut8/ej_rutas_reparto/repartos.php');
-$cliente->setDeveloperKey('Aquí irá tu clave de la API de Google');
+$cliente->setClientId('1013740832220-67pm77vvshve5ssjm4n50n4km3qe01od.apps.googleusercontent.com');
+$cliente->setClientSecret('rkI6OVN6MTiimjv-f2Yz1Nib');
+$cliente->setRedirectUri('http://localhost/DWES_Tarea_8/repartos.php');
+$cliente->setDeveloperKey('AIzaSyDtkjmDITyn4oQSpcuauV87uVRkwfb2Lu4');
 
 // Creamos también un objeto para manejar las listas y sus tareas
 $apitareas = new apiTasksService($cliente);
