@@ -8,7 +8,11 @@ session_start();
 
 // Incluimos la API de Google
 require_once 'libs/google-api-php-client/src/apiClient.php';
+
 require_once './libs/google-api-php-client/src/contrib/apiTasksService.php';
+
+// Incluimoas la API de Google Calendar
+require_once './libs/google-api-php-client/src/contrib/apiCalendarService.php';
 
 // y la librería Xajax
 require_once 'libs/xajax_core/xajax.inc.php';
@@ -39,6 +43,9 @@ $cliente->setDeveloperKey('AIzaSyDtkjmDITyn4oQSpcuauV87uVRkwfb2Lu4');
 // Creamos también un objeto para manejar las listas y sus tareas
 $apitareas = new apiTasksService($cliente);
 
+// Creamos un objeto para cmanejar los calendarios y sus eventos
+$apicalendario = new apiCalendarService($cliente);
+
 // Comprobamos o solicitamos la autorización de acceso
 if (isset($_SESSION['clave_acceso'])) {
     $cliente->setAccessToken($_SESSION['clave_acceso']);
@@ -53,13 +60,58 @@ if (isset($_GET['accion'])) {
         case 'nuevalista':
             if (!empty($_GET['nuevotitulo'])) {
                 // Crear una nueva lista de reparto
-                
+
                 try {
                     $nuevalista = new TaskList();
-                    $nuevalista->setTitle('Reparto '.date("d/m/Y", strtotime($_GET['nuevotitulo'])));
-                    
+
+                    $nuevalista->setTitle('Reparto ' . date("d/m/Y", strtotime($_GET['nuevotitulo'])));
+
                     $apitareas->tasklists->insert($nuevalista);
+
+                    // Recuperamos el Id del calendario principal
+                    $idCalendario = $apicalendario->calendarList->listCalendarList()['items'][0]['id'];
+
+                    // Creamos un nuevo evento de calendario
+                    $event = new Event();
+
+                    // Definimos el título del evento
+                    $event->setSummary('Reparto');
+
+                    // Creamos un objeto de fecha y hora para el evento
+                    $start = new EventDateTime();
+
+                    // Asignamos la hora de inicio como las 9 de la mañana del 
+                    // dia en que se crea la tarea, recuperando el valor del 
+                    // título de la tarea
+                    $start->setDateTime($_GET['nuevotitulo'] . 'T09:00:00');
                     
+                    // Especificamos una zona de tiempo al objeto fecha y hora
+                    $start->setTimeZone('Europe/Madrid');
+
+                    // Asignamos el objeto creado como la fecha y hora de 
+                    // inicio de la tarea
+                    $event->setStart($start);
+
+                    // Creamos otro objeto de fecha y hora para el evento
+                    $end = new EventDateTime();
+
+                    // Asignamos la hora de fin como las 8 de la tarde del 
+                    // dia en que se crea la tarea, recuperando el valor del 
+                    // título de la tarea                    
+                    $end->setDateTime($_GET['nuevotitulo'] . 'T20:00:00');
+                    
+                    // Especificamos una zona de tiempo al objeto fecha y hora
+                    $end->setTimeZone('Europe/Madrid');
+
+                    // Asignamos el objeto creado como la fecha y hora de 
+                    // fin de la tarea                    
+                    $event->setEnd($end);
+
+                    // Usando el objeto creado anteriormente para controlar el 
+                    // calendario, insertamos el evento creado en el calendario 
+                    // cuya id teniamos almacenada y que correspondía con el 
+                    // calendario principal
+                    $apicalendario->events->insert($idCalendario, $event);
                 } catch (Exception $e) {
                     $error = "Se ha producido un error al intentar crear un nuevo reparto.";
                 }
@@ -124,8 +176,7 @@ if (isset($_GET['accion'])) {
                     // Recorremos el array en orden inverso, esto es, empezando por la tarea
                     //  que debería figurar en última posición de la lista
                     // En cada paso ponemos una tarea en la primera posición de la lista
-                    for ($i = count($orden) - 1; $i >= 0; $i--)
-                    {
+                    for ($i = count($orden) - 1; $i >= 0; $i--) {
                         $apitareas->tasks->move($_GET['reparto'], $tareas['items'][$orden[$i]]['id']);
                     }
                 } catch (Exception $e) {
@@ -146,10 +197,10 @@ $id_defecto = $listapordefecto['id'];
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <title>Ejemplo Tema 8: Rutas de reparto</title>
         <link href="estilos.css" rel="stylesheet" type="text/css" />
-            <?php
+        <?php
             // Le indicamos a Xajax que incluya el código JavaScript necesario
             $xajax->printJavascript();
-            ?>    
+        ?>    
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script type="text/javascript" src="codigo.js"></script>
     </head>
@@ -201,7 +252,7 @@ $id_defecto = $listapordefecto['id'];
                         <input type='hidden' name='accion' value='nuevalista' />
                         <input type='submit' id='crearnuevotitulo' value='Crear Nueva Lista de Reparto' />
                         <label for='nuevotitulo' >para la fecha:</label>
-                        <input type='date' name='nuevotitulo' id='nuevotitulo' value="<?php echo date("Y-m-d");?>"/>
+                        <input type='date' name='nuevotitulo' id='nuevotitulo' value="<?php echo date("Y-m-d"); ?>"/>
                     </fieldset>
                 </form>
             </div>
