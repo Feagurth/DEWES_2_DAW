@@ -1,0 +1,96 @@
+/*
+Copyright (C) 2015 Luis Cabrerizo Gómez
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* 
+    Created on : 22-may-2015, 12:17:07
+    Author     : Luis Cabrerizo Gómez
+*/
+
+
+/* Especificamos el margen y el tamaño de la tabla, así como el tipo de borde 
+que tendrá */
+div.listado table{
+    margin: 0.5vmax;
+    border-collapse: collapse;
+    width: 98.7%;
+    float: left;
+
+}
+
+/* Definimos el ancho, color y tipo de linea que tendrán los bordes de la tabla 
+así como el alineamiento del texto */
+div.listado table, th, td {
+    border: 0.15vmax solid black;
+    text-align: center;
+}
+
+/* Definimos el ancho de los encabezamientos de la tabla */
+div.listado th
+{
+    width: 10%;
+}
+
+/* Definimos los texto de la cabecera como negrita */ 
+div.listado thead
+{
+    font-weight: bold;
+}
+
+div.listado tbody button
+{
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+
+}
+
+/* Finalmente cambiamos el color de fondo de las filas dependiendo de la 
+clase */
+div.listado tbody tr.pijama1{
+    background-color: lightgrey;
+}
+
+/* Finalmente cambiamos el color de fondo de las filas dependiendo de la 
+clase */
+div.listado tr.pijama2{
+    background-color: #EFE4B0;
+}    
+
+div.listado td:last-child{
+    width: 7vmax;
+}    
+
+div.listado form{
+    margin-bottom: 0;
+}
+
+.error
+{
+    clear: both;    
+    text-align: center;   
+    display: block;
+    float: left;
+}
+
+.error p{
+    color: #ff0000;
+}
+
+
+.visitas{
+    font-style: italic;
+    font-weight: bold;
+}
